@@ -1,0 +1,43 @@
+backend:
+  name: github
+  repo: bioarchitettura/web
+  branch: main
+  site_domain: bioarchitettura.github.io
+  base_url: https://bioarchitettura.github.io
+
+media_folder: "assets/images/uploads"
+public_folder: "/web/assets/images/uploads"
+
+locale: 'it'
+
+collections:
+  - name: "rivista"
+    label: "Rivista"
+    folder: "_rivista"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "Titolo", name: "title", widget: "string" }
+      - { label: "Data", name: "date", widget: "datetime" }
+      - { label: "Corpo", name: "body", widget: "markdown" }
+      - { label: "Immagine", name: "image", widget: "image", required: false }
+  - name: "archivio"
+    label: "Archivio"
+    folder: "_archivio"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "Titolo", name: "title", widget: "string" }
+      - { label: "Data", name: "date", widget: "datetime" }
+      - { label: "Corpo", name: "body", widget: "markdown" }
+      - { label: "Allegato", name: "attachment", widget: "file", required: false }
+  - name: "blog"
+    label: "Notizie"
+    folder: "_posts"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "Titolo", name: "title", widget: "string" }
+      - { label: "Data", name: "date", widget: "datetime" }
+      - { label: "Corpo", name: "body", widget: "markdown" }
+      - { label: "Immagine", name: "image", widget: "image", required: false }
