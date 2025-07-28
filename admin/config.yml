@@ -1,0 +1,81 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "assets/images"
+public_folder: "/assets/images"
+
+collections:
+  - name: "rivista_acquistabili"
+    label: "Rivista - Articoli Acquistabili"
+    folder: "_rivista_acquistabili"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Titolo", name: "title", widget: "string", required: true }
+      - { label: "Data Pubblicazione", name: "date", widget: "datetime", required: true }
+      - { label: "Autore", name: "author", widget: "string", required: true }
+      - { label: "Prezzo", name: "price", widget: "string", required: true, hint: "Es: 15.99" }
+      - { label: "Valuta", name: "currency", widget: "select", options: ["EUR", "USD"], default: "EUR" }
+      - { label: "Categoria", name: "category", widget: "select", 
+          options: ["Materiali", "Progettazione", "Energia", "Normativa", "Caso Studio"], required: true }
+      - { label: "Tag", name: "tags", widget: "list", required: false }
+      - { label: "Immagine Principale", name: "featured_image", widget: "image", required: false }
+      - { label: "Estratto", name: "excerpt", widget: "text", required: true }
+      - { label: "File PDF", name: "pdf_file", widget: "file", required: false, 
+          hint: "Carica il file PDF dell'articolo" }
+      - { label: "Numero Pagine", name: "pages", widget: "number", required: true }
+      - { label: "Lingua", name: "language", widget: "select", options: ["it", "en"], default: "it" }
+      - { label: "Disponibile", name: "available", widget: "boolean", default: true }
+      - { label: "Contenuto", name: "body", widget: "markdown", required: true }
+
+  - name: "attivita"
+    label: "Attività ed Eventi"
+    folder: "_attivita"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Titolo", name: "title", widget: "string", required: true }
+      - { label: "Data Creazione", name: "date", widget: "datetime", required: true }
+      - { label: "Data Evento", name: "event_date", widget: "datetime", required: true }
+      - { label: "Ora Inizio", name: "event_time", widget: "string", required: true, hint: "Es: 09:00" }
+      - { label: "Data Fine", name: "end_date", widget: "datetime", required: false }
+      - { label: "Ora Fine", name: "end_time", widget: "string", required: false, hint: "Es: 17:00" }
+      - { label: "Luogo", name: "location", widget: "string", required: true }
+      - { label: "Indirizzo", name: "address", widget: "string", required: false }
+      - { label: "Tipo Evento", name: "event_type", widget: "select", 
+          options: ["workshop", "corso", "seminario", "evento", "conferenza"], required: true }
+      - { label: "Durata", name: "duration", widget: "string", required: true, hint: "Es: 2 giorni, 4 ore" }
+      - { label: "Massimo Partecipanti", name: "max_participants", widget: "number", required: false }
+      - { label: "Prezzo", name: "price", widget: "string", required: true, hint: "Es: 280.00" }
+      - { label: "Valuta", name: "currency", widget: "select", options: ["EUR", "USD"], default: "EUR" }
+      - { label: "Docente/Relatore", name: "instructor", widget: "string", required: false }
+      - { label: "Categoria", name: "category", widget: "select", 
+          options: ["Formazione", "Networking", "Aggiornamento", "Specializzazione"], required: true }
+      - { label: "Livello", name: "level", widget: "select", 
+          options: ["Base", "Intermedio", "Avanzato", "Tutti i livelli"], required: true }
+      - { label: "Tag", name: "tags", widget: "list", required: false }
+      - { label: "Immagine Principale", name: "featured_image", widget: "image", required: false }
+      - { label: "Galleria Immagini", name: "gallery", widget: "list", field: { label: "Immagine", name: "image", widget: "image" }, required: false }
+      - { label: "Iscrizioni Aperte", name: "registration_open", widget: "boolean", default: true }
+      - { label: "Prezzo Early Bird", name: "early_bird_price", widget: "string", required: false }
+      - { label: "Scadenza Early Bird", name: "early_bird_deadline", widget: "datetime", required: false }
+      - { label: "Cosa Include", name: "includes", widget: "list", required: false, 
+          hint: "Lista di cosa è incluso nel prezzo" }
+      - { label: "Requisiti", name: "requirements", widget: "list", required: false, 
+          hint: "Cosa deve portare il partecipante" }
+      - { label: "Rilascia Attestato", name: "certificate", widget: "boolean", default: false }
+      - { label: "Crediti Formativi", name: "ceu_credits", widget: "number", required: false }
+      - { label: "Estratto", name: "excerpt", widget: "text", required: true }
+      - { label: "Contenuto", name: "body", widget: "markdown", required: true }
+
+  - name: "pages"
+    label: "Pagine"
+    files:
+      - label: "Homepage"
+        name: "home"
+        file: "index.html"
+        fields:
+          - { label: "Layout", name: "layout", widget: "hidden", default: "default" }
+          - { label: "Titolo", name: "title", widget: "string" }
+          - { label: "Contenuto", name: "body", widget: "markdown" }

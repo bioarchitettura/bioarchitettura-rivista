@@ -1,0 +1,47 @@
+# Site settings
+title: Bioarchitettura
+description: >-
+  La Fondazione Italiana per la Bioarchitettura® e l'Antropizzazione Sostenibile dell'Ambiente, 
+  per la sua storia, è l'Ente italiano di riferimento nell'ambito del costruire sano ed ecologico.
+url: "https://bioarchitettura.github.io"
+baseurl: "/web"
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+theme: minima
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+
+# Collections
+collections:
+  rivista_acquistabili:
+    output: true
+    permalink: /rivista/acquistabili/:name/
+  attivita:
+    output: true
+    permalink: /attivita/:name/
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "rivista_acquistabili"
+    values:
+      layout: "rivista"
+  - scope:
+      path: ""
+      type: "attivita"
+    values:
+      layout: "attivita"
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/

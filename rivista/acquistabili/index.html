@@ -1,0 +1,56 @@
+---
+layout: default
+title: "Rivista - Articoli Acquistabili"
+permalink: /rivista/acquistabili/
+---
+
+<div class="page-header">
+  <h1>{{ page.title }}</h1>
+  <p class="lead">Articoli specializzati di alta qualità sulla bioarchitettura, disponibili per l'acquisto e il download immediato.</p>
+</div>
+
+<div class="articles-grid">
+  {% for articolo in site.rivista_acquistabili %}
+    {% if articolo.available %}
+    <article class="article-card">
+      {% if articolo.featured_image %}
+        <div class="article-image">
+          <img src="{{ articolo.featured_image | relative_url }}" alt="{{ articolo.title }}">
+        </div>
+      {% endif %}
+      
+      <div class="article-content">
+        <h2><a href="{{ articolo.url | relative_url }}">{{ articolo.title }}</a></h2>
+        
+        <div class="article-meta">
+          <span class="author">di {{ articolo.author }}</span>
+          <span class="date">{{ articolo.date | date: "%d %B %Y" }}</span>
+          <span class="pages">{{ articolo.pages }} pagine</span>
+        </div>
+        
+        <p class="excerpt">{{ articolo.excerpt }}</p>
+        
+        <div class="article-tags">
+          {% for tag in articolo.tags %}
+            <span class="tag">{{ tag }}</span>
+          {% endfor %}
+        </div>
+        
+        <div class="article-footer">
+          <div class="price">
+            <span class="amount">{{ articolo.price }} {{ articolo.currency }}</span>
+          </div>
+          <a href="{{ articolo.url | relative_url }}" class="btn btn-primary">Dettagli e Acquisto</a>
+        </div>
+      </div>
+    </article>
+    {% endif %}
+  {% endfor %}
+</div>
+
+{% if site.rivista_acquistabili.size == 0 %}
+<div class="empty-state">
+  <h3>Articoli in arrivo</h3>
+  <p>Stiamo preparando una selezione di articoli specializzati. Torna presto per scoprire i nostri contenuti premium.</p>
+</div>
+{% endif %}

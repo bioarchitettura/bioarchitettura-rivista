@@ -1,0 +1,185 @@
+---
+layout: default
+---
+
+<article class="activity-post h-entry" itemscope itemtype="http://schema.org/Event">
+  <header class="activity-header">
+    <div class="activity-meta-top">
+      <span class="activity-type">{{ page.event_type | capitalize }}</span>
+      <span class="activity-level">{{ page.level }}</span>
+      {% if page.certificate %}
+        <span class="certificate-badge">Con Attestato</span>
+      {% endif %}
+    </div>
+    
+    <h1 class="activity-title p-name" itemprop="name">{{ page.title | escape }}</h1>
+    
+    <div class="activity-summary">
+      <div class="summary-item">
+        <strong>Data:</strong>
+        <time datetime="{{ page.event_date | date_to_xmlschema }}" itemprop="startDate">
+          {{ page.event_date | date: "%d %B %Y" }}
+        </time>
+        {% if page.end_date %}
+          - <time datetime="{{ page.end_date | date_to_xmlschema }}" itemprop="endDate">
+            {{ page.end_date | date: "%d %B %Y" }}
+          </time>
+        {% endif %}
+      </div>
+      
+      <div class="summary-item">
+        <strong>Orario:</strong> {{ page.event_time }}{% if page.end_time %} - {{ page.end_time }}{% endif %}
+      </div>
+      
+      <div class="summary-item" itemprop="location" itemscope itemtype="http://schema.org/Place">
+        <strong>Luogo:</strong> 
+        <span itemprop="name">{{ page.location }}</span>
+        {% if page.address %}
+          <div class="address" itemprop="address">{{ page.address }}</div>
+        {% endif %}
+      </div>
+      
+      <div class="summary-item">
+        <strong>Durata:</strong> {{ page.duration }}
+      </div>
+      
+      {% if page.instructor %}
+      <div class="summary-item">
+        <strong>Docente:</strong> <span itemprop="performer">{{ page.instructor }}</span>
+      </div>
+      {% endif %}
+      
+      {% if page.max_participants %}
+      <div class="summary-item">
+        <strong>Partecipanti:</strong> Massimo {{ page.max_participants }} persone
+      </div>
+      {% endif %}
+    </div>
+  </header>
+
+  {% if page.featured_image %}
+  <div class="activity-featured-image">
+    <img src="{{ page.featured_image | relative_url }}" alt="{{ page.title }}" itemprop="image">
+  </div>
+  {% endif %}
+
+  <div class="activity-content">
+    <div class="content-main">
+      <div class="post-content e-content" itemprop="description">
+        {{ content }}
+      </div>
+      
+      {% if page.gallery %}
+      <div class="activity-gallery">
+        <h3>Galleria Immagini</h3>
+        <div class="gallery-grid">
+          {% for image in page.gallery %}
+            <div class="gallery-item">
+              <img src="{{ image | relative_url }}" alt="Immagine dell'attività">
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+    </div>
+    
+    <aside class="activity-sidebar">
+      <div class="registration-box">
+        <h3>Iscrizione</h3>
+        
+        <div class="price-section">
+          {% if page.early_bird_price %}
+            <div class="price early-bird">
+              <span class="amount">{{ page.early_bird_price }} {{ page.currency }}</span>
+              <span class="label">Early Bird</span>
+              {% if page.early_bird_deadline %}
+                <div class="deadline">fino al {{ page.early_bird_deadline | date: "%d %B %Y" }}</div>
+              {% endif %}
+            </div>
+            <div class="price regular">
+              <span class="amount">{{ page.price }} {{ page.currency }}</span>
+              <span class="label">Prezzo normale</span>
+            </div>
+          {% else %}
+            <div class="price">
+              <span class="amount" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+                <span itemprop="price">{{ page.price }}</span> 
+                <span itemprop="priceCurrency">{{ page.currency }}</span>
+              </span>
+            </div>
+          {% endif %}
+        </div>
+        
+        {% if page.registration_open %}
+          <button class="btn btn-primary btn-large registration-btn" onclick="openRegistration()">
+            Iscriviti Ora
+          </button>
+        {% else %}
+          <div class="registration-closed">
+            <p>Iscrizioni chiuse</p>
+          </div>
+        {% endif %}
+        
+        {% if page.includes %}
+        <div class="includes-section">
+          <h4>Il corso include:</h4>
+          <ul>
+            {% for item in page.includes %}
+              <li>{{ item }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
+        
+        {% if page.requirements %}
+        <div class="requirements-section">
+          <h4>Cosa portare:</h4>
+          <ul>
+            {% for item in page.requirements %}
+              <li>{{ item }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
+        
+        {% if page.ceu_credits %}
+        <div class="credits-section">
+          <h4>Crediti Formativi</h4>
+          <p>{{ page.ceu_credits }} CFP riconosciuti</p>
+        </div>
+        {% endif %}
+      </div>
+      
+      <div class="contact-box">
+        <h4>Informazioni</h4>
+        <p>Per maggiori informazioni sull'evento:</p>
+        <ul class="contact-list">
+          <li>📧 info@bioarchitettura.org</li>
+          <li>📞 +39 02 12345678</li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+
+  <div class="related-activities">
+    <h3>Altri eventi che potrebbero interessarti</h3>
+    <div class="related-grid">
+      {% assign related = site.attivita | where: "category", page.category | where_exp: "item", "item.url != page.url" | limit: 3 %}
+      {% for attivita in related %}
+        <div class="related-item">
+          <h4><a href="{{ attivita.url | relative_url }}">{{ attivita.title }}</a></h4>
+          <p class="date">{{ attivita.event_date | date: "%d %B %Y" }}</p>
+          <p class="price">{{ attivita.price }} {{ attivita.currency }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</article>
+
+<script>
+function openRegistration() {
+  // Placeholder per sistema di registrazione
+  alert('Sistema di registrazione in sviluppo per: {{ page.title }}');
+  // Qui si integrerebbe con un form di registrazione o sistema esterno
+}
+</script>

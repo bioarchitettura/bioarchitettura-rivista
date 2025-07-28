@@ -1,0 +1,138 @@
+---
+layout: default
+title: "Attività ed Eventi"
+permalink: /attivita/
+---
+
+<div class="page-header">
+  <h1>{{ page.title }}</h1>
+  <p class="lead">Corsi, workshop, seminari e eventi dedicati alla bioarchitettura e alla costruzione sostenibile.</p>
+</div>
+
+<div class="activities-filter">
+  <div class="filter-buttons">
+    <button class="filter-btn active" data-filter="all">Tutti</button>
+    <button class="filter-btn" data-filter="workshop">Workshop</button>
+    <button class="filter-btn" data-filter="corso">Corsi</button>
+    <button class="filter-btn" data-filter="seminario">Seminari</button>
+    <button class="filter-btn" data-filter="evento">Eventi</button>
+  </div>
+</div>
+
+<div class="activities-grid">
+  {% assign all_activities = site.attivita | sort: "event_date" %}
+  
+  {% if all_activities.size > 0 %}
+    <section class="all-activities">
+      <h2>Eventi e Corsi</h2>
+      <div class="activities-list">
+        {% for attivita in all_activities %}
+          <article class="activity-card" data-type="{{ attivita.event_type }}">
+            {% if attivita.featured_image %}
+              <div class="activity-image">
+                <img src="{{ attivita.featured_image | relative_url }}" alt="{{ attivita.title }}">
+                <div class="activity-date-badge">
+                  <span class="day">{{ attivita.event_date | date: "%d" }}</span>
+                  <span class="month">{{ attivita.event_date | date: "%b" }}</span>
+                </div>
+              </div>
+            {% endif %}
+            
+            <div class="activity-content">
+              <div class="activity-meta">
+                <span class="activity-type">{{ attivita.event_type | capitalize }}</span>
+                <span class="activity-level">{{ attivita.level }}</span>
+              </div>
+              
+              <h3><a href="{{ attivita.url | relative_url }}">{{ attivita.title }}</a></h3>
+              
+              <div class="activity-details">
+                <div class="detail-item">
+                  <strong>Data:</strong> 
+                  {% if attivita.end_date %}
+                    {{ attivita.event_date | date: "%d %B" }} - {{ attivita.end_date | date: "%d %B %Y" }}
+                  {% else %}
+                    {{ attivita.event_date | date: "%d %B %Y" }}
+                  {% endif %}
+                </div>
+                <div class="detail-item">
+                  <strong>Luogo:</strong> {{ attivita.location }}
+                </div>
+                <div class="detail-item">
+                  <strong>Durata:</strong> {{ attivita.duration }}
+                </div>
+                {% if attivita.max_participants %}
+                <div class="detail-item">
+                  <strong>Posti:</strong> {{ attivita.max_participants }} partecipanti max
+                </div>
+                {% endif %}
+              </div>
+              
+              <p class="activity-excerpt">{{ attivita.excerpt }}</p>
+              
+              <div class="activity-tags">
+                {% for tag in attivita.tags limit: 3 %}
+                  <span class="tag">{{ tag }}</span>
+                {% endfor %}
+              </div>
+              
+              <div class="activity-footer">
+                <div class="price-info">
+                  {% if attivita.early_bird_price %}
+                    <span class="price early-bird">{{ attivita.early_bird_price }} {{ attivita.currency }}</span>
+                    <span class="price-note">Early Bird disponibile</span>
+                  {% else %}
+                    <span class="price">{{ attivita.price }} {{ attivita.currency }}</span>
+                  {% endif %}
+                </div>
+                
+                <div class="activity-actions">
+                  {% if attivita.registration_open %}
+                    <a href="{{ attivita.url | relative_url }}" class="btn btn-primary">Iscriviti</a>
+                  {% else %}
+                    <span class="btn btn-disabled">Iscrizioni chiuse</span>
+                  {% endif %}
+                  <a href="{{ attivita.url | relative_url }}" class="btn btn-secondary">Dettagli</a>
+                </div>
+              </div>
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+    </section>
+  {% endif %}
+</div>
+
+{% if site.attivita.size == 0 %}
+<div class="empty-state">
+  <h3>Eventi in programma</h3>
+  <p>Stiamo organizzando nuovi eventi e corsi di formazione. Torna presto per scoprire le nostre attività.</p>
+</div>
+{% endif %}
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const activityCards = document.querySelectorAll('.activity-card');
+  
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', function() {
+      // Update active filter button
+      filterBtns.forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      
+      const filter = this.getAttribute('data-filter');
+      
+      // Filter activities
+      activityCards.forEach(card => {
+        if (filter === 'all') {
+          card.style.display = 'block';
+        } else {
+          const cardType = card.getAttribute('data-type');
+          card.style.display = cardType === filter ? 'block' : 'none';
+        }
+      });
+    });
+  });
+});
+</script>

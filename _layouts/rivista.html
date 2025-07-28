@@ -1,0 +1,97 @@
+---
+layout: default
+---
+
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">{{ page.title | escape }}</h1>
+    
+    <div class="post-meta">
+      <div class="meta-row">
+        <span class="author">di <span itemprop="author">{{ page.author }}</span></span>
+        <time class="dt-published" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
+          {{ page.date | date: "%d %B %Y" }}
+        </time>
+      </div>
+      
+      <div class="meta-row">
+        <span class="pages">{{ page.pages }} pagine</span>
+        <span class="language">{{ page.language | upcase }}</span>
+      </div>
+      
+      {% if page.tags %}
+      <div class="post-tags">
+        {% for tag in page.tags %}
+          <span class="tag">{{ tag }}</span>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+  </header>
+
+  {% if page.featured_image %}
+  <div class="post-featured-image">
+    <img src="{{ page.featured_image | relative_url }}" alt="{{ page.title }}" itemprop="image">
+  </div>
+  {% endif %}
+
+  <div class="post-content e-content" itemprop="articleBody">
+    {{ content }}
+  </div>
+
+  <div class="purchase-section">
+    <div class="purchase-info">
+      <h3>Acquista questo articolo</h3>
+      <div class="price-info">
+        <span class="price">{{ page.price }} {{ page.currency }}</span>
+        <span class="format">Formato PDF - {{ page.pages }} pagine</span>
+      </div>
+      
+      {% if page.available %}
+        <div class="purchase-buttons">
+          <button class="btn btn-primary btn-large" onclick="purchaseArticle('{{ page.title }}', '{{ page.price }}')">
+            Acquista Ora
+          </button>
+          <p class="purchase-note">Download immediato dopo il pagamento</p>
+        </div>
+      {% else %}
+        <div class="unavailable">
+          <p>Articolo temporaneamente non disponibile</p>
+        </div>
+      {% endif %}
+    </div>
+    
+    <div class="article-details">
+      <h4>Dettagli dell'articolo</h4>
+      <ul>
+        <li><strong>Autore:</strong> {{ page.author }}</li>
+        <li><strong>Data pubblicazione:</strong> {{ page.date | date: "%d %B %Y" }}</li>
+        <li><strong>Categoria:</strong> {{ page.category }}</li>
+        <li><strong>Pagine:</strong> {{ page.pages }}</li>
+        <li><strong>Formato:</strong> PDF</li>
+        <li><strong>Lingua:</strong> {{ page.language | upcase }}</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="related-articles">
+    <h3>Altri articoli della categoria {{ page.category }}</h3>
+    <div class="related-grid">
+      {% assign related = site.rivista_acquistabili | where: "category", page.category | where_exp: "item", "item.url != page.url" | limit: 3 %}
+      {% for articolo in related %}
+        <div class="related-item">
+          <h4><a href="{{ articolo.url | relative_url }}">{{ articolo.title }}</a></h4>
+          <p>{{ articolo.price }} {{ articolo.currency }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</article>
+
+<script>
+function purchaseArticle(title, price) {
+  // Placeholder per integrazione sistema di pagamento
+  alert('Funzionalità di acquisto in sviluppo per: ' + title + ' - ' + price + ' EUR');
+  // Qui si integrerebbe con Stripe, PayPal o altro sistema di pagamento
+}
+</script>
