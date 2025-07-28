@@ -8,7 +8,7 @@ permalink: /contatti/
 
 Per ogni tipo di richiesta contattaci, risponderemo sempre nell'arco di 24 ore.
 
-<form action="https://formspree.io/f/your-form-id" method="POST" style="max-width:500px;margin:2em 0;">
+<form action="https://formspree.io/f/your-valid-form-id" method="POST" style="max-width:500px;margin:2em 0;">
   <label for="nome">Nome</label><br>
   <input type="text" id="nome" name="nome" required style="width:100%;padding:8px;margin-bottom:1em;">
 
