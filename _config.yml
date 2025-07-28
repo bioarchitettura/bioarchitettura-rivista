@@ -1,0 +1,47 @@
+# Jekyll configuration for bioarchitettura.org
+title: "Fondazione Italiana per la Bioarchitettura"
+description: "L'Ente italiano di riferimento nell'ambito del costruire sano ed ecologico"
+baseurl: ""
+url: "https://bioarchitettura.github.io/web"
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+theme: minima
+
+# Plugin settings
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+
+# Source and destination
+source: .
+destination: _site
+
+# Include public directory in processing
+include:
+  - public
+
+# Exclude files from processing
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - vendor/
+  - config.yml
+
+# Collections and defaults
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
+  - scope:
+      path: "public"
+      type: "pages"
+    values:
+      layout: "default"
+
+# Site settings
+lang: it
