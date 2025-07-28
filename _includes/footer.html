@@ -1,0 +1,23 @@
+<footer>
+  <div class="container">
+    <p>&copy; {{ 'now' | date: "%Y" }} {{ site.title }}. Tutti i diritti riservati.</p>
+    <p>
+      {% if site.email %}
+        <a href="mailto:{{ site.email }}" style="color: white;">{{ site.email }}</a>
+      {% endif %}
+      {% if site.phone %}
+        | {{ site.phone }}
+      {% endif %}
+    </p>
+    {% if site.social %}
+      <div class="social-links">
+        {% if site.social.twitter %}
+          <a href="https://twitter.com/{{ site.social.twitter }}" style="color: white; margin: 0 0.5rem;">Twitter</a>
+        {% endif %}
+        {% if site.social.facebook %}
+          <a href="https://facebook.com/{{ site.social.facebook }}" style="color: white; margin: 0 0.5rem;">Facebook</a>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+</footer>

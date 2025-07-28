@@ -1,0 +1,151 @@
+backend:
+  name: git-gateway
+  branch: main
+
+# Alternative for GitHub Pages without Netlify
+# backend:
+#   name: github
+#   repo: bioarchitettura/web
+#   branch: main
+
+media_folder: "assets/images"
+public_folder: "/assets/images"
+
+# Configurazione locale per sviluppo
+# local_backend: true
+
+collections:
+  # Homepage
+  - name: "homepage"
+    label: "Homepage"
+    files:
+      - label: "Homepage"
+        name: "homepage"
+        file: "index.md"
+        fields:
+          - {label: "Layout", name: "layout", widget: "hidden", default: "default"}
+          - {label: "Titolo", name: "title", widget: "string"}
+          - {label: "Descrizione", name: "description", widget: "text"}
+          - {label: "Contenuto", name: "body", widget: "markdown"}
+
+  # Articoli Rivista
+  - name: "rivista"
+    label: "Rivista"
+    folder: "_rivista"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Titolo", name: "title", widget: "string"}
+      - {label: "Data Pubblicazione", name: "date", widget: "datetime"}
+      - {label: "Autore", name: "author", widget: "string"}
+      - {label: "Descrizione", name: "description", widget: "text"}
+      - {label: "Immagine in Evidenza", name: "image", widget: "image", required: false}
+      - {label: "Categorie", name: "categories", widget: "list", default: ["generale"]}
+      - {label: "Tag", name: "tags", widget: "list", required: false}
+      - {label: "Articolo in Evidenza", name: "featured", widget: "boolean", default: false}
+      - {label: "Contenuto", name: "body", widget: "markdown"}
+
+  # Contenuti Archivio
+  - name: "archivio"
+    label: "Archivio"
+    folder: "_archivio"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Titolo", name: "title", widget: "string"}
+      - {label: "Data", name: "date", widget: "datetime"}
+      - {label: "Autore", name: "author", widget: "string"}
+      - {label: "Descrizione", name: "description", widget: "text"}
+      - {label: "Immagine", name: "image", widget: "image", required: false}
+      - {label: "Categorie", name: "categories", widget: "list", default: ["documento"]}
+      - {label: "Tag", name: "tags", widget: "list", required: false}
+      - label: "Tipo di Documento"
+        name: "type"
+        widget: "select"
+        options: 
+          - {label: "Documento Storico", value: "documento-storico"}
+          - {label: "Ricerca", value: "ricerca"}
+          - {label: "Materiale Didattico", value: "materiale-didattico"}
+          - {label: "Normativa", value: "normativa"}
+        default: "documento-storico"
+      - {label: "Contenuto", name: "body", widget: "markdown"}
+
+  # Posts/News
+  - name: "posts"
+    label: "Articoli e News"
+    folder: "_posts"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - {label: "Layout", name: "layout", widget: "hidden", default: "post"}
+      - {label: "Titolo", name: "title", widget: "string"}
+      - {label: "Data Pubblicazione", name: "date", widget: "datetime"}
+      - {label: "Autore", name: "author", widget: "string"}
+      - {label: "Categorie", name: "categories", widget: "list", default: ["news"]}
+      - {label: "Tag", name: "tags", widget: "list", required: false}
+      - {label: "Estratto", name: "excerpt", widget: "text", required: false}
+      - {label: "Immagine in Evidenza", name: "image", widget: "image", required: false}
+      - {label: "Contenuto", name: "body", widget: "markdown"}
+
+  # Pagine statiche
+  - name: "pages"
+    label: "Pagine"
+    files:
+      - label: "Pagina Rivista"
+        name: "rivista-index"
+        file: "rivista/index.md"
+        fields:
+          - {label: "Layout", name: "layout", widget: "hidden", default: "default"}
+          - {label: "Titolo", name: "title", widget: "string"}
+          - {label: "Descrizione", name: "description", widget: "text"}
+          - {label: "Permalink", name: "permalink", widget: "hidden", default: "/rivista/"}
+          - {label: "Contenuto", name: "body", widget: "markdown"}
+      
+      - label: "Pagina Archivio"
+        name: "archivio-index"
+        file: "archivio/index.md"
+        fields:
+          - {label: "Layout", name: "layout", widget: "hidden", default: "default"}
+          - {label: "Titolo", name: "title", widget: "string"}
+          - {label: "Descrizione", name: "description", widget: "text"}
+          - {label: "Permalink", name: "permalink", widget: "hidden", default: "/archivio/"}
+          - {label: "Contenuto", name: "body", widget: "markdown"}
+
+  # Configurazione del sito
+  - name: "settings"
+    label: "Configurazioni"
+    files:
+      - label: "Configurazione Generale"
+        name: "config"
+        file: "_config.yml"
+        fields:
+          - {label: "Titolo del Sito", name: "title", widget: "string"}
+          - {label: "Descrizione", name: "description", widget: "text"}
+          - {label: "URL di Base", name: "baseurl", widget: "string"}
+          - {label: "URL del Sito", name: "url", widget: "string"}
+          - {label: "Email di Contatto", name: "email", widget: "string"}
+          - {label: "Telefono", name: "phone", widget: "string"}
+          - label: "Social Media"
+            name: "social"
+            widget: "object"
+            fields:
+              - {label: "Twitter", name: "twitter", widget: "string", required: false}
+              - {label: "Facebook", name: "facebook", widget: "string", required: false}
+              - {label: "LinkedIn", name: "linkedin", widget: "string", required: false}
+              - {label: "Instagram", name: "instagram", widget: "string", required: false}
+
+# Configurazione editor
+editor:
+  preview: true
+
+# Mostra anteprima di tutti i campi
+show_preview_links: true
+
+# Configurazione display URL
+display_url: https://bioarchitettura.github.io/web
+
+# Configurazione slug
+slug:
+  encoding: "ascii"
+  clean_accents: true
+  sanitize_replacement: "-"

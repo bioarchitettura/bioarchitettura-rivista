@@ -1,0 +1,69 @@
+# Jekyll configuration for Bioarchitettura website
+title: "Fondazione Italiana per la Bioarchitettura®"
+description: "Il punto di riferimento della Bioarchitettura® in Italia ed Europa. Scopri le soluzioni innovative e sostenibili per una vita sana ed ecologica."
+baseurl: ""
+url: "https://bioarchitettura.github.io/web"
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+theme: minima
+
+# Plugins (GitHub Pages compatible)
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# Collections
+collections:
+  rivista:
+    output: true
+    permalink: /:collection/:name/
+  archivio:
+    output: true
+    permalink: /:collection/:name/
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+  - scope:
+      path: ""
+      type: "rivista"
+    values:
+      layout: "post"
+  - scope:
+      path: ""
+      type: "archivio"
+    values:
+      layout: "post"
+
+# Site settings
+lang: it-IT
+timezone: Europe/Rome
+
+# Social links
+social:
+  twitter: bioarchitettura
+  facebook: bioarchitettura
+
+# Contact
+email: info@bioarchitettura.it
+phone: "+39 xxx xxx xxxx"
+
+# Jekyll build configuration
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+  - admin/
+include:
+  - _pages

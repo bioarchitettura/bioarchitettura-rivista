@@ -1,0 +1,48 @@
+---
+layout: default
+---
+
+<article>
+  <header>
+    <h1>{{ page.title }}</h1>
+    {% if page.date %}
+      <p class="article-meta">
+        Pubblicato il {{ page.date | date: "%d %B %Y" }}
+        {% if page.author %} da {{ page.author }}{% endif %}
+      </p>
+    {% endif %}
+    {% if page.excerpt %}
+      <p class="excerpt">{{ page.excerpt }}</p>
+    {% endif %}
+  </header>
+
+  {% if page.image %}
+    <img src="{{ page.image | relative_url }}" alt="{{ page.title }}" style="width: 100%; height: auto; margin: 1rem 0;">
+  {% endif %}
+
+  <div class="post-content">
+    {{ content }}
+  </div>
+
+  {% if page.tags and page.tags.size > 0 %}
+    <div class="post-tags">
+      <strong>Tag:</strong>
+      {% for tag in page.tags %}
+        <span class="tag">{{ tag }}</span>{% unless forloop.last %}, {% endunless %}
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  {% if page.categories and page.categories.size > 0 %}
+    <div class="post-categories">
+      <strong>Categorie:</strong>
+      {% for category in page.categories %}
+        <span class="category">{{ category }}</span>{% unless forloop.last %}, {% endunless %}
+      {% endfor %}
+    </div>
+  {% endif %}
+</article>
+
+<nav class="post-navigation">
+  <a href="javascript:history.back()" class="back-link">← Torna indietro</a>
+</nav>
