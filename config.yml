@@ -1,3 +1,25 @@
+<<<<<<< copilot/fix-73dd5534-d51c-417c-9cc7-aa42f42aa60c
+# Configuration for bioarchitettura.org
+site_title: "Fondazione Italiana per la Bioarchitettura"
+site_description: "L'Ente italiano di riferimento nell'ambito del costruire sano ed ecologico"
+site_url: "https://bioarchitettura.github.io/web"
+language: "it"
+
+# Build settings
+content_directory: "public"
+theme: "minima"
+
+# Site metadata
+author: "Fondazione Italiana per la Bioarchitettura"
+keywords: "bioarchitettura, architettura sostenibile, costruzione ecologica"
+
+# Navigation
+main_sections:
+  - home
+  - about
+  - services
+  - contact
+=======
 backend:
   name: github
   repo: bioarchitettura/web
@@ -41,3 +63,4 @@ collections:
       - { label: "Data", name: "date", widget: "datetime" }
       - { label: "Corpo", name: "body", widget: "markdown" }
       - { label: "Immagine", name: "image", widget: "image", required: false }
+>>>>>>> main
