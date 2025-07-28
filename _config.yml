@@ -28,7 +28,6 @@ exclude:
   - Gemfile
   - Gemfile.lock
   - vendor/
-  - config.yml
 
 # Collections and defaults
 defaults:
@@ -45,3 +44,12 @@ defaults:
 
 # Site settings
 lang: it
+author: "Fondazione Italiana per la Bioarchitettura"
+keywords: "bioarchitettura, architettura sostenibile, costruzione ecologica"
+
+# Navigation
+main_sections:
+  - home
+  - about
+  - services
+  - contact
