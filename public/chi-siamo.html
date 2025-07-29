@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi Siamo - Fondazione Italiana per la Bioarchitettura</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        
+        /* Navigation Styles */
+        .navbar {
+            background-color: #2c5530;
+            padding: 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .nav-logo {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            padding: 15px 0;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .nav-item {
+            margin: 0;
+        }
+        
+        .nav-link {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 20px 20px;
+            transition: background-color 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .nav-link:hover {
+            background-color: #4a7c59;
+            color: white;
+        }
+        
+        .nav-link.active {
+            background-color: #4a7c59;
+        }
+        
+        /* Mobile Navigation */
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 15px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                flex-direction: column;
+                background-color: #2c5530;
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 27px rgba(0,0,0,0.05);
+            }
+            
+            .nav-menu.active {
+                left: 0;
+            }
+            
+            .nav-item {
+                margin: 0;
+            }
+            
+            .nav-link {
+                padding: 15px;
+                display: block;
+                border-bottom: 1px solid #4a7c59;
+            }
+            
+            .nav-toggle {
+                display: block;
+            }
+        }
+        
+        /* Page Content Styles */
+        .hero-section {
+            background: linear-gradient(135deg, #2c5530 0%, #4a7c59 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+        
+        .hero-section h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+        
+        .hero-section p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+        
+        .content-section {
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin: 40px 0;
+        }
+        
+        .content-card {
+            background-color: #f8f9fa;
+            padding: 30px;
+            border-radius: 8px;
+            border-left: 4px solid #2c5530;
+        }
+        
+        .content-card h3 {
+            color: #2c5530;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .stats-section {
+            background-color: #e8f5e8;
+            padding: 60px 20px;
+            text-align: center;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .stat-item .number {
+            display: block;
+            font-size: 3rem;
+            font-weight: bold;
+            color: #2c5530;
+            margin-bottom: 10px;
+        }
+        
+        .stat-item .label {
+            font-size: 1.1rem;
+            color: #666;
+        }
+        
+        .timeline {
+            padding: 60px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .timeline-item {
+            display: flex;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .timeline-year {
+            background-color: #2c5530;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-right: 20px;
+            min-width: 80px;
+            text-align: center;
+        }
+        
+        .timeline-content {
+            flex: 1;
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        
+        .timeline-content h4 {
+            color: #2c5530;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">Bioarchitettura</a>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="chi-siamo.html" class="nav-link active">Chi Siamo</a>
+                </li>
+                <li class="nav-item">
+                    <a href="servizi.html" class="nav-link">Servizi</a>
+                </li>
+                <li class="nav-item">
+                    <a href="rivista.html" class="nav-link">Rivista</a>
+                </li>
+                <li class="nav-item">
+                    <a href="master.html" class="nav-link">Master</a>
+                </li>
+                <li class="nav-item">
+                    <a href="contatti.html" class="nav-link">Contatti</a>
+                </li>
+            </ul>
+            <button class="nav-toggle" id="nav-toggle">
+                ☰
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <h1>Chi Siamo</h1>
+        <p>La Fondazione Italiana per la Bioarchitettura® e l'Antropizzazione Sostenibile dell'Ambiente è l'Ente italiano di riferimento nell'ambito del costruire sano ed ecologico.</p>
+    </section>
+
+    <!-- Main Content -->
+    <section class="content-section">
+        <h2 style="text-align: center; color: #2c5530; font-size: 2.5rem; margin-bottom: 40px;">La Nostra Missione</h2>
+        
+        <div class="content-grid">
+            <div class="content-card">
+                <h3>Costruire Sano ed Ecologico</h3>
+                <p>Promuoviamo soluzioni innovative e sostenibili per un costruire rispettoso dell'ambiente e della vita, guidando il settore verso pratiche architettoniche ecologicamente responsabili.</p>
+            </div>
+            
+            <div class="content-card">
+                <h3>Formazione e Ricerca</h3>
+                <p>Offriamo percorsi di alta formazione attraverso master specializzati e la rivista BIOARCHITETTURA®, sviluppando competenze per l'edilizia sostenibile del futuro.</p>
+            </div>
+            
+            <div class="content-card">
+                <h3>Certificazione e Consulenza</h3>
+                <p>Forniamo servizi di certificazione energetico-ambientale e consulenza specializzata per progetti di bioarchitettura e antropizzazione sostenibile dell'ambiente.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <h2 style="color: #2c5530; font-size: 2.5rem; margin-bottom: 40px;">I Nostri Risultati</h2>
+        <div class="stats-grid">
+            <div class="stat-item">
+                <span class="number">30+</span>
+                <span class="label">Anni di Esperienza</span>
+            </div>
+            <div class="stat-item">
+                <span class="number">500+</span>
+                <span class="label">Edifici Certificati</span>
+            </div>
+            <div class="stat-item">
+                <span class="number">10+</span>
+                <span class="label">Master Disponibili</span>
+            </div>
+            <div class="stat-item">
+                <span class="number">100+</span>
+                <span class="label">Riviste Pubblicate</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section class="timeline">
+        <h2 style="text-align: center; color: #2c5530; font-size: 2.5rem; margin-bottom: 40px;">La Nostra Storia</h2>
+        
+        <div class="timeline-item">
+            <div class="timeline-year">1990</div>
+            <div class="timeline-content">
+                <h4>Fondazione dell'Istituto</h4>
+                <p>Nasce la Fondazione Italiana per la Bioarchitettura® con l'obiettivo di promuovere l'architettura sostenibile in Italia.</p>
+            </div>
+        </div>
+        
+        <div class="timeline-item">
+            <div class="timeline-year">1995</div>
+            <div class="timeline-content">
+                <h4>Prima Rivista BIOARCHITETTURA®</h4>
+                <p>Pubblicazione del primo numero della rivista BIOARCHITETTURA® ABITARE LA TERRA, punto di riferimento per il settore.</p>
+            </div>
+        </div>
+        
+        <div class="timeline-item">
+            <div class="timeline-year">2005</div>
+            <div class="timeline-content">
+                <h4>Master CasaClima-Bioarchitettura</h4>
+                <p>Avvio del Master di II livello CasaClima-Bioarchitettura Certificazione e Consulenza Energetico-ambientale.</p>
+            </div>
+        </div>
+        
+        <div class="timeline-item">
+            <div class="timeline-year">2020</div>
+            <div class="timeline-content">
+                <h4>Innovazione Digitale</h4>
+                <p>Digitalizzazione dei servizi e ampliamento dell'offerta formativa online per raggiungere un pubblico sempre più ampio.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Navigation JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navToggle = document.getElementById('nav-toggle');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            navToggle.addEventListener('click', function() {
+                navMenu.classList.toggle('active');
+            });
+            
+            // Close mobile menu when clicking on a link
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenu.classList.remove('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
