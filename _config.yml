@@ -7,12 +7,12 @@ url: "https://bioarchitettura.github.io/web"
 # Build settings
 markdown: kramdown
 highlighter: rouge
-# theme: minima
+theme: minima
 
 # Plugin settings
-# plugins:
-#   - jekyll-feed
-#   - jekyll-sitemap
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
 
 # Source and destination
 source: .
@@ -21,6 +21,7 @@ destination: _site
 # Include public directory in processing
 include:
   - public
+  - _redirects
 
 # Exclude files from processing
 exclude:

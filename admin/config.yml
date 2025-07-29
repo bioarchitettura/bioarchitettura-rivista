@@ -1,9 +1,9 @@
 backend:
   name: github
   repo: bioarchitettura/web
-  branch: main # Branch to update (optional; defaults to master)
-  base_url: https://api.netlify.com # Path to ext auth provider (optional)
-  auth_endpoint: /auth # Path to ext auth provider (optional)
+  branch: main
+  base_url: https://api.netlify.com
+  auth_endpoint: auth
 
 # This line should *not* be indented
 publish_mode: editorial_workflow

@@ -1,0 +1,21 @@
+[build]
+  # Directory to publish from
+  publish = "_site"
+  
+  # Build command
+  command = "jekyll build"
+
+[build.environment]
+  # Set Ruby version
+  RUBY_VERSION = "3.2.0"
+
+# Handle redirects
+[[redirects]]
+  from = "/admin/*"
+  to = "/admin/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
