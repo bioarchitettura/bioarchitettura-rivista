@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contatti - Fondazione Italiana per la Bioarchitettura</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        
+        /* Navigation Styles */
+        .navbar {
+            background-color: #2c5530;
+            padding: 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .nav-logo {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            padding: 15px 0;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .nav-item {
+            margin: 0;
+        }
+        
+        .nav-link {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 20px 20px;
+            transition: background-color 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .nav-link:hover {
+            background-color: #4a7c59;
+            color: white;
+        }
+        
+        .nav-link.active {
+            background-color: #4a7c59;
+        }
+        
+        /* Mobile Navigation */
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 15px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                flex-direction: column;
+                background-color: #2c5530;
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 27px rgba(0,0,0,0.05);
+            }
+            
+            .nav-menu.active {
+                left: 0;
+            }
+            
+            .nav-item {
+                margin: 0;
+            }
+            
+            .nav-link {
+                padding: 15px;
+                display: block;
+                border-bottom: 1px solid #4a7c59;
+            }
+            
+            .nav-toggle {
+                display: block;
+            }
+        }
+        
+        /* Contact page styles */
+        .contact-section {
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .contact-section h1 {
+            color: #2c5530;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .contact-card {
+            background-color: #f8f9fa;
+            padding: 30px;
+            border-radius: 8px;
+            border-left: 4px solid #2c5530;
+        }
+        
+        .contact-card h3 {
+            color: #2c5530;
+            margin-bottom: 15px;
+        }
+        
+        .contact-form {
+            background-color: #f8f9fa;
+            padding: 40px;
+            border-radius: 8px;
+            margin-top: 40px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #2c5530;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 16px;
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            height: 120px;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin-top: 4px;
+        }
+        
+        .submit-btn {
+            background-color: #2c5530;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+        
+        .submit-btn:hover {
+            background-color: #4a7c59;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">Bioarchitettura</a>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#chi-siamo" class="nav-link">Chi Siamo</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#servizi" class="nav-link">Servizi</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#rivista" class="nav-link">Rivista</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#master" class="nav-link">Master</a>
+                </li>
+                <li class="nav-item">
+                    <a href="contatti.html" class="nav-link active">Contatti</a>
+                </li>
+            </ul>
+            <button class="nav-toggle" id="nav-toggle">
+                ☰
+            </button>
+        </div>
+    </nav>
+
+    <section class="contact-section">
+        <h1>Contattaci</h1>
+        <p style="text-align: center; font-size: 1.1em; margin-bottom: 40px;">
+            Per ogni tipo di richiesta contattaci, risponderemo sempre nell'arco di 24 ore.
+        </p>
+        
+        <div class="contact-info">
+            <div class="contact-card">
+                <h3>Sede legale</h3>
+                <p><strong>Indirizzo:</strong><br>
+                Certosa di Firenze<br>
+                Via della Certosa, 1<br>
+                50124 Firenze FI</p>
+            </div>
+            
+            <div class="contact-card">
+                <h3>Sede amministrativa</h3>
+                <p><strong>Indirizzo:</strong><br>
+                Via Portici, 71<br>
+                39100 - Bolzano</p>
+                <p><strong>Telefono:</strong> 0471 973097<br>
+                <strong>Email:</strong> <a href="mailto:bioa@bioarchitettura.org" style="color: #2c5530;">bioa@bioarchitettura.org</a></p>
+            </div>
+            
+            <div class="contact-card">
+                <h3>Dati contabili</h3>
+                <p><strong>Nominativo:</strong><br>
+                Fondazione Italiana di Bioarchitettura</p>
+                <p><strong>IBAN:</strong> IT44Z0604511601000001006739<br>
+                <strong>BIC:</strong> CRBZIT2B001</p>
+            </div>
+        </div>
+        
+        <div class="contact-form">
+            <h3 style="color: #2c5530; margin-bottom: 20px;">Invia un messaggio</h3>
+            <form action="https://formspree.io/f/your-valid-form-id" method="POST">
+                <div class="form-group">
+                    <label for="nome">Nome *</label>
+                    <input type="text" id="nome" name="nome" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="messaggio">Messaggio *</label>
+                    <textarea id="messaggio" name="messaggio" required></textarea>
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="privacy" name="privacy" required>
+                    <label for="privacy">
+                        Letta l'informativa ai sensi dell'art. 13 Reg. nr. UE 679/2016, presto il mio specifico consenso al trattamento dei dati forniti per le specifiche finalità ivi indicate *
+                    </label>
+                </div>
+                
+                <button type="submit" class="submit-btn">Invia messaggio</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Navigation JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navToggle = document.getElementById('nav-toggle');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            navToggle.addEventListener('click', function() {
+                navMenu.classList.toggle('active');
+            });
+            
+            // Close mobile menu when clicking on a link
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenu.classList.remove('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
