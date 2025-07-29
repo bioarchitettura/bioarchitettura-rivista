@@ -1,0 +1,26 @@
+{
+  "name": "bioarchitettura-web",
+  "version": "1.0.0",
+  "description": "Fondazione Italiana per la Bioarchitettura website",
+  "scripts": {
+    "build": "bundle install && jekyll build",
+    "dev": "bundle install && jekyll serve --watch --port 4000",
+    "clean": "rm -rf _site",
+    "serve": "jekyll serve --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bioarchitettura/web.git"
+  },
+  "keywords": [
+    "bioarchitettura",
+    "jekyll",
+    "sustainable-architecture",
+    "netlify-cms"
+  ],
+  "author": "Fondazione Italiana per la Bioarchitettura",
+  "license": "MIT",
+  "devDependencies": {
+    "netlify-cms-proxy-server": "^1.3.24"
+  }
+}
