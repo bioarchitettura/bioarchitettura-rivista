@@ -1,0 +1,60 @@
+backend:
+  name: github
+  repo: bioarchitettura/web
+  branch: main # Branch to update (optional; defaults to master)
+  base_url: https://api.netlify.com # Path to ext auth provider (optional)
+  auth_endpoint: /auth # Path to ext auth provider (optional)
+
+# This line should *not* be indented
+publish_mode: editorial_workflow
+
+# This line should *not* be indented
+media_folder: "public/images" # Media files will be stored in the repo under public/images
+public_folder: "/images" # The src attribute for uploaded media will begin with /images
+
+locale: 'it'
+
+collections:
+  - name: "pages" # Used in routes, e.g., /admin/collections/blog
+    label: "Pagine" # Used in the UI
+    folder: "public" # The path to the folder where the documents are stored
+    create: true # Allow users to create new documents in this collection
+    slug: "{{slug}}" # Filename template, e.g., YYYY-MM-DD-title.md
+    fields: # The fields for each document, usually in front matter
+      - {label: "Layout", name: "layout", widget: "hidden", default: "page"}
+      - {label: "Titolo", name: "title", widget: "string"}
+      - {label: "Permalink", name: "permalink", widget: "string", required: false}
+      - {label: "Descrizione", name: "description", widget: "text", required: false}
+      - {label: "Parole chiave", name: "keywords", widget: "string", required: false}
+      - {label: "Corpo", name: "body", widget: "markdown"}
+
+  - name: "posts" # Used in routes, e.g., /admin/collections/blog
+    label: "Articoli" # Used in the UI
+    folder: "_posts" # The path to the folder where the documents are stored
+    create: true # Allow users to create new documents in this collection
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}" # Filename template, e.g., YYYY-MM-DD-title.md
+    fields: # The fields for each document, usually in front matter
+      - {label: "Layout", name: "layout", widget: "hidden", default: "post"}
+      - {label: "Titolo", name: "title", widget: "string"}
+      - {label: "Data di pubblicazione", name: "date", widget: "datetime"}
+      - {label: "Autore", name: "author", widget: "string", required: false}
+      - {label: "Categorie", name: "categories", widget: "list", required: false}
+      - {label: "Tag", name: "tags", widget: "list", required: false}
+      - {label: "Immagine in evidenza", name: "featured_image", widget: "image", required: false}
+      - {label: "Estratto", name: "excerpt", widget: "text", required: false}
+      - {label: "Corpo", name: "body", widget: "markdown"}
+
+  - name: "config"
+    label: "Configurazione sito"
+    files:
+      - label: "Configurazione generale"
+        name: "config"
+        file: "_config.yml"
+        fields:
+          - {label: "Titolo del sito", name: "title", widget: "string"}
+          - {label: "Descrizione", name: "description", widget: "text"}
+          - {label: "URL di base", name: "baseurl", widget: "string"}
+          - {label: "URL del sito", name: "url", widget: "string"}
+          - {label: "Lingua", name: "lang", widget: "string", default: "it"}
+          - {label: "Autore", name: "author", widget: "string"}
+          - {label: "Parole chiave", name: "keywords", widget: "string"}
