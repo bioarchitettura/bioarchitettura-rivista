@@ -4,90 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fondazione Italiana per la Bioarchitettura</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            color: #333;
-        }
-        .hero-section {
-            background-color: #f8f9fa;
-            padding: 60px 20px;
-            text-align: center;
-        }
-        .hero-section h1 {
-            color: #2c5530;
-            font-size: 2.5em;
-            margin-bottom: 20px;
-        }
-        .hero-section h2 {
-            color: #4a7c59;
-            font-size: 1.8em;
-            margin-bottom: 20px;
-        }
-        .cta-button {
-            background-color: #2c5530;
-            color: white;
-            padding: 12px 30px;
-            text-decoration: none;
-            border-radius: 5px;
-            display: inline-block;
-            margin-top: 20px;
-        }
-        .about-section, .services-section, .mission-section, .focus-section {
-            padding: 40px 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .stats-section {
-            background-color: #e8f5e8;
-            padding: 40px 20px;
-            display: flex;
-            justify-content: center;
-            gap: 60px;
-            flex-wrap: wrap;
-        }
-        .stat {
-            text-align: center;
-        }
-        .stat .number {
-            display: block;
-            font-size: 3em;
-            font-weight: bold;
-            color: #2c5530;
-        }
-        .services-section, .mission-section {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-        .service, .mission {
-            background-color: #f8f9fa;
-            padding: 30px;
-            border-radius: 8px;
-        }
-        .focus-section {
-            background-color: #2c5530;
-            color: white;
-            text-align: center;
-            font-size: 1.2em;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="hero-section">
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#home" class="logo">Bioarchitettura®</a>
+            
+            <ul class="nav-menu">
+                <li><a href="#home" class="active">Home</a></li>
+                <li><a href="#chi-siamo">Chi Siamo</a></li>
+                <li><a href="#servizi">Servizi</a></li>
+                <li><a href="#progetti">Progetti</a></li>
+                <li><a href="/contatti/">Contatti</a></li>
+            </ul>
+            
+            <div class="nav-toggle" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <div id="home" class="hero-section">
         <h1>La Fondazione Italiana per la Bioarchitettura® e l'Antropizzazione Sostenibile dell'Ambiente, per la sua storia, è l'Ente italiano di riferimento nell'ambito del costruire sano ed ecologico.</h1>
         <h2>Il punto di riferimento della Bioarchitettura® in Italia ed Europa</h2>
         <p>Scopri le soluzioni innovative e sostenibili per una vita sana ed ecologica, in sintonia con la Terra e diventa socio della Fondazione Italiana per la Bioarchitettura® e l'Antropizzazione Sostenibile dell'Ambiente.</p>
         <a href="#" class="cta-button">Scopri di più</a>
     </div>
 
-    <section class="about-section">
-        <h2>La Nostra Storia</h2>
-        <h3>Costruire un Futuro Sostenibile</h3>
+    <section id="chi-siamo" class="about-section">
+        <h2>Chi Siamo</h2>
+        <h3>La Fondazione Italiana per la Bioarchitettura®</h3>
         <p>La Fondazione Italiana per la Bioarchitettura® e l'Antropizzazione Sostenibile dell'Ambiente è l'Ente italiano di riferimento nell'ambito del costruire sano ed ecologico. Un impegno che si riflette nella nostra rivista BIOARCHITETTURA® ABITARE LA TERRA e nel Master di II livello CasaClima-Bioarchitettura Certificazione e Consulenza Energetico-ambientale, offrendo percorsi di alta formazione per esperti in progettazione sostenibile.</p>
+        
+        <h3>La Nostra Missione</h3>
+        <p>Promuoviamo l'architettura bioecologica attraverso la ricerca, la formazione e la certificazione. Il nostro obiettivo è diffondere una cultura del costruire che rispetti l'ambiente e la salute dell'uomo, integrando le migliori pratiche di sostenibilità nell'architettura contemporanea.</p>
+        
+        <h3>Storia e Valori</h3>
+        <p>Fondata con l'obiettivo di creare un ponte tra tradizione costruttiva e innovazione sostenibile, la Fondazione rappresenta un punto di riferimento per professionisti, istituzioni e cittadini interessati a un futuro più sostenibile nel settore delle costruzioni.</p>
     </section>
 
     <section class="stats-section">
@@ -105,32 +62,117 @@
         </div>
     </section>
 
-    <section class="services-section">
+    <section id="servizi" class="services-section">
+        <h2 style="grid-column: 1 / -1; text-align: center; margin-bottom: 30px;">I Nostri Servizi</h2>
+        
         <div class="service">
             <h3>Rivista BIOARCHITETTURA®</h3>
-            <p>La prima rivista italiana dedicata all'architettura ecologica, offrendo ispirazione e informazioni per un abitare consapevole.</p>
+            <p>La prima rivista italiana dedicata all'architettura ecologica, offrendo ispirazione e informazioni per un abitare consapevole. Ogni numero approfondisce temi di attualità nel campo dell'edilizia sostenibile.</p>
         </div>
         
         <div class="service">
             <h3>Master CasaClima-Bioarchitettura-I.T.A.C.A</h3>
-            <p>Percorso di alta formazione per esperti in progettazione sostenibile, garantendo certificazioni e consulenze energetico-ambientali di qualità.</p>
+            <p>Percorso di alta formazione per esperti in progettazione sostenibile, garantendo certificazioni e consulenze energetico-ambientali di qualità. Un programma completo che copre tutti gli aspetti della bioarchitettura.</p>
+        </div>
+        
+        <div class="service">
+            <h3>Certificazioni Energetiche</h3>
+            <p>Servizi di certificazione e consulenza per edifici sostenibili, con focus su efficienza energetica, materiali naturali e comfort abitativo secondo i più alti standard internazionali.</p>
+        </div>
+        
+        <div class="service">
+            <h3>Consulenza Progettuale</h3>
+            <p>Supporto tecnico-scientifico per progettisti e costruttori che vogliono realizzare edifici in linea con i principi della bioarchitettura e dell'architettura bioclimatica.</p>
+        </div>
+        
+        <div class="service">
+            <h3>Ricerca e Sviluppo</h3>
+            <p>Attività di ricerca sui materiali naturali, tecniche costruttive tradizionali innovative e soluzioni per il benessere abitativo e la sostenibilità ambientale.</p>
+        </div>
+        
+        <div class="service">
+            <h3>Formazione Professionale</h3>
+            <p>Corsi, seminari e workshop per professionisti del settore edilizio, progettisti e tutti coloro che desiderano approfondire i temi della costruzione sostenibile.</p>
         </div>
     </section>
 
-    <section class="mission-section">
+    <section id="progetti" class="mission-section">
+        <h2 style="grid-column: 1 / -1; text-align: center; margin-bottom: 30px;">I Nostri Progetti</h2>
+        
         <div class="mission">
-            <h3>Costruire Sano ed Ecologico</h3>
-            <p>Promuoviamo soluzioni innovative e sostenibili per un costruire rispettoso dell'ambiente e della vita.</p>
+            <h3>Edifici Certificati</h3>
+            <p>Oltre 500 edifici certificati secondo i nostri standard di bioarchitettura, rappresentando eccellenze nel campo dell'edilizia sostenibile in Italia e Europa.</p>
         </div>
         
         <div class="mission">
-            <h3>Impegno per un Futuro Migliore</h3>
-            <p>La nostra missione è guidare il settore dell'architettura verso un futuro sostenibile e attento alle esigenze del pianeta e delle generazioni future.</p>
+            <h3>Ricerca Applicata</h3>
+            <p>Progetti di ricerca sui materiali naturali, l'efficienza energetica e le tecniche costruttive tradizionali applicate all'architettura contemporanea.</p>
+        </div>
+        
+        <div class="mission">
+            <h3>Formazione Specialistica</h3>
+            <p>Programmi di formazione avanzata per professionisti, con focus su progettazione bioclimatica, uso di materiali naturali e certificazione energetica.</p>
+        </div>
+        
+        <div class="mission">
+            <h3>Rete Internazionale</h3>
+            <p>Collaborazioni con enti e istituzioni europee per lo sviluppo di standard comuni nel campo della bioarchitettura e della sostenibilità.</p>
         </div>
     </section>
 
     <section class="focus-section">
         <p>Ecosostenibilità, in sintonia con architettura e progettazione bioclimatica con focus alla biocompatibilità.</p>
     </section>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Contatti</h3>
+                <p><strong>Sede legale:</strong><br>
+                Certosa di Firenze<br>
+                Via della Certosa, 1<br>
+                50124 Firenze FI</p>
+                
+                <p><strong>Sede amministrativa:</strong><br>
+                Via Portici, 71<br>
+                39100 Bolzano<br>
+                Tel: 0471 973097<br>
+                Email: <a href="mailto:bioa@bioarchitettura.org">bioa@bioarchitettura.org</a></p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Servizi</h3>
+                <p><a href="#servizi">Rivista BIOARCHITETTURA®</a></p>
+                <p><a href="#servizi">Master CasaClima-Bioarchitettura</a></p>
+                <p><a href="#servizi">Certificazioni Energetiche</a></p>
+                <p><a href="#servizi">Consulenza Progettuale</a></p>
+                <p><a href="#servizi">Formazione Professionale</a></p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Risorse</h3>
+                <p><a href="#progetti">Progetti Certificati</a></p>
+                <p><a href="#chi-siamo">Chi Siamo</a></p>
+                <p><a href="/contatti/">Modulistica</a></p>
+                <p><a href="/admin/">Area Riservata</a></p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Bioarchitettura®</h3>
+                <p>La Fondazione Italiana per la Bioarchitettura® è il punto di riferimento per l'architettura sostenibile in Italia.</p>
+                
+                <p><strong>Dati bancari:</strong><br>
+                IBAN: IT44Z0604511601000001006739<br>
+                BIC: CRBZIT2B001</p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 Fondazione Italiana per la Bioarchitettura® e l'Antropizzazione Sostenibile dell'Ambiente. Tutti i diritti riservati.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
