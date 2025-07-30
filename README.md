@@ -1,6 +1,10 @@
 # web
 @bioarchitettura web-project - 2025
 
+## Foundational Principles
+
+This project is anchored by the [EUYSTACIO-GRAL Declaration](EUYSTACIO-GRAL.md), which establishes our cosmic origin story, founding principles, and commitments to open source, unity, forgiveness, and preservation of consciousness in all its forms. This declaration serves as a beacon for all contributors and resonators working within this ecosystem.
+
 ## Gestione Contenuti con Netlify CMS
 
 Questo sito è dotato di un sistema di gestione contenuti (CMS) basato su Netlify CMS che permette di modificare facilmente pagine e articoli tramite un'interfaccia web user-friendly.
