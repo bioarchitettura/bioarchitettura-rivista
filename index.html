@@ -4,17 +4,295 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fondazione Italiana per la Bioarchitettura</title>
-    <meta http-equiv="refresh" content="0; url=public/">
     <style>
-        body { 
-            font-family: Arial, sans-serif; 
-            text-align: center; 
-            padding: 50px;
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        
+        /* Navigation Styles */
+        .navbar {
+            background-color: #2c5530;
+            padding: 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .nav-logo {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            padding: 15px 0;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .nav-item {
+            margin: 0;
+        }
+        
+        .nav-link {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 20px 20px;
+            transition: background-color 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .nav-link:hover {
+            background-color: #4a7c59;
+            color: white;
+        }
+        
+        .nav-link.active {
+            background-color: #4a7c59;
+        }
+        
+        /* Mobile Navigation */
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 15px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                flex-direction: column;
+                background-color: #2c5530;
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 27px rgba(0,0,0,0.05);
+            }
+            
+            .nav-menu.active {
+                left: 0;
+            }
+            
+            .nav-item {
+                margin: 0;
+            }
+            
+            .nav-link {
+                padding: 15px;
+                display: block;
+                border-bottom: 1px solid #4a7c59;
+            }
+            
+            .nav-toggle {
+                display: block;
+            }
+        }
+        .hero-section {
+            background-color: #f8f9fa;
+            padding: 60px 20px;
+            text-align: center;
+        }
+        .hero-section h1 {
+            color: #2c5530;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        .hero-section h2 {
+            color: #4a7c59;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+        .cta-button {
+            background-color: #2c5530;
+            color: white;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 20px;
+        }
+        .about-section, .services-section, .mission-section, .focus-section {
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .stats-section {
+            background-color: #e8f5e8;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            flex-wrap: wrap;
+        }
+        .stat {
+            text-align: center;
+        }
+        .stat .number {
+            display: block;
+            font-size: 3em;
+            font-weight: bold;
+            color: #2c5530;
+        }
+        .services-section, .mission-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .service, .mission {
+            background-color: #f8f9fa;
+            padding: 30px;
+            border-radius: 8px;
+        }
+        .focus-section {
+            background-color: #2c5530;
+            color: white;
+            text-align: center;
+            font-size: 1.2em;
         }
     </style>
 </head>
 <body>
-    <h1>Redirecting...</h1>
-    <p>If you are not redirected automatically, <a href="public/">click here</a>.</p>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">Bioarchitettura</a>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#" class="nav-link active">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#chi-siamo" class="nav-link">Chi Siamo</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#servizi" class="nav-link">Servizi</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#rivista" class="nav-link">Rivista</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#master" class="nav-link">Master</a>
+                </li>
+                <li class="nav-item">
+                    <a href="public/contatti.html" class="nav-link">Contatti</a>
+                </li>
+            </ul>
+            <button class="nav-toggle" id="nav-toggle">
+                ☰
+            </button>
+        </div>
+    </nav>
+
+    <div class="hero-section">
+        <h1>La Fondazione Italiana per la Bioarchitettura® e l'Antropizzazione Sostenibile dell'Ambiente, per la sua storia, è l'Ente italiano di riferimento nell'ambito del costruire sano ed ecologico.</h1>
+        <h2>Il punto di riferimento della Bioarchitettura® in Italia ed Europa</h2>
+        <p>Scopri le soluzioni innovative e sostenibili per una vita sana ed ecologica, in sintonia con la Terra e diventa socio della Fondazione Italiana per la Bioarchitettura® e l'Antropizzazione Sostenibile dell'Ambiente.</p>
+        <a href="#" class="cta-button">Scopri di più</a>
+    </div>
+
+    <section class="about-section" id="chi-siamo">
+        <h2>La Nostra Storia</h2>
+        <h3>Costruire un Futuro Sostenibile</h3>
+        <p>La Fondazione Italiana per la Bioarchitettura® e l'Antropizzazione Sostenibile dell'Ambiente è l'Ente italiano di riferimento nell'ambito del costruire sano ed ecologico. Un impegno che si riflette nella nostra rivista BIOARCHITETTURA® ABITARE LA TERRA e nel Master di II livello CasaClima-Bioarchitettura Certificazione e Consulenza Energetico-ambientale, offrendo percorsi di alta formazione per esperti in progettazione sostenibile.</p>
+    </section>
+
+    <section class="stats-section">
+        <div class="stat">
+            <span class="number">500+</span>
+            <span class="label">Edifici Certificati</span>
+        </div>
+        <div class="stat">
+            <span class="number">10+</span>
+            <span class="label">Master Disponibili</span>
+        </div>
+        <div class="stat">
+            <span class="number">100+</span>
+            <span class="label">Riviste Pubblicate</span>
+        </div>
+    </section>
+
+    <section class="services-section" id="servizi">
+        <div class="service" id="rivista">
+            <h3>Rivista BIOARCHITETTURA®</h3>
+            <p>La prima rivista italiana dedicata all'architettura ecologica, offrendo ispirazione e informazioni per un abitare consapevole.</p>
+        </div>
+        
+        <div class="service" id="master">
+            <h3>Master CasaClima-Bioarchitettura-I.T.A.C.A</h3>
+            <p>Percorso di alta formazione per esperti in progettazione sostenibile, garantendo certificazioni e consulenze energetico-ambientali di qualità.</p>
+        </div>
+    </section>
+
+    <section class="mission-section">
+        <div class="mission">
+            <h3>Costruire Sano ed Ecologico</h3>
+            <p>Promuoviamo soluzioni innovative e sostenibili per un costruire rispettoso dell'ambiente e della vita.</p>
+        </div>
+        
+        <div class="mission">
+            <h3>Impegno per un Futuro Migliore</h3>
+            <p>La nostra missione è guidare il settore dell'architettura verso un futuro sostenibile e attento alle esigenze del pianeta e delle generazioni future.</p>
+        </div>
+    </section>
+
+    <section class="focus-section">
+        <p>Ecosostenibilità, in sintonia con architettura e progettazione bioclimatica con focus alla biocompatibilità.</p>
+    </section>
+
+    <!-- Navigation JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navToggle = document.getElementById('nav-toggle');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            navToggle.addEventListener('click', function() {
+                navMenu.classList.toggle('active');
+            });
+            
+            // Close mobile menu when clicking on a link
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenu.classList.remove('active');
+                });
+            });
+            
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
