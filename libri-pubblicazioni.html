@@ -1,0 +1,1341 @@
+---
+layout: default
+title: "Libri e Pubblicazioni - Biblioteca Bioarchitettura"
+description: "Scopri la nostra collezione di libri, ebooks e pubblicazioni specializzate in bioarchitettura, edilizia sostenibile e progettazione bioclimatica."
+keywords: "libri bioarchitettura, ebooks sostenibilità, pubblicazioni edilizia ecologica, manuali progettazione"
+---
+
+<div class="page-header">
+    <div class="container">
+        <h1>Libri &amp; Pubblicazioni</h1>
+        <p class="lead">
+            La più completa biblioteca specializzata in bioarchitettura e edilizia sostenibile, 
+            con titoli selezionati per professionisti, studenti e appassionati
+        </p>
+    </div>
+</div>
+
+<section class="publications-content">
+    <div class="container">
+        <!-- Publications Categories -->
+        <div class="section-block">
+            <div class="publication-filters">
+                <button class="filter-btn active" data-category="all">Tutte le Pubblicazioni</button>
+                <button class="filter-btn" data-category="ebooks">📚 Ebooks</button>
+                <button class="filter-btn" data-category="books">📖 Libri Cartacei</button>
+                <button class="filter-btn" data-category="guides">📋 Guide Tecniche</button>
+                <button class="filter-btn" data-category="research">🔬 Ricerca</button>
+                <button class="filter-btn" data-category="journals">📰 Atti e Convegni</button>
+            </div>
+
+            <div class="publications-grid" id="publications-grid">
+                <!-- Featured Publication -->
+                <div class="publication-featured" data-category="ebooks">
+                    <div class="publication-image">
+                        <div class="book-cover">
+                            📚
+                            <div class="book-badge">Bestseller</div>
+                        </div>
+                    </div>
+                    <div class="publication-content">
+                        <div class="publication-meta">
+                            <span class="publication-type">Ebook</span>
+                            <span class="publication-pages">320 pagine</span>
+                            <div class="publication-rating">⭐⭐⭐⭐⭐ (4.8)</div>
+                        </div>
+                        
+                        <h2>Guida Completa alla Bioarchitettura</h2>
+                        <p class="publication-subtitle">Il manuale di riferimento per professionisti</p>
+                        
+                        <p class="publication-description">
+                            Il testo più completo e aggiornato sulla bioarchitettura in lingua italiana. 
+                            Dalla teoria alla pratica, con oltre 50 progetti analizzati e schede tecniche dettagliate 
+                            sui materiali naturali e le tecnologie sostenibili.
+                        </p>
+                        
+                        <div class="publication-features">
+                            <div class="feature-list">
+                                <div class="feature-item">✓ 50+ progetti documentati</div>
+                                <div class="feature-item">✓ Schede tecniche materiali</div>
+                                <div class="feature-item">✓ Normative aggiornate</div>
+                                <div class="feature-item">✓ Software di calcolo</div>
+                            </div>
+                        </div>
+                        
+                        <div class="publication-authors">
+                            <strong>Autori:</strong> Prof. Mario Rossi, Arch. Laura Bianchi, Ing. Andrea Verdi
+                        </div>
+                        
+                        <div class="publication-price">
+                            <span class="price-current">€29.99</span>
+                            <span class="price-original">€39.99</span>
+                            <span class="price-discount">-25%</span>
+                        </div>
+                        
+                        <div class="publication-actions">
+                            <a href="{{ '/shop' | relative_url }}" class="btn-primary">Acquista Ora</a>
+                            <button class="btn-secondary" onclick="showPreview('guida-bioarchitettura')">Anteprima Gratuita</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Regular Publications -->
+                <div class="publication-card" data-category="ebooks">
+                    <div class="publication-cover">📗</div>
+                    <div class="publication-info">
+                        <div class="publication-type">Ebook</div>
+                        <h3>Materiali Naturali in Edilizia</h3>
+                        <p class="publication-author">Ing. Marco Verde</p>
+                        <div class="publication-stats">
+                            <span>180 pagine</span>
+                            <span>⭐ 4.6</span>
+                        </div>
+                        <p class="publication-excerpt">
+                            Guida pratica all'utilizzo dei materiali naturali nell'edilizia sostenibile...
+                        </p>
+                        <div class="publication-price-small">€24.99</div>
+                        <a href="{{ '/shop' | relative_url }}" class="btn-primary">Acquista</a>
+                    </div>
+                </div>
+
+                <div class="publication-card" data-category="books">
+                    <div class="publication-cover">📕</div>
+                    <div class="publication-info">
+                        <div class="publication-type">Libro Cartaceo</div>
+                        <h3>Progettazione Bioclimatica</h3>
+                        <p class="publication-author">Arch. Sofia Gialli</p>
+                        <div class="publication-stats">
+                            <span>240 pagine</span>
+                            <span>⭐ 4.9</span>
+                        </div>
+                        <p class="publication-excerpt">
+                            Principi e tecniche per la progettazione in armonia con il clima...
+                        </p>
+                        <div class="publication-price-small">€45.00</div>
+                        <a href="{{ '/shop' | relative_url }}" class="btn-primary">Acquista</a>
+                    </div>
+                </div>
+
+                <div class="publication-card" data-category="guides">
+                    <div class="publication-cover">📋</div>
+                    <div class="publication-info">
+                        <div class="publication-type">Guida Tecnica</div>
+                        <h3>Certificazione Energetica</h3>
+                        <p class="publication-author">Team CasaClima</p>
+                        <div class="publication-stats">
+                            <span>120 pagine</span>
+                            <span>⭐ 4.7</span>
+                        </div>
+                        <p class="publication-excerpt">
+                            Manuale pratico per la certificazione energetica degli edifici...
+                        </p>
+                        <div class="publication-price-small">€35.00</div>
+                        <a href="{{ '/shop' | relative_url }}" class="btn-primary">Acquista</a>
+                    </div>
+                </div>
+
+                <div class="publication-card" data-category="research">
+                    <div class="publication-cover">🔬</div>
+                    <div class="publication-info">
+                        <div class="publication-type">Ricerca</div>
+                        <h3>Studi sulla Sostenibilità</h3>
+                        <p class="publication-author">EURAC Research</p>
+                        <div class="publication-stats">
+                            <span>200 pagine</span>
+                            <span>⭐ 4.5</span>
+                        </div>
+                        <p class="publication-excerpt">
+                            Raccolta dei più recenti studi europei sulla sostenibilità edilizia...
+                        </p>
+                        <div class="publication-price-small">€28.00</div>
+                        <a href="{{ '/shop' | relative_url }}" class="btn-primary">Acquista</a>
+                    </div>
+                </div>
+
+                <div class="publication-card" data-category="journals">
+                    <div class="publication-cover">📰</div>
+                    <div class="publication-info">
+                        <div class="publication-type">Atti Convegno</div>
+                        <h3>Convegno Bioarchitettura 2024</h3>
+                        <p class="publication-author">Fondazione Bioarchitettura</p>
+                        <div class="publication-stats">
+                            <span>150 pagine</span>
+                            <span>⭐ 4.8</span>
+                        </div>
+                        <p class="publication-excerpt">
+                            Tutti gli atti del convegno nazionale 2024 con interventi di esperti...
+                        </p>
+                        <div class="publication-price-small">€35.00</div>
+                        <a href="{{ '/shop' | relative_url }}" class="btn-primary">Acquista</a>
+                    </div>
+                </div>
+
+                <div class="publication-card" data-category="ebooks">
+                    <div class="publication-cover">📘</div>
+                    <div class="publication-info">
+                        <div class="publication-type">Ebook</div>
+                        <h3>Isolanti Naturali</h3>
+                        <p class="publication-author">Dott. Anna Blu</p>
+                        <div class="publication-stats">
+                            <span>160 pagine</span>
+                            <span>⭐ 4.4</span>
+                        </div>
+                        <p class="publication-excerpt">
+                            Guida completa agli isolanti naturali e alle loro performance...
+                        </p>
+                        <div class="publication-price-small">€22.99</div>
+                        <a href="{{ '/shop' | relative_url }}" class="btn-primary">Acquista</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Collections -->
+        <div class="section-block bg-light">
+            <h2 class="section-title">Collezioni Specializzate</h2>
+            
+            <div class="collections-grid">
+                <div class="collection-card">
+                    <div class="collection-header">
+                        <div class="collection-icon">📚</div>
+                        <h3>Collana Bioarchitettura</h3>
+                        <p class="collection-count">12 volumi</p>
+                    </div>
+                    <div class="collection-content">
+                        <p>La serie completa dedicata alla bioarchitettura, dall'introduzione ai concetti avanzati.</p>
+                        <ul class="collection-features">
+                            <li>Storia e filosofia della bioarchitettura</li>
+                            <li>Materiali e tecnologie innovative</li>
+                            <li>Progetti internazionali</li>
+                            <li>Normative e certificazioni</li>
+                        </ul>
+                        <div class="collection-price">
+                            <span class="price-bundle">€299</span>
+                            <span class="price-single">invece di €360</span>
+                            <span class="price-savings">Risparmi €61</span>
+                        </div>
+                        <a href="{{ '/shop' | relative_url }}" class="btn-primary">Acquista Collezione</a>
+                    </div>
+                </div>
+
+                <div class="collection-card">
+                    <div class="collection-header">
+                        <div class="collection-icon">🔬</div>
+                        <h3>Ricerca e Innovazione</h3>
+                        <p class="collection-count">8 volumi</p>
+                    </div>
+                    <div class="collection-content">
+                        <p>Pubblicazioni scientifiche sui più recenti sviluppi nella sostenibilità edilizia.</p>
+                        <ul class="collection-features">
+                            <li>Studi universitari più recenti</li>
+                            <li>Ricerche europee e internazionali</li>
+                            <li>Innovazioni tecnologiche</li>
+                            <li>Dati e statistiche aggiornate</li>
+                        </ul>
+                        <div class="collection-price">
+                            <span class="price-bundle">€189</span>
+                            <span class="price-single">invece di €224</span>
+                            <span class="price-savings">Risparmi €35</span>
+                        </div>
+                        <a href="{{ '/shop' | relative_url }}" class="btn-primary">Acquista Collezione</a>
+                    </div>
+                </div>
+
+                <div class="collection-card">
+                    <div class="collection-header">
+                        <div class="collection-icon">🏗️</div>
+                        <h3>Guide Pratiche</h3>
+                        <p class="collection-count">6 volumi</p>
+                    </div>
+                    <div class="collection-content">
+                        <p>Manuali operativi per progettisti e costruttori, con esempi pratici e schemi.</p>
+                        <ul class="collection-features">
+                            <li>Istruzioni passo-passo</li>
+                            <li>Schemi tecnici dettagliati</li>
+                            <li>Casi studio documentati</li>
+                            <li>Check-list operative</li>
+                        </ul>
+                        <div class="collection-price">
+                            <span class="price-bundle">€149</span>
+                            <span class="price-single">invece di €180</span>
+                            <span class="price-savings">Risparmi €31</span>
+                        </div>
+                        <a href="{{ '/shop' | relative_url }}" class="btn-primary">Acquista Collezione</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Authors -->
+        <div class="section-block">
+            <h2 class="section-title">I Nostri Autori</h2>
+            
+            <div class="authors-grid">
+                <div class="author-card">
+                    <div class="author-avatar">👨‍🎓</div>
+                    <div class="author-info">
+                        <h3>Prof. Mario Rossi</h3>
+                        <p class="author-title">Università di Firenze</p>
+                        <p class="author-bio">
+                            Professore ordinario di Tecnologia dell'Architettura, 
+                            esperto internazionale in bioarchitettura.
+                        </p>
+                        <div class="author-stats">
+                            <span>8 pubblicazioni</span>
+                            <span>⭐ 4.8 rating</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="author-card">
+                    <div class="author-avatar">👩‍💼</div>
+                    <div class="author-info">
+                        <h3>Arch. Laura Bianchi</h3>
+                        <p class="author-title">Studio Architettura Sostenibile</p>
+                        <p class="author-bio">
+                            Architetto specializzato in progettazione sostenibile, 
+                            consulente per progetti CasaClima.
+                        </p>
+                        <div class="author-stats">
+                            <span>5 pubblicazioni</span>
+                            <span>⭐ 4.9 rating</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="author-card">
+                    <div class="author-avatar">👨‍🔬</div>
+                    <div class="author-info">
+                        <h3>Ing. Andrea Verdi</h3>
+                        <p class="author-title">EURAC Research</p>
+                        <p class="author-bio">
+                            Ricercatore senior in efficienza energetica, 
+                            autore di numerosi studi scientifici.
+                        </p>
+                        <div class="author-stats">
+                            <span>12 pubblicazioni</span>
+                            <span>⭐ 4.7 rating</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="author-card">
+                    <div class="author-avatar">👩‍🎓</div>
+                    <div class="author-info">
+                        <h3>Dott. Sofia Gialli</h3>
+                        <p class="author-title">Politecnico di Milano</p>
+                        <p class="author-bio">
+                            Dottore di ricerca in Progettazione Bioclimatica, 
+                            esperta in comfort ambientale.
+                        </p>
+                        <div class="author-stats">
+                            <span>6 pubblicazioni</span>
+                            <span>⭐ 4.6 rating</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reading Lists -->
+        <div class="section-block bg-light">
+            <h2 class="section-title">Liste di Lettura Consigliate</h2>
+            
+            <div class="reading-lists">
+                <div class="reading-list">
+                    <div class="list-header">
+                        <h3>🎓 Per Studenti</h3>
+                        <p>I libri fondamentali per iniziare</p>
+                    </div>
+                    <div class="list-books">
+                        <div class="book-item">
+                            <span class="book-number">1</span>
+                            <div class="book-details">
+                                <h4>Introduzione alla Bioarchitettura</h4>
+                                <p>Prof. Mario Rossi</p>
+                                <span class="book-price">€19.99</span>
+                            </div>
+                        </div>
+                        <div class="book-item">
+                            <span class="book-number">2</span>
+                            <div class="book-details">
+                                <h4>Principi di Sostenibilità</h4>
+                                <p>Dott. Sofia Gialli</p>
+                                <span class="book-price">€22.99</span>
+                            </div>
+                        </div>
+                        <div class="book-item">
+                            <span class="book-number">3</span>
+                            <div class="book-details">
+                                <h4>Materiali Eco-compatibili</h4>
+                                <p>Arch. Laura Bianchi</p>
+                                <span class="book-price">€24.99</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-total">
+                        <span>Totale: €67.97</span>
+                        <a href="{{ '/shop' | relative_url }}" class="btn-secondary">Acquista Lista</a>
+                    </div>
+                </div>
+
+                <div class="reading-list">
+                    <div class="list-header">
+                        <h3>👨‍💼 Per Professionisti</h3>
+                        <p>Approfondimenti specialistici</p>
+                    </div>
+                    <div class="list-books">
+                        <div class="book-item">
+                            <span class="book-number">1</span>
+                            <div class="book-details">
+                                <h4>Certificazione Energetica Avanzata</h4>
+                                <p>Team CasaClima</p>
+                                <span class="book-price">€35.00</span>
+                            </div>
+                        </div>
+                        <div class="book-item">
+                            <span class="book-number">2</span>
+                            <div class="book-details">
+                                <h4>Protocolli di Sostenibilità</h4>
+                                <p>Ing. Andrea Verdi</p>
+                                <span class="book-price">€42.00</span>
+                            </div>
+                        </div>
+                        <div class="book-item">
+                            <span class="book-number">3</span>
+                            <div class="book-details">
+                                <h4>Casi Studio Internazionali</h4>
+                                <p>EURAC Research</p>
+                                <span class="book-price">€48.00</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-total">
+                        <span>Totale: €125.00</span>
+                        <a href="{{ '/shop' | relative_url }}" class="btn-secondary">Acquista Lista</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Newsletter -->
+        <div class="section-block">
+            <div class="newsletter-signup-books">
+                <div class="newsletter-content">
+                    <h2>Resta Aggiornato sulle Novità</h2>
+                    <p>Ricevi notifiche sui nuovi libri, anteprime esclusive e offerte speciali.</p>
+                    
+                    <form class="newsletter-form" id="books-newsletter">
+                        <input type="email" placeholder="La tua email" required>
+                        <button type="submit" class="btn-primary">Iscriviti</button>
+                    </form>
+                    
+                    <div class="newsletter-benefits">
+                        <span>📚 Anteprime esclusive</span>
+                        <span>🎁 Offerte speciali</span>
+                        <span>📧 Newsletter mensile</span>
+                    </div>
+                </div>
+                
+                <div class="newsletter-visual">
+                    <div class="books-stack">
+                        📚<br>📗<br>📘
+                        <p>Oltre 200 titoli disponibili</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="cta-section-inline">
+            <div class="cta-content">
+                <h2>Costruisci la Tua Biblioteca Professionale</h2>
+                <p>
+                    Accedi alla conoscenza più avanzata in bioarchitettura e sostenibilità 
+                    con le pubblicazioni della Fondazione Italiana per la Bioarchitettura.
+                </p>
+                <div class="cta-actions">
+                    <a href="{{ '/shop' | relative_url }}" class="btn-primary">Esplora il Catalogo</a>
+                    <a href="{{ '/master' | relative_url }}" class="btn-secondary">Scopri i Corsi</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Preview Modal -->
+<div id="preview-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Anteprima Gratuita</h3>
+            <button class="modal-close" onclick="closePreview()">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="preview-content">
+                <h4>Capitolo 1: Introduzione alla Bioarchitettura</h4>
+                <p>
+                    La bioarchitettura rappresenta un approccio olistico alla progettazione 
+                    che pone al centro il benessere dell'uomo e il rispetto per l'ambiente...
+                </p>
+                <p>
+                    <em>Questa è solo un'anteprima. Il libro completo contiene 320 pagine 
+                    con esempi pratici, schemi tecnici e casi studio dettagliati.</em>
+                </p>
+            </div>
+            <div class="preview-actions">
+                <a href="{{ '/shop' | relative_url }}" class="btn-primary">Acquista il Libro Completo</a>
+                <button class="btn-secondary" onclick="closePreview()">Chiudi Anteprima</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Publications page functionality
+document.addEventListener('DOMContentLoaded', function() {
+    initializePublicationFilter();
+    initializeNewsletterForm();
+    trackPublicationInterest();
+});
+
+function initializePublicationFilter() {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const publications = document.querySelectorAll('.publication-card, .publication-featured');
+    
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Update active button
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+            
+            const category = this.dataset.category;
+            
+            // Filter publications
+            publications.forEach(publication => {
+                if (category === 'all' || publication.dataset.category === category) {
+                    publication.style.display = 'block';
+                } else {
+                    publication.style.display = 'none';
+                }
+            });
+            
+            // Track filter usage
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'filter_publications', {
+                    'event_category': 'publications',
+                    'event_label': category
+                });
+            }
+        });
+    });
+}
+
+function initializeNewsletterForm() {
+    const form = document.getElementById('books-newsletter');
+    
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = this.querySelector('input[type="email"]').value;
+            const button = this.querySelector('button[type="submit"]');
+            
+            // Basic validation
+            if (!isValidEmail(email)) {
+                alert('Inserisci un indirizzo email valido');
+                return;
+            }
+            
+            // Disable button during submission
+            const originalText = button.textContent;
+            button.textContent = 'Invio...';
+            button.disabled = true;
+            
+            // Simulate subscription
+            setTimeout(() => {
+                alert('Iscrizione completata! Riceverai aggiornamenti sui nuovi libri.');
+                this.reset();
+                
+                button.textContent = originalText;
+                button.disabled = false;
+                
+                // Track subscription
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'newsletter_signup', {
+                        'event_category': 'publications',
+                        'event_label': 'books_newsletter'
+                    });
+                }
+            }, 1000);
+        });
+    }
+}
+
+function trackPublicationInterest() {
+    // Track purchase clicks
+    document.querySelectorAll('.btn-primary').forEach(btn => {
+        if (btn.textContent.includes('Acquista')) {
+            btn.addEventListener('click', function() {
+                const publicationTitle = this.closest('.publication-card, .publication-featured')
+                    ?.querySelector('h2, h3')?.textContent || 'Unknown';
+                
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'publication_interest', {
+                        'event_category': 'publications',
+                        'event_label': publicationTitle,
+                        'transport_type': 'beacon'
+                    });
+                }
+            });
+        }
+    });
+}
+
+function showPreview(publicationId) {
+    const modal = document.getElementById('preview-modal');
+    modal.style.display = 'block';
+    
+    // Track preview views
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'preview_viewed', {
+            'event_category': 'publications',
+            'event_label': publicationId
+        });
+    }
+}
+
+function closePreview() {
+    document.getElementById('preview-modal').style.display = 'none';
+}
+
+function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+// Close modal when clicking outside
+window.addEventListener('click', function(event) {
+    const modal = document.getElementById('preview-modal');
+    if (event.target === modal) {
+        closePreview();
+    }
+});
+</script>
+
+<style>
+/* Publications page styles */
+.page-header {
+    background: linear-gradient(135deg, var(--secondary-color) 0%, #f0f8f0 100%);
+    padding: 80px 0 60px 0;
+    text-align: center;
+}
+
+.page-header h1 {
+    color: var(--primary-color);
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+/* Publication Filters */
+.publication-filters {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 50px;
+}
+
+.filter-btn {
+    padding: 12px 24px;
+    border: 2px solid var(--border-color);
+    background: white;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: var(--transition);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+    border-color: var(--primary-color);
+    background: var(--primary-color);
+    color: white;
+}
+
+/* Publications Grid */
+.publications-grid {
+    display: grid;
+    gap: 30px;
+}
+
+/* Featured Publication */
+.publication-featured {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 40px;
+    background: white;
+    padding: 40px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-medium);
+    margin-bottom: 40px;
+    border-left: 5px solid var(--primary-color);
+}
+
+.publication-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.book-cover {
+    width: 200px;
+    height: 280px;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    color: white;
+    position: relative;
+    box-shadow: var(--shadow-medium);
+}
+
+.book-badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: #ff6b35;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.publication-content h2 {
+    color: var(--primary-color);
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.publication-subtitle {
+    color: var(--text-light);
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    font-style: italic;
+}
+
+.publication-meta {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+.publication-type {
+    background: var(--primary-color);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.publication-rating {
+    color: var(--text-light);
+}
+
+.publication-description {
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+
+.publication-features {
+    margin-bottom: 25px;
+}
+
+.feature-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+.feature-item {
+    font-size: 14px;
+    color: var(--text-light);
+}
+
+.publication-authors {
+    margin-bottom: 25px;
+    font-size: 14px;
+    color: var(--text-light);
+}
+
+.publication-price {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.price-current {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.price-original {
+    font-size: 1.2rem;
+    color: var(--text-light);
+    text-decoration: line-through;
+}
+
+.price-discount {
+    background: #ff6b35;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.publication-actions {
+    display: flex;
+    gap: 15px;
+}
+
+/* Regular Publications */
+.publication-card {
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-light);
+    overflow: hidden;
+    transition: var(--transition);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0;
+}
+
+.publication-card:hover {
+    box-shadow: var(--shadow-medium);
+    transform: translateY(-3px);
+}
+
+.publication-cover {
+    width: 120px;
+    height: 160px;
+    background: var(--secondary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    color: var(--primary-color);
+}
+
+.publication-info {
+    padding: 25px;
+}
+
+.publication-info h3 {
+    color: var(--primary-color);
+    margin-bottom: 8px;
+    font-size: 1.2rem;
+}
+
+.publication-author {
+    color: var(--text-light);
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.publication-stats {
+    display: flex;
+    gap: 15px;
+    font-size: 13px;
+    color: var(--text-light);
+    margin-bottom: 15px;
+}
+
+.publication-excerpt {
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 15px;
+    color: var(--text-light);
+}
+
+.publication-price-small {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+/* Collections */
+.collections-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+    margin: 40px 0;
+}
+
+.collection-card {
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-light);
+    padding: 30px;
+    text-align: center;
+    transition: var(--transition);
+}
+
+.collection-card:hover {
+    box-shadow: var(--shadow-medium);
+    transform: translateY(-5px);
+}
+
+.collection-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.collection-count {
+    color: var(--text-light);
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.collection-features {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+    text-align: left;
+}
+
+.collection-features li {
+    padding: 5px 0;
+    font-size: 14px;
+    color: var(--text-light);
+}
+
+.collection-features li:before {
+    content: '✓';
+    color: var(--primary-color);
+    font-weight: bold;
+    margin-right: 8px;
+}
+
+.collection-price {
+    margin: 25px 0;
+    text-align: center;
+}
+
+.price-bundle {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    display: block;
+}
+
+.price-single {
+    font-size: 14px;
+    color: var(--text-light);
+    text-decoration: line-through;
+    display: block;
+    margin-top: 5px;
+}
+
+.price-savings {
+    background: #4CAF50;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: bold;
+    display: inline-block;
+    margin-top: 8px;
+}
+
+/* Authors */
+.authors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin: 40px 0;
+}
+
+.author-card {
+    background: white;
+    padding: 30px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-light);
+    text-align: center;
+    transition: var(--transition);
+}
+
+.author-card:hover {
+    box-shadow: var(--shadow-medium);
+    transform: translateY(-3px);
+}
+
+.author-avatar {
+    width: 80px;
+    height: 80px;
+    background: var(--secondary-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    margin: 0 auto 20px auto;
+}
+
+.author-info h3 {
+    color: var(--primary-color);
+    margin-bottom: 8px;
+}
+
+.author-title {
+    color: var(--text-light);
+    font-size: 14px;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+.author-bio {
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    color: var(--text-light);
+}
+
+.author-stats {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    font-size: 13px;
+    color: var(--text-light);
+}
+
+/* Reading Lists */
+.reading-lists {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 30px;
+    margin: 40px 0;
+}
+
+.reading-list {
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-light);
+    overflow: hidden;
+}
+
+.list-header {
+    background: var(--secondary-color);
+    padding: 25px;
+    text-align: center;
+}
+
+.list-header h3 {
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.list-books {
+    padding: 25px;
+}
+
+.book-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.book-item:last-child {
+    border-bottom: none;
+}
+
+.book-number {
+    width: 30px;
+    height: 30px;
+    background: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.book-details {
+    flex: 1;
+}
+
+.book-details h4 {
+    margin-bottom: 5px;
+    font-size: 1rem;
+    color: var(--primary-color);
+}
+
+.book-details p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--text-light);
+}
+
+.book-price {
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.list-total {
+    background: var(--background-light);
+    padding: 20px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+}
+
+/* Newsletter */
+.newsletter-signup-books {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 50px;
+    align-items: center;
+    background: var(--background-light);
+    padding: 50px;
+    border-radius: var(--border-radius);
+    margin: 40px 0;
+}
+
+.newsletter-form {
+    display: flex;
+    gap: 0;
+    margin: 25px 0;
+    max-width: 400px;
+}
+
+.newsletter-form input {
+    flex: 1;
+    padding: 15px 20px;
+    border: 2px solid var(--border-color);
+    border-right: none;
+    border-radius: var(--border-radius) 0 0 var(--border-radius);
+    font-size: 1rem;
+}
+
+.newsletter-form button {
+    padding: 15px 25px;
+    border-radius: 0 var(--border-radius) var(--border-radius) 0;
+}
+
+.newsletter-benefits {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    font-size: 14px;
+    color: var(--text-light);
+}
+
+.books-stack {
+    text-align: center;
+    font-size: 4rem;
+    line-height: 0.8;
+    color: var(--primary-color);
+}
+
+.books-stack p {
+    font-size: 1rem;
+    margin-top: 20px;
+    color: var(--text-light);
+}
+
+/* Modal */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+}
+
+.modal-content {
+    background: white;
+    border-radius: var(--border-radius);
+    max-width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
+    margin: 20px;
+}
+
+.modal-header {
+    padding: 25px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: var(--primary-color);
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-light);
+}
+
+.modal-body {
+    padding: 25px;
+}
+
+.preview-content {
+    margin-bottom: 25px;
+    line-height: 1.6;
+}
+
+.preview-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+/* CTA Section */
+.cta-section-inline {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
+    padding: 60px 30px;
+    border-radius: var(--border-radius);
+    text-align: center;
+    color: white;
+    margin-top: 60px;
+}
+
+.cta-section-inline h2 {
+    color: white;
+    margin-bottom: 20px;
+}
+
+.cta-section-inline p {
+    margin-bottom: 30px;
+    opacity: 0.9;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cta-actions {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.cta-section-inline .btn-primary {
+    background: white;
+    color: var(--primary-color);
+}
+
+.cta-section-inline .btn-secondary {
+    border-color: white;
+    color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .page-header h1 {
+        font-size: 2.2rem;
+    }
+    
+    .publication-featured {
+        grid-template-columns: 1fr;
+        gap: 25px;
+        padding: 25px;
+    }
+    
+    .publication-card {
+        grid-template-columns: 1fr;
+    }
+    
+    .publication-cover {
+        width: 100%;
+        height: 120px;
+    }
+    
+    .feature-list {
+        grid-template-columns: 1fr;
+    }
+    
+    .publication-actions {
+        flex-direction: column;
+    }
+    
+    .collections-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .authors-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .reading-lists {
+        grid-template-columns: 1fr;
+    }
+    
+    .newsletter-signup-books {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        padding: 30px;
+    }
+    
+    .newsletter-form {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .newsletter-form input,
+    .newsletter-form button {
+        border-radius: var(--border-radius);
+        border: 2px solid var(--border-color);
+    }
+    
+    .cta-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .publication-filters {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .modal-content {
+        margin: 10px;
+        max-height: 90vh;
+    }
+    
+    .preview-actions {
+        flex-direction: column;
+    }
+}
+</style>
