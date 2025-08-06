@@ -173,6 +173,175 @@
             text-align: center;
             font-size: 1.2em;
         }
+
+        /* Slideshow Styles */
+        .slideshow-section {
+            padding: 60px 20px;
+            background: linear-gradient(rgba(44, 85, 48, 0.05), rgba(44, 85, 48, 0.05)),
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(44,85,48,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .slideshow-section h2 {
+            color: #2c5530;
+            font-size: 2.2em;
+            margin-bottom: 20px;
+        }
+
+        .slideshow-section p {
+            color: #4a7c59;
+            font-size: 1.1em;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .slideshow-container {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(44, 85, 48, 0.15);
+        }
+
+        .slide {
+            display: none;
+            position: relative;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 15px 15px 0 0;
+        }
+
+        .slide-content {
+            padding: 25px;
+            background: white;
+            border-radius: 0 0 15px 15px;
+        }
+
+        .slide-content h3 {
+            color: #2c5530;
+            font-size: 1.4em;
+            margin-bottom: 10px;
+        }
+
+        .slide-content p {
+            color: #666;
+            font-size: 1em;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* Navigation buttons */
+        .slideshow-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(44, 85, 48, 0.8);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .slideshow-nav:hover {
+            background: rgba(44, 85, 48, 1);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .slideshow-nav.prev {
+            left: 20px;
+        }
+
+        .slideshow-nav.next {
+            right: 20px;
+        }
+
+        /* Dots indicator */
+        .slideshow-dots {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .dot {
+            cursor: pointer;
+            height: 12px;
+            width: 12px;
+            margin: 0 5px;
+            background-color: rgba(44, 85, 48, 0.3);
+            border-radius: 50%;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .dot.active,
+        .dot:hover {
+            background-color: #2c5530;
+            transform: scale(1.2);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .slideshow-section {
+                padding: 40px 15px;
+            }
+
+            .slideshow-section h2 {
+                font-size: 1.8em;
+            }
+
+            .slide img {
+                height: 250px;
+            }
+
+            .slide-content {
+                padding: 20px;
+            }
+
+            .slide-content h3 {
+                font-size: 1.2em;
+            }
+
+            .slideshow-nav {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+            }
+
+            .slideshow-nav.prev {
+                left: 10px;
+            }
+
+            .slideshow-nav.next {
+                right: 10px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -212,6 +381,72 @@
         <p>Scopri le soluzioni innovative e sostenibili per una vita sana ed ecologica, in sintonia con la Terra e diventa socio della Fondazione Italiana per la Bioarchitettura® e l'Antropizzazione Sostenibile dell'Ambiente.</p>
         <a href="#" class="cta-button">Scopri di più</a>
     </div>
+
+    <!-- Slideshow Section - Rivista Bioarchitettura -->
+    <!-- Note: Images are representative placeholders for demo purposes. 
+         In production, these would be sourced from:
+         - www.bioarchitettura.org/rivista 
+         - 'rivista bioarchitettura' publications
+         - 'bioarchitettura rivista' official content -->
+    <section class="slideshow-section">
+        <h2>Rivista Bioarchitettura</h2>
+        <p>Esplora le nostre pubblicazioni dedicate all'architettura sostenibile e al costruire ecologico</p>
+        
+        <div class="slideshow-container" id="slideshow">
+            <div class="slide active">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 900 400'%3E%3Cdefs%3E%3ClinearGradient id='bg1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23e8f5e8'/%3E%3Cstop offset='100%25' stop-color='%23d4edda'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='900' height='400' fill='url(%23bg1)'/%3E%3Ctext x='450' y='180' text-anchor='middle' font-family='Arial, sans-serif' font-size='24' fill='%232c5530'%3ERivista Bioarchitettura%3C/text%3E%3Ctext x='450' y='220' text-anchor='middle' font-family='Arial, sans-serif' font-size='16' fill='%234a7c59'%3EArchitettura Sostenibile%3C/text%3E%3Ccircle cx='200' cy='150' r='30' fill='%232c5530' opacity='0.3'/%3E%3Ccircle cx='700' cy='280' r='25' fill='%234a7c59' opacity='0.3'/%3E%3C/svg%3E" alt="Rivista Bioarchitettura - Architettura Sostenibile">
+                <div class="slide-content">
+                    <h3>Architettura Sostenibile</h3>
+                    <p>La prima rivista italiana dedicata all'architettura ecologica. Scopri le ultime innovazioni nel costruire sano e sostenibile.</p>
+                </div>
+            </div>
+            
+            <div class="slide">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 900 400'%3E%3Cdefs%3E%3ClinearGradient id='bg2' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23f0f8f0'/%3E%3Cstop offset='100%25' stop-color='%23e8f5e8'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='900' height='400' fill='url(%23bg2)'/%3E%3Ctext x='450' y='180' text-anchor='middle' font-family='Arial, sans-serif' font-size='24' fill='%232c5530'%3ECostruire Ecologico%3C/text%3E%3Ctext x='450' y='220' text-anchor='middle' font-family='Arial, sans-serif' font-size='16' fill='%234a7c59'%3ETecnologie Innovative%3C/text%3E%3Crect x='150' y='100' width='80' height='60' fill='%232c5530' opacity='0.3'/%3E%3Crect x='670' y='250' width='60' height='80' fill='%234a7c59' opacity='0.3'/%3E%3C/svg%3E" alt="Costruire Ecologico - Tecnologie Innovative">
+                <div class="slide-content">
+                    <h3>Costruire Ecologico</h3>
+                    <p>Approfondimenti su materiali biocompatibili, tecnologie innovative e metodologie di progettazione rispettose dell'ambiente.</p>
+                </div>
+            </div>
+            
+            <div class="slide">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 900 400'%3E%3Cdefs%3E%3ClinearGradient id='bg3' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23d4f4dd'/%3E%3Cstop offset='100%25' stop-color='%23c3f0ca'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='900' height='400' fill='url(%23bg3)'/%3E%3Ctext x='450' y='180' text-anchor='middle' font-family='Arial, sans-serif' font-size='24' fill='%232c5530'%3EHabitat Sostenibile%3C/text%3E%3Ctext x='450' y='220' text-anchor='middle' font-family='Arial, sans-serif' font-size='16' fill='%234a7c59'%3EVivere in Armonia%3C/text%3E%3Cpolygon points='200,120 230,180 170,180' fill='%232c5530' opacity='0.3'/%3E%3Cpolygon points='720,250 750,310 690,310' fill='%234a7c59' opacity='0.3'/%3E%3C/svg%3E" alt="Habitat Sostenibile - Vivere in Armonia">
+                <div class="slide-content">
+                    <h3>Habitat Sostenibile</h3>
+                    <p>Come creare spazi abitativi in armonia con l'ambiente naturale, promuovendo il benessere e la sostenibilità.</p>
+                </div>
+            </div>
+            
+            <div class="slide">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 900 400'%3E%3Cdefs%3E%3ClinearGradient id='bg4' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23c8e6c9'/%3E%3Cstop offset='100%25' stop-color='%23b8dcc0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='900' height='400' fill='url(%23bg4)'/%3E%3Ctext x='450' y='180' text-anchor='middle' font-family='Arial, sans-serif' font-size='24' fill='%232c5530'%3EFormazione Professionale%3C/text%3E%3Ctext x='450' y='220' text-anchor='middle' font-family='Arial, sans-serif' font-size='16' fill='%234a7c59'%3EMaster e Certificazioni%3C/text%3E%3Cpath d='M200 150 L230 130 L230 170 Z M670 270 L700 250 L700 290 Z' fill='%232c5530' opacity='0.3'/%3E%3C/svg%3E" alt="Formazione Professionale - Master e Certificazioni">
+                <div class="slide-content">
+                    <h3>Formazione Professionale</h3>
+                    <p>Percorsi di alta formazione, master e certificazioni per professionisti dell'architettura sostenibile.</p>
+                </div>
+            </div>
+            
+            <div class="slide">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 900 400'%3E%3Cdefs%3E%3ClinearGradient id='bg5' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23a5d6a7'/%3E%3Cstop offset='100%25' stop-color='%2398c89a'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='900' height='400' fill='url(%23bg5)'/%3E%3Ctext x='450' y='180' text-anchor='middle' font-family='Arial, sans-serif' font-size='24' fill='%232c5530'%3EFuturo Sostenibile%3C/text%3E%3Ctext x='450' y='220' text-anchor='middle' font-family='Arial, sans-serif' font-size='16' fill='%234a7c59'%3EInnovazione Verde%3C/text%3E%3Ccircle cx='200' cy='150' r='20' fill='%232c5530' opacity='0.4'/%3E%3Ccircle cx='220' cy='170' r='15' fill='%234a7c59' opacity='0.4'/%3E%3Ccircle cx='680' cy='280' r='25' fill='%232c5530' opacity='0.3'/%3E%3C/svg%3E" alt="Futuro Sostenibile - Innovazione Verde">
+                <div class="slide-content">
+                    <h3>Futuro Sostenibile</h3>
+                    <p>Visioni e progetti per un futuro in cui architettura e natura convivono in perfetta armonia per le generazioni future.</p>
+                </div>
+            </div>
+            
+            <!-- Navigation buttons -->
+            <button class="slideshow-nav prev" onclick="changeSlide(-1)">‹</button>
+            <button class="slideshow-nav next" onclick="changeSlide(1)">›</button>
+        </div>
+        
+        <!-- Dots indicator -->
+        <div class="slideshow-dots">
+            <span class="dot active" onclick="currentSlide(1)"></span>
+            <span class="dot" onclick="currentSlide(2)"></span>
+            <span class="dot" onclick="currentSlide(3)"></span>
+            <span class="dot" onclick="currentSlide(4)"></span>
+            <span class="dot" onclick="currentSlide(5)"></span>
+        </div>
+    </section>
 
     <section class="about-section" id="chi-siamo">
         <h2>La Nostra Storia</h2>
@@ -292,7 +527,85 @@
                     }
                 });
             });
+            
+            // Initialize slideshow
+            initSlideshow();
         });
+
+        // Slideshow functionality
+        let currentSlideIndex = 0;
+        let slideInterval;
+        
+        function initSlideshow() {
+            const slides = document.querySelectorAll('.slide');
+            const dots = document.querySelectorAll('.dot');
+            
+            if (slides.length === 0) return;
+            
+            // Start auto-advance
+            startAutoAdvance();
+            
+            // Pause auto-advance on hover
+            const slideshowContainer = document.getElementById('slideshow');
+            if (slideshowContainer) {
+                slideshowContainer.addEventListener('mouseenter', stopAutoAdvance);
+                slideshowContainer.addEventListener('mouseleave', startAutoAdvance);
+            }
+        }
+        
+        function showSlide(index) {
+            const slides = document.querySelectorAll('.slide');
+            const dots = document.querySelectorAll('.dot');
+            
+            if (slides.length === 0) return;
+            
+            // Hide all slides
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            
+            // Normalize index
+            if (index >= slides.length) currentSlideIndex = 0;
+            if (index < 0) currentSlideIndex = slides.length - 1;
+            
+            // Show current slide
+            slides[currentSlideIndex].classList.add('active');
+            if (dots[currentSlideIndex]) {
+                dots[currentSlideIndex].classList.add('active');
+            }
+        }
+        
+        function changeSlide(direction) {
+            currentSlideIndex += direction;
+            showSlide(currentSlideIndex);
+            
+            // Restart auto-advance after manual navigation
+            stopAutoAdvance();
+            startAutoAdvance();
+        }
+        
+        function currentSlide(index) {
+            currentSlideIndex = index - 1;
+            showSlide(currentSlideIndex);
+            
+            // Restart auto-advance after manual navigation
+            stopAutoAdvance();
+            startAutoAdvance();
+        }
+        
+        function startAutoAdvance() {
+            stopAutoAdvance(); // Clear any existing interval
+            slideInterval = setInterval(() => {
+                currentSlideIndex++;
+                showSlide(currentSlideIndex);
+            }, 5000); // Change slide every 5 seconds
+        }
+        
+        function stopAutoAdvance() {
+            if (slideInterval) {
+                clearInterval(slideInterval);
+                slideInterval = null;
+            }
+        }
     </script>
 </body>
 </html>
