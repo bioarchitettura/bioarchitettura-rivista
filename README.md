@@ -52,10 +52,11 @@ Il CMS permette di gestire:
 
 ### Flusso di Lavoro Editoriale
 
-Il CMS è configurato con un flusso di lavoro editoriale che richiede:
-1. **Bozza**: Crea contenuti in modalità bozza
-2. **Revisione**: I contenuti vengono sottoposti a revisione
-3. **Pubblicazione**: Dopo l'approvazione, i contenuti vengono pubblicati automaticamente
+Il CMS è attualmente configurato per la pubblicazione immediata:
+1. **Creazione**: Crea contenuti direttamente nell'editor
+2. **Pubblicazione immediata**: I contenuti vengono pubblicati automaticamente senza necessità di approvazione
+
+> **Nota**: Il flusso di lavoro editoriale (editorial workflow) è stato disabilitato per consentire l'accesso senza restrizioni e la pubblicazione immediata dei contenuti.
 
 ### Autorizzazioni
 

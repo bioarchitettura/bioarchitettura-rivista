@@ -6,7 +6,8 @@ backend:
   auth_endpoint: /auth # Path to ext auth provider (optional)
 
 # This line should *not* be indented
-publish_mode: editorial_workflow
+# Editorial workflow disabled to allow unrestricted access
+# publish_mode: editorial_workflow
 
 # This line should *not* be indented
 media_folder: "public/images" # Media files will be stored in the repo under public/images
