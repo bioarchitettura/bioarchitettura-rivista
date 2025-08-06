@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quota Iscrizione - Fondazione Italiana per la Bioarchitettura</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        
+        .navbar {
+            background-color: #2c5530;
+            padding: 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .nav-logo {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            padding: 15px 0;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .nav-item {
+            margin: 0;
+        }
+        
+        .nav-link {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 20px 15px;
+            transition: background-color 0.3s ease;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        
+        .nav-link:hover {
+            background-color: #4a7c59;
+            color: white;
+        }
+        
+        .nav-link.active {
+            background-color: #4a7c59;
+        }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 15px 0;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, #2c5530 0%, #4a7c59 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .hero-section h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+
+        .content-section {
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .membership-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .membership-card {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .membership-card:hover {
+            transform: translateY(-5px);
+            border-color: #2c5530;
+        }
+
+        .membership-card.featured {
+            border-color: #2c5530;
+            background: #f8f9fa;
+        }
+
+        .membership-card .badge {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2c5530;
+            color: white;
+            padding: 5px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .membership-type {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2c5530;
+            margin-bottom: 15px;
+        }
+
+        .membership-price {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #2c5530;
+            margin-bottom: 10px;
+        }
+
+        .membership-period {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .benefits-list {
+            text-align: left;
+            margin-bottom: 30px;
+        }
+
+        .benefits-list li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .benefits-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #2c5530;
+            font-weight: bold;
+        }
+
+        .btn {
+            background-color: #2c5530;
+            color: white;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+            font-weight: 500;
+        }
+
+        .btn:hover {
+            background-color: #4a7c59;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                flex-direction: column;
+                background-color: #2c5530;
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 27px rgba(0,0,0,0.05);
+            }
+            
+            .nav-menu.active {
+                left: 0;
+            }
+            
+            .nav-link {
+                padding: 15px;
+                border-bottom: 1px solid #4a7c59;
+            }
+            
+            .nav-toggle {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">Bioarchitettura</a>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Fondazione</a>
+                </li>
+                <li class="nav-item">
+                    <a href="chi-siamo.html" class="nav-link">Chi Siamo</a>
+                </li>
+                <li class="nav-item">
+                    <a href="quota-iscrizione.html" class="nav-link active">Quota Iscrizione</a>
+                </li>
+                <li class="nav-item">
+                    <a href="libri-pubblicazioni.html" class="nav-link">Libri & Pubblicazioni</a>
+                </li>
+                <li class="nav-item">
+                    <a href="rivista.html" class="nav-link">Rivista</a>
+                </li>
+                <li class="nav-item">
+                    <a href="master.html" class="nav-link">Master</a>
+                </li>
+                <li class="nav-item">
+                    <a href="contatti.html" class="nav-link">Contatti</a>
+                </li>
+                <li class="nav-item">
+                    <a href="shop.html" class="nav-link">🛒 Shop</a>
+                </li>
+            </ul>
+            <button class="nav-toggle" id="nav-toggle">☰</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <h1>Diventa Socio</h1>
+        <p>Unisciti alla Fondazione Italiana per la Bioarchitettura® e contribuisci a un futuro sostenibile</p>
+    </section>
+
+    <!-- Main Content -->
+    <section class="content-section">
+        <h2 style="text-align: center; color: #2c5530; font-size: 2.5rem; margin-bottom: 20px;">Quote di Iscrizione</h2>
+        
+        <div style="text-align: center; margin-bottom: 50px;">
+            <p style="font-size: 1.2rem; max-width: 800px; margin: 0 auto;">
+                Scegli la tipologia di associazione più adatta alle tue esigenze e inizia a far parte 
+                della comunità della bioarchitettura in Italia.
+            </p>
+        </div>
+
+        <div class="membership-cards">
+            <!-- Socio Sostenitore -->
+            <div class="membership-card">
+                <div class="membership-type">Socio Sostenitore</div>
+                <div class="membership-price">€50</div>
+                <div class="membership-period">all'anno</div>
+                <ul class="benefits-list">
+                    <li>Newsletter mensile</li>
+                    <li>Sconto del 10% sui prodotti del shop</li>
+                    <li>Accesso alle conferenze online</li>
+                    <li>Certificato di socio</li>
+                </ul>
+                <a href="shop.html" class="btn">Iscriviti Ora</a>
+            </div>
+
+            <!-- Socio Ordinario -->
+            <div class="membership-card featured">
+                <div class="badge">Consigliato</div>
+                <div class="membership-type">Socio Ordinario</div>
+                <div class="membership-price">€150</div>
+                <div class="membership-period">all'anno</div>
+                <ul class="benefits-list">
+                    <li>Tutti i vantaggi del Socio Sostenitore</li>
+                    <li>Abbonamento annuale alla rivista</li>
+                    <li>Sconto del 20% sui prodotti del shop</li>
+                    <li>Accesso prioritario ai corsi e master</li>
+                    <li>Partecipazione alle assemblee</li>
+                    <li>Accesso all'archivio digitale completo</li>
+                </ul>
+                <a href="shop.html" class="btn">Iscriviti Ora</a>
+            </div>
+
+            <!-- Socio Professionale -->
+            <div class="membership-card">
+                <div class="membership-type">Socio Professionale</div>
+                <div class="membership-price">€300</div>
+                <div class="membership-period">all'anno</div>
+                <ul class="benefits-list">
+                    <li>Tutti i vantaggi del Socio Ordinario</li>
+                    <li>Certificazione professionale</li>
+                    <li>Inserimento nell'albo professionisti</li>
+                    <li>Sconto del 30% sui corsi e master</li>
+                    <li>Consulenze tecniche gratuite (2/anno)</li>
+                    <li>Logo Fondazione per uso professionale</li>
+                </ul>
+                <a href="shop.html" class="btn">Iscriviti Ora</a>
+            </div>
+        </div>
+
+        <!-- Additional Information -->
+        <div style="background: #f8f9fa; padding: 40px; border-radius: 8px; margin-top: 50px;">
+            <h3 style="color: #2c5530; text-align: center; margin-bottom: 30px;">Informazioni Importanti</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+                <div>
+                    <h4 style="color: #2c5530;">Modalità di Pagamento</h4>
+                    <p>Il pagamento può essere effettuato tramite:</p>
+                    <ul>
+                        <li>PayPal nel nostro shop online</li>
+                        <li>Bonifico bancario</li>
+                        <li>Carta di credito</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="color: #2c5530;">Validità</h4>
+                    <p>L'iscrizione ha validità di 12 mesi dalla data di pagamento. Il rinnovo avviene automaticamente salvo disdetta.</p>
+                </div>
+                <div>
+                    <h4 style="color: #2c5530;">Disdetta</h4>
+                    <p>È possibile disdire l'iscrizione in qualsiasi momento inviando una comunicazione scritta a bioa@bioarchitettura.org</p>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 40px;">
+            <p style="font-size: 1.1rem; margin-bottom: 20px;">Hai domande sulla quota di iscrizione?</p>
+            <a href="contatti.html" class="btn btn-secondary">Contattaci</a>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navToggle = document.getElementById('nav-toggle');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            navToggle.addEventListener('click', function() {
+                navMenu.classList.toggle('active');
+            });
+            
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenu.classList.remove('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rivista BIOARCHITETTURA® - Fondazione Italiana per la Bioarchitettura</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        
+        .navbar {
+            background-color: #2c5530;
+            padding: 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .nav-logo {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            padding: 15px 0;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .nav-item {
+            margin: 0;
+        }
+        
+        .nav-link {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 20px 15px;
+            transition: background-color 0.3s ease;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        
+        .nav-link:hover {
+            background-color: #4a7c59;
+            color: white;
+        }
+        
+        .nav-link.active {
+            background-color: #4a7c59;
+        }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 15px 0;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, #2c5530 0%, #4a7c59 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .hero-section h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+
+        .content-section {
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .magazine-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .magazine-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .magazine-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .magazine-cover {
+            width: 100%;
+            height: 200px;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: #666;
+        }
+
+        .magazine-info {
+            padding: 20px;
+        }
+
+        .magazine-info h3 {
+            color: #2c5530;
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            background-color: #2c5530;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #4a7c59;
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                flex-direction: column;
+                background-color: #2c5530;
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 27px rgba(0,0,0,0.05);
+            }
+            
+            .nav-menu.active {
+                left: 0;
+            }
+            
+            .nav-link {
+                padding: 15px;
+                border-bottom: 1px solid #4a7c59;
+            }
+            
+            .nav-toggle {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">Bioarchitettura</a>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Fondazione</a>
+                </li>
+                <li class="nav-item">
+                    <a href="chi-siamo.html" class="nav-link">Chi Siamo</a>
+                </li>
+                <li class="nav-item">
+                    <a href="quota-iscrizione.html" class="nav-link">Quota Iscrizione</a>
+                </li>
+                <li class="nav-item">
+                    <a href="libri-pubblicazioni.html" class="nav-link">Libri & Pubblicazioni</a>
+                </li>
+                <li class="nav-item">
+                    <a href="rivista.html" class="nav-link active">Rivista</a>
+                </li>
+                <li class="nav-item">
+                    <a href="master.html" class="nav-link">Master</a>
+                </li>
+                <li class="nav-item">
+                    <a href="contatti.html" class="nav-link">Contatti</a>
+                </li>
+                <li class="nav-item">
+                    <a href="shop.html" class="nav-link">🛒 Shop</a>
+                </li>
+            </ul>
+            <button class="nav-toggle" id="nav-toggle">☰</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <h1>Rivista BIOARCHITETTURA®</h1>
+        <p>ABITARE LA TERRA - La prima rivista italiana dedicata all'architettura ecologica</p>
+    </section>
+
+    <!-- Main Content -->
+    <section class="content-section">
+        <h2 style="text-align: center; color: #2c5530; font-size: 2.5rem; margin-bottom: 40px;">La Nostra Rivista</h2>
+        
+        <div style="text-align: center; margin-bottom: 40px;">
+            <p style="font-size: 1.2rem; max-width: 800px; margin: 0 auto;">
+                BIOARCHITETTURA® ABITARE LA TERRA è la prima rivista italiana dedicata all'architettura ecologica, 
+                offrendo ispirazione e informazioni per un abitare consapevole e sostenibile.
+            </p>
+        </div>
+
+        <div class="magazine-grid">
+            <div class="magazine-card">
+                <div class="magazine-cover">📖</div>
+                <div class="magazine-info">
+                    <h3>Tutte le Edizioni</h3>
+                    <p>Sfoglia l'archivio completo delle nostre pubblicazioni, dal primo numero ad oggi.</p>
+                    <a href="rivista-edizioni.html" class="btn">Esplora Archivio</a>
+                </div>
+            </div>
+
+            <div class="magazine-card">
+                <div class="magazine-cover">📄</div>
+                <div class="magazine-info">
+                    <h3>Articoli</h3>
+                    <p>Approfondimenti tecnici e teorici sulla bioarchitettura e costruzione sostenibile.</p>
+                    <a href="rivista-articoli.html" class="btn">Leggi Articoli</a>
+                </div>
+            </div>
+
+            <div class="magazine-card">
+                <div class="magazine-cover">📬</div>
+                <div class="magazine-info">
+                    <h3>Abbonamenti</h3>
+                    <p>Sottoscrivi un abbonamento per ricevere ogni numero direttamente a casa tua.</p>
+                    <a href="rivista-abbonamenti.html" class="btn">Abbonati Ora</a>
+                </div>
+            </div>
+        </div>
+
+        <div style="background: #f8f9fa; padding: 40px; border-radius: 8px; text-align: center; margin-top: 40px;">
+            <h3 style="color: #2c5530; margin-bottom: 20px;">Perché Leggere BIOARCHITETTURA®?</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px;">
+                <div>
+                    <h4 style="color: #2c5530;">Contenuti Originali</h4>
+                    <p>Articoli esclusivi scritti da esperti del settore</p>
+                </div>
+                <div>
+                    <h4 style="color: #2c5530;">Ricerca Avanzata</h4>
+                    <p>Approfondimenti su tecnologie e metodologie innovative</p>
+                </div>
+                <div>
+                    <h4 style="color: #2c5530;">Casi Studio</h4>
+                    <p>Esempi pratici di progetti di bioarchitettura realizzati</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navToggle = document.getElementById('nav-toggle');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            navToggle.addEventListener('click', function() {
+                navMenu.classList.toggle('active');
+            });
+            
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenu.classList.remove('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
