@@ -173,6 +173,160 @@
             text-align: center;
             font-size: 1.2em;
         }
+        
+        /* Carousel Styles */
+        .carousel-container {
+            position: relative;
+            max-width: 100%;
+            margin: 0;
+            overflow: hidden;
+            background-color: #f8f9fa;
+        }
+        
+        .carousel-wrapper {
+            position: relative;
+            width: 100%;
+            height: 400px;
+        }
+        
+        .carousel-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .carousel-slide.active {
+            opacity: 1;
+        }
+        
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 0;
+        }
+        
+        .carousel-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(44, 85, 48, 0.8));
+            color: white;
+            padding: 40px 20px 20px;
+            text-align: center;
+        }
+        
+        .carousel-content h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .carousel-content p {
+            margin: 0;
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(44, 85, 48, 0.7);
+            border: none;
+            color: white;
+            font-size: 2rem;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            z-index: 10;
+        }
+        
+        .carousel-nav:hover {
+            background: rgba(44, 85, 48, 0.9);
+        }
+        
+        .carousel-nav.prev {
+            left: 20px;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .carousel-nav.next {
+            right: 20px;
+            border-radius: 5px 0 0 5px;
+        }
+        
+        .carousel-indicators {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+        
+        .carousel-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid white;
+            background: transparent;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .carousel-dot.active {
+            background: white;
+        }
+        
+        @media (max-width: 768px) {
+            .carousel-wrapper {
+                height: 300px;
+            }
+            
+            .carousel-content {
+                padding: 20px 15px 15px;
+            }
+            
+            .carousel-content h3 {
+                font-size: 1.2rem;
+            }
+            
+            .carousel-content p {
+                font-size: 0.9rem;
+            }
+            
+            .carousel-nav {
+                font-size: 1.5rem;
+                padding: 10px 15px;
+            }
+            
+            .carousel-nav.prev {
+                left: 10px;
+            }
+            
+            .carousel-nav.next {
+                right: 10px;
+            }
+            
+            .carousel-indicators {
+                bottom: 15px;
+            }
+            
+            .carousel-dot {
+                width: 10px;
+                height: 10px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -205,6 +359,60 @@
             </button>
         </div>
     </nav>
+
+    <!-- Carousel Section -->
+    <div class="carousel-container">
+        <div class="carousel-wrapper">
+            <div class="carousel-slide active">
+                <img src="images/33n002.jpg" alt="Progetto Bioarchitettura 1">
+                <div class="carousel-content">
+                    <h3>Architettura Sostenibile</h3>
+                    <p>Progetti innovativi per un futuro ecologico e sostenibile</p>
+                </div>
+            </div>
+            <div class="carousel-slide">
+                <img src="images/33n003.jpg" alt="Progetto Bioarchitettura 2">
+                <div class="carousel-content">
+                    <h3>Costruzione Ecologica</h3>
+                    <p>Soluzioni per il costruire sano in armonia con l'ambiente</p>
+                </div>
+            </div>
+            <div class="carousel-slide">
+                <img src="images/33n004.jpg" alt="Progetto Bioarchitettura 3">
+                <div class="carousel-content">
+                    <h3>Design Bioclimatico</h3>
+                    <p>Progetti che rispettano i principi della bioarchitettura</p>
+                </div>
+            </div>
+            <div class="carousel-slide">
+                <img src="images/37p02f01.jpg" alt="Progetto Bioarchitettura 4">
+                <div class="carousel-content">
+                    <h3>Habitat Naturale</h3>
+                    <p>Spazi abitativi in perfetta sintonia con la natura</p>
+                </div>
+            </div>
+            <div class="carousel-slide">
+                <img src="images/48-49_n001.jpg" alt="Progetto Bioarchitettura 5">
+                <div class="carousel-content">
+                    <h3>Innovazione Verde</h3>
+                    <p>Tecnologie avanzate per l'edilizia sostenibile</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Navigation arrows -->
+        <button class="carousel-nav prev" onclick="changeSlide(-1)">‹</button>
+        <button class="carousel-nav next" onclick="changeSlide(1)">›</button>
+        
+        <!-- Indicators -->
+        <div class="carousel-indicators">
+            <div class="carousel-dot active" onclick="currentSlide(1)"></div>
+            <div class="carousel-dot" onclick="currentSlide(2)"></div>
+            <div class="carousel-dot" onclick="currentSlide(3)"></div>
+            <div class="carousel-dot" onclick="currentSlide(4)"></div>
+            <div class="carousel-dot" onclick="currentSlide(5)"></div>
+        </div>
+    </div>
 
     <div class="hero-section">
         <h1>La Fondazione Italiana per la Bioarchitettura® e l'Antropizzazione Sostenibile dell'Ambiente, per la sua storia, è l'Ente italiano di riferimento nell'ambito del costruire sano ed ecologico.</h1>
@@ -292,6 +500,79 @@
                     }
                 });
             });
+            
+            // Carousel functionality
+            let currentSlideIndex = 0;
+            const slides = document.querySelectorAll('.carousel-slide');
+            const dots = document.querySelectorAll('.carousel-dot');
+            const totalSlides = slides.length;
+            
+            function showSlide(index) {
+                // Hide all slides
+                slides.forEach(slide => slide.classList.remove('active'));
+                dots.forEach(dot => dot.classList.remove('active'));
+                
+                // Show current slide
+                slides[index].classList.add('active');
+                dots[index].classList.add('active');
+            }
+            
+            window.changeSlide = function(direction) {
+                currentSlideIndex += direction;
+                
+                if (currentSlideIndex >= totalSlides) {
+                    currentSlideIndex = 0;
+                } else if (currentSlideIndex < 0) {
+                    currentSlideIndex = totalSlides - 1;
+                }
+                
+                showSlide(currentSlideIndex);
+            }
+            
+            window.currentSlide = function(index) {
+                currentSlideIndex = index - 1;
+                showSlide(currentSlideIndex);
+            }
+            
+            // Auto-advance carousel every 5 seconds
+            let autoAdvanceInterval = setInterval(() => {
+                changeSlide(1);
+            }, 5000);
+            
+            // Pause auto-advance on hover
+            const carouselContainer = document.querySelector('.carousel-container');
+            
+            carouselContainer.addEventListener('mouseenter', () => {
+                clearInterval(autoAdvanceInterval);
+            });
+            
+            carouselContainer.addEventListener('mouseleave', () => {
+                autoAdvanceInterval = setInterval(() => {
+                    changeSlide(1);
+                }, 5000);
+            });
+            
+            // Touch/swipe support for mobile
+            let touchStartX = 0;
+            let touchEndX = 0;
+            
+            carouselContainer.addEventListener('touchstart', e => {
+                touchStartX = e.changedTouches[0].screenX;
+            });
+            
+            carouselContainer.addEventListener('touchend', e => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            });
+            
+            function handleSwipe() {
+                if (touchEndX < touchStartX - 50) {
+                    changeSlide(1); // Swipe left - next slide
+                }
+                if (touchEndX > touchStartX + 50) {
+                    changeSlide(-1); // Swipe right - previous slide
+                }
+            }
         });
     </script>
 </body>
