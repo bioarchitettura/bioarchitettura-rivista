@@ -1,0 +1,45 @@
+<!-- Tidio Chat Integration -->
+<!-- 
+  Configuration: 
+  - Add your Tidio public key in _config.yml as tidio_public_key: "your-public-key-here"
+  - The chatbot will only load if the key is provided
+  - Future integrations with Dialogflow/OpenAI GPT can be added here
+-->
+
+{% if site.tidio_public_key %}
+<script src="//code.tidio.co/{{ site.tidio_public_key }}.js" async></script>
+
+<!-- Optional: Custom Tidio styling and configuration -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Tidio customization can be added here
+    // Example: changing chatbot position, colors, etc.
+    
+    // Future enhancement placeholder: Dialogflow/OpenAI GPT integration
+    // This section can be expanded to integrate with advanced AI chatbots
+    console.log('Tidio chatbot loaded successfully');
+});
+</script>
+{% else %}
+<!-- Tidio Public Key not configured. Add tidio_public_key to _config.yml to enable chat -->
+<!-- Development/fallback placeholder -->
+<div id="tidio-fallback" style="display: none;">
+    <div style="position: fixed; bottom: 20px; right: 20px; background: #2c5530; color: white; padding: 10px 15px; border-radius: 25px; font-size: 14px; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.15);" onclick="alert('Chat non disponibile. Configurare tidio_public_key in _config.yml')">
+        💬 Chat
+    </div>
+</div>
+
+<script>
+// Show fallback chat button only in development/when Tidio is not configured
+if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+    document.getElementById('tidio-fallback').style.display = 'block';
+}
+</script>
+{% endif %}
+
+<!-- 
+  Future Integration Notes:
+  - For Dialogflow integration, add Dialogflow Web Demo script here
+  - For OpenAI GPT integration, implement custom chat interface with API calls
+  - Both can coexist with Tidio or replace it based on configuration
+-->

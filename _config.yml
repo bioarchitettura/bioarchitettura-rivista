@@ -58,3 +58,17 @@ main_sections:
   - about
   - services
   - contact
+
+# Advanced Features Configuration
+# Tidio Chat Integration
+# tidio_public_key: "your-tidio-public-key-here"  # Uncomment and add your Tidio public key
+
+# OpenAI Summarization
+# openai_api_key: "your-openai-api-key-here"      # Uncomment and add your OpenAI API key (backend only!)
+# auto_generate_summaries: false                  # Set to true to auto-generate summaries on page load
+# summarization_api_endpoint: "/api/summarize"    # Custom API endpoint for summarization
+# max_summary_length: 200                         # Maximum tokens for OpenAI summaries
+
+# Article Recommender Settings
+max_related_articles: 3                          # Maximum number of related articles to show
+recommendation_fallback: true                    # Show recent articles if no related articles found

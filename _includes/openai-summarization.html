@@ -1,0 +1,143 @@
+<!-- OpenAI Summarization API Integration -->
+<!-- This file is included in the default layout to provide summarization functionality -->
+
+<!-- Load summarization scripts only on post pages -->
+{% if page.layout == 'post' %}
+<script>
+// Global summarization configuration
+window.SummarizationConfig = {
+    openaiEnabled: {% if site.openai_api_key %}true{% else %}false{% endif %},
+    autoGenerate: {% if site.auto_generate_summaries %}true{% else %}false{% endif %},
+    apiEndpoint: '{{ site.summarization_api_endpoint | default: "/api/summarize" }}',
+    fallbackMethod: 'javascript',
+    maxSummaryLength: {{ site.max_summary_length | default: 200 }}
+};
+
+console.log('Summarization system initialized:', window.SummarizationConfig);
+</script>
+{% endif %}
+
+<!-- 
+  Backend API Implementation Notes:
+  
+  For secure OpenAI integration, create a backend endpoint at {{ site.summarization_api_endpoint | default: "/api/summarize" }}
+  
+  Example implementations:
+  
+  1. Node.js/Express + OpenAI:
+  
+  const express = require('express');
+  const { OpenAI } = require('openai');
+  
+  const app = express();
+  const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+  
+  app.post('/api/summarize', async (req, res) => {
+    try {
+      const { content, language = 'Italian' } = req.body;
+      
+      const response = await openai.chat.completions.create({
+        model: 'gpt-3.5-turbo',
+        messages: [{
+          role: 'user',
+          content: `Please provide a concise summary of this ${language} article in ${language}. Focus on the main points and conclusions: ${content}`
+        }],
+        max_tokens: 200,
+        temperature: 0.5
+      });
+      
+      res.json({ 
+        success: true, 
+        summary: response.choices[0].message.content.trim(),
+        method: 'OpenAI GPT-3.5'
+      });
+    } catch (error) {
+      console.error('Summarization error:', error);
+      res.status(500).json({ 
+        success: false, 
+        error: 'Failed to generate summary' 
+      });
+    }
+  });
+  
+  2. Python/Flask + OpenAI:
+  
+  from flask import Flask, request, jsonify
+  import openai
+  
+  app = Flask(__name__)
+  openai.api_key = os.getenv('OPENAI_API_KEY')
+  
+  @app.route('/api/summarize', methods=['POST'])
+  def summarize():
+      try:
+          data = request.json
+          content = data.get('content', '')
+          language = data.get('language', 'Italian')
+          
+          response = openai.ChatCompletion.create(
+              model="gpt-3.5-turbo",
+              messages=[{
+                  "role": "user",
+                  "content": f"Summarize this {language} article in {language}: {content}"
+              }],
+              max_tokens=200
+          )
+          
+          return jsonify({
+              'success': True,
+              'summary': response.choices[0].message.content.strip(),
+              'method': 'OpenAI GPT-3.5'
+          })
+      except Exception as e:
+          return jsonify({
+              'success': False,
+              'error': str(e)
+          }), 500
+  
+  3. Netlify Functions:
+  
+  // netlify/functions/summarize.js
+  const { Configuration, OpenAIApi } = require('openai');
+  
+  exports.handler = async (event, context) => {
+    if (event.httpMethod !== 'POST') {
+      return { statusCode: 405, body: 'Method Not Allowed' };
+    }
+    
+    try {
+      const { content, language = 'Italian' } = JSON.parse(event.body);
+      
+      const configuration = new Configuration({
+        apiKey: process.env.OPENAI_API_KEY,
+      });
+      const openai = new OpenAIApi(configuration);
+      
+      const response = await openai.createChatCompletion({
+        model: 'gpt-3.5-turbo',
+        messages: [{
+          role: 'user',
+          content: `Summarize this ${language} article in ${language}: ${content}`
+        }],
+        max_tokens: 200,
+      });
+      
+      return {
+        statusCode: 200,
+        body: JSON.stringify({
+          success: true,
+          summary: response.data.choices[0].message.content.trim(),
+          method: 'OpenAI GPT-3.5 (Netlify Functions)'
+        }),
+      };
+    } catch (error) {
+      return {
+        statusCode: 500,
+        body: JSON.stringify({
+          success: false,
+          error: 'Failed to generate summary'
+        }),
+      };
+    }
+  };
+-->

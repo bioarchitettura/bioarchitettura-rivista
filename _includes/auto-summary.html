@@ -1,0 +1,398 @@
+<!-- Auto-Summary Section -->
+<!-- 
+  OpenAI-powered article summarization with JavaScript fallback
+  Configuration: Add openai_api_key in _config.yml to enable OpenAI summarization
+-->
+
+{% if page.layout == 'post' %}
+<div class="auto-summary-section">
+    <div class="summary-container">
+        <h3>📝 Riassunto Articolo</h3>
+        <div id="summary-content" class="summary-content">
+            <div class="summary-placeholder">
+                <button id="generate-summary-btn" class="generate-summary-btn" onclick="generateSummary()">
+                    Genera Riassunto
+                </button>
+                <div id="summary-loading" class="summary-loading" style="display: none;">
+                    <div class="loading-spinner"></div>
+                    <span>Generazione riassunto in corso...</span>
+                </div>
+                <div id="summary-error" class="summary-error" style="display: none;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.auto-summary-section {
+    margin: 30px 0;
+    padding: 25px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e8f5e8 100%);
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+}
+
+.summary-container h3 {
+    color: #2c5530;
+    font-size: 1.3em;
+    margin: 0 0 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.summary-content {
+    min-height: 60px;
+}
+
+.summary-placeholder {
+    text-align: center;
+}
+
+.generate-summary-btn {
+    background: linear-gradient(135deg, #2c5530 0%, #4a7c59 100%);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    font-weight: 500;
+}
+
+.generate-summary-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(44, 85, 48, 0.3);
+}
+
+.generate-summary-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.summary-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: #666;
+}
+
+.loading-spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #2c5530;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.summary-text {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 4px solid #2c5530;
+    line-height: 1.6;
+    font-size: 1em;
+    color: #444;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.summary-method {
+    font-size: 0.85em;
+    color: #666;
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+}
+
+.summary-error {
+    background: #fff5f5;
+    color: #c53030;
+    padding: 15px;
+    border-radius: 6px;
+    border-left: 4px solid #c53030;
+}
+
+.regenerate-btn {
+    background: #4a7c59;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    cursor: pointer;
+    margin-top: 10px;
+}
+</style>
+
+<script>
+// OpenAI and Fallback Summarization Functions
+let summaryGenerated = false;
+
+// Configuration - check if OpenAI API key is available
+const OPENAI_ENABLED = {% if site.openai_api_key %}true{% else %}false{% endif %};
+
+async function generateSummary() {
+    if (summaryGenerated) return;
+    
+    const btn = document.getElementById('generate-summary-btn');
+    const loading = document.getElementById('summary-loading');
+    const errorDiv = document.getElementById('summary-error');
+    const summaryContainer = document.getElementById('summary-content');
+    
+    // Reset states
+    btn.style.display = 'none';
+    loading.style.display = 'flex';
+    errorDiv.style.display = 'none';
+    
+    try {
+        let summaryText, method;
+        
+        if (OPENAI_ENABLED) {
+            // Try OpenAI first
+            const result = await generateOpenAISummary();
+            if (result.success) {
+                summaryText = result.summary;
+                method = 'Generato con OpenAI GPT';
+            } else {
+                throw new Error(result.error);
+            }
+        } else {
+            // Use fallback JavaScript summarizer
+            const result = generateJSSummary();
+            summaryText = result.summary;
+            method = result.method;
+        }
+        
+        // Display summary
+        displaySummary(summaryText, method);
+        summaryGenerated = true;
+        
+    } catch (error) {
+        console.error('Summary generation error:', error);
+        
+        // Try fallback if OpenAI failed
+        if (OPENAI_ENABLED) {
+            try {
+                const fallbackResult = generateJSSummary();
+                displaySummary(fallbackResult.summary, fallbackResult.method + ' (fallback dopo errore OpenAI)');
+                summaryGenerated = true;
+            } catch (fallbackError) {
+                showError('Impossibile generare il riassunto. Riprova più tardi.');
+            }
+        } else {
+            showError('Impossibile generare il riassunto: ' + error.message);
+        }
+    }
+    
+    loading.style.display = 'none';
+}
+
+async function generateOpenAISummary() {
+    // Extract article content
+    const content = extractArticleContent();
+    
+    try {
+        // Note: In a real implementation, this would go through a backend API
+        // to avoid exposing the OpenAI API key in frontend code
+        const response = await fetch('/api/summarize', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                content: content,
+                language: 'Italian'
+            })
+        });
+        
+        if (!response.ok) {
+            throw new Error('API request failed');
+        }
+        
+        const data = await response.json();
+        return { success: true, summary: data.summary };
+        
+    } catch (error) {
+        // For demo purposes, return a mock response if API is not available
+        if (window.location.hostname === 'localhost') {
+            return {
+                success: true,
+                summary: "Questo è un riassunto di esempio generato da OpenAI. In un ambiente di produzione, questo contenuto verrebbe generato dall'API di OpenAI basandosi sul contenuto dell'articolo. Il sistema può identificare i punti chiave, le conclusioni principali e fornire una sintesi concisa e informativa."
+            };
+        }
+        
+        return { success: false, error: error.message };
+    }
+}
+
+function generateJSSummary() {
+    const content = extractArticleContent();
+    
+    if (!content || content.length < 100) {
+        return {
+            summary: "Contenuto troppo breve per generare un riassunto significativo.",
+            method: "Elaborazione locale JavaScript"
+        };
+    }
+    
+    // Simple extractive summarization
+    const sentences = content
+        .split(/[.!?]+/)
+        .map(s => s.trim())
+        .filter(s => s.length > 10);
+    
+    if (sentences.length <= 3) {
+        return {
+            summary: content.substring(0, 300) + (content.length > 300 ? '...' : ''),
+            method: "Estratto automatico (JavaScript locale)"
+        };
+    }
+    
+    // Score sentences based on word frequency and position
+    const words = content.toLowerCase().match(/\b\w+\b/g) || [];
+    const wordFreq = {};
+    words.forEach(word => {
+        if (word.length > 3) {
+            wordFreq[word] = (wordFreq[word] || 0) + 1;
+        }
+    });
+    
+    // Score sentences
+    const sentenceScores = sentences.map((sentence, index) => {
+        const words = sentence.toLowerCase().match(/\b\w+\b/g) || [];
+        let score = 0;
+        
+        words.forEach(word => {
+            if (wordFreq[word]) {
+                score += wordFreq[word];
+            }
+        });
+        
+        // Boost score for sentences at the beginning
+        if (index < sentences.length * 0.3) {
+            score *= 1.5;
+        }
+        
+        return { sentence, score, index };
+    });
+    
+    // Select top sentences
+    const topSentences = sentenceScores
+        .sort((a, b) => b.score - a.score)
+        .slice(0, Math.min(3, Math.ceil(sentences.length * 0.3)))
+        .sort((a, b) => a.index - b.index)
+        .map(item => item.sentence);
+    
+    return {
+        summary: topSentences.join('. ') + '.',
+        method: "Riassunto estrattivo automatico (JavaScript locale)"
+    };
+}
+
+function extractArticleContent() {
+    // Try to extract main content from the article
+    const postBody = document.querySelector('.post-body');
+    if (postBody) {
+        return postBody.textContent || postBody.innerText || '';
+    }
+    
+    // Fallback to any article content
+    const article = document.querySelector('article');
+    if (article) {
+        return article.textContent || article.innerText || '';
+    }
+    
+    return '';
+}
+
+function displaySummary(summaryText, method) {
+    const summaryContainer = document.getElementById('summary-content');
+    summaryContainer.innerHTML = `
+        <div class="summary-text">
+            ${summaryText}
+        </div>
+        <div class="summary-method">
+            ${method}
+            <button class="regenerate-btn" onclick="regenerateSummary()">Rigenera</button>
+        </div>
+    `;
+}
+
+function regenerateSummary() {
+    summaryGenerated = false;
+    const summaryContainer = document.getElementById('summary-content');
+    summaryContainer.innerHTML = `
+        <div class="summary-placeholder">
+            <button id="generate-summary-btn" class="generate-summary-btn" onclick="generateSummary()">
+                Genera Nuovo Riassunto
+            </button>
+            <div id="summary-loading" class="summary-loading" style="display: none;">
+                <div class="loading-spinner"></div>
+                <span>Generazione riassunto in corso...</span>
+            </div>
+            <div id="summary-error" class="summary-error" style="display: none;"></div>
+        </div>
+    `;
+}
+
+function showError(message) {
+    const errorDiv = document.getElementById('summary-error');
+    const btn = document.getElementById('generate-summary-btn');
+    
+    errorDiv.textContent = message;
+    errorDiv.style.display = 'block';
+    btn.style.display = 'inline-block';
+    btn.textContent = 'Riprova';
+}
+
+// Auto-generate summary on page load if enabled in config
+document.addEventListener('DOMContentLoaded', function() {
+    // Check if auto-generation is enabled
+    const autoGenerate = {% if site.auto_generate_summaries %}true{% else %}false{% endif %};
+    
+    if (autoGenerate) {
+        setTimeout(generateSummary, 1000);
+    }
+});
+</script>
+{% endif %}
+
+<!-- 
+  Configuration Instructions:
+  
+  Add to _config.yml:
+  
+  # OpenAI Configuration
+  openai_api_key: "your-openai-api-key-here"  # Optional: enables OpenAI summarization
+  auto_generate_summaries: false              # Optional: auto-generate summaries on page load
+  
+  # For production use, you'll need to create a backend API endpoint at /api/summarize
+  # that handles OpenAI API calls securely without exposing the API key to the frontend
+  
+  Example backend endpoint (Node.js/Express):
+  
+  app.post('/api/summarize', async (req, res) => {
+    const { content, language } = req.body;
+    
+    const response = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: [{
+        role: "user",
+        content: `Summarize this ${language} article in ${language}: ${content}`
+      }],
+      max_tokens: 200
+    });
+    
+    res.json({ summary: response.choices[0].message.content });
+  });
+-->

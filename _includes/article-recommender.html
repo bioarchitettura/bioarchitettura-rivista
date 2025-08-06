@@ -1,0 +1,185 @@
+<!-- Article Recommender Engine -->
+<!-- 
+  Basic recommendation system using tag and category matching
+  Future enhancement: integrate with Google Recommendations AI
+-->
+
+{% if page.layout == 'post' %}
+<section class="article-recommender">
+    <h3>Articoli Correlati</h3>
+    
+    {% assign related_posts = '' | split: '' %}
+    {% assign max_related = 3 %}
+    
+    <!-- Find related posts based on tags and categories -->
+    {% for post in site.posts limit:20 %}
+        {% unless post.url == page.url %}
+            {% assign common_tags = 0 %}
+            {% assign common_categories = 0 %}
+            
+            <!-- Count matching tags -->
+            {% for tag in page.tags %}
+                {% if post.tags contains tag %}
+                    {% assign common_tags = common_tags | plus: 1 %}
+                {% endif %}
+            {% endfor %}
+            
+            <!-- Count matching categories -->
+            {% for category in page.categories %}
+                {% if post.categories contains category %}
+                    {% assign common_categories = common_categories | plus: 2 %}
+                {% endif %}
+            {% endfor %}
+            
+            {% assign relevance_score = common_tags | plus: common_categories %}
+            
+            <!-- Add post if it has any relevance -->
+            {% if relevance_score > 0 %}
+                {% assign related_posts = related_posts | push: post %}
+            {% endif %}
+        {% endunless %}
+    {% endfor %}
+    
+    {% if related_posts.size > 0 %}
+        <div class="related-articles">
+            {% for post in related_posts limit: max_related %}
+                <article class="related-article">
+                    <h4><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h4>
+                    <div class="related-meta">
+                        <time>{{ post.date | date: "%d %B %Y" }}</time>
+                        {% if post.categories %}
+                            <span class="categories">
+                                {% for category in post.categories limit: 2 %}
+                                    <span class="category">{{ category }}</span>
+                                {% endfor %}
+                            </span>
+                        {% endif %}
+                    </div>
+                    {% if post.excerpt %}
+                        <p class="related-excerpt">{{ post.excerpt | strip_html | truncate: 150 }}</p>
+                    {% endif %}
+                </article>
+            {% endfor %}
+        </div>
+    {% else %}
+        <!-- Fallback: show recent posts if no related content found -->
+        <div class="related-articles">
+            <p class="no-related">Nessun articolo correlato trovato. Ecco i nostri articoli più recenti:</p>
+            {% for post in site.posts limit: max_related %}
+                {% unless post.url == page.url %}
+                    <article class="related-article">
+                        <h4><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h4>
+                        <div class="related-meta">
+                            <time>{{ post.date | date: "%d %B %Y" }}</time>
+                        </div>
+                        {% if post.excerpt %}
+                            <p class="related-excerpt">{{ post.excerpt | strip_html | truncate: 150 }}</p>
+                        {% endif %}
+                    </article>
+                {% endunless %}
+            {% endfor %}
+        </div>
+    {% endif %}
+</section>
+
+<style>
+.article-recommender {
+    margin-top: 60px;
+    padding: 30px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border-top: 4px solid #2c5530;
+}
+
+.article-recommender h3 {
+    color: #2c5530;
+    font-size: 1.5em;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.related-articles {
+    display: grid;
+    gap: 20px;
+}
+
+.related-article {
+    padding: 20px;
+    background-color: white;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.related-article:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.related-article h4 {
+    margin: 0 0 10px 0;
+    font-size: 1.2em;
+}
+
+.related-article h4 a {
+    color: #2c5530;
+    text-decoration: none;
+}
+
+.related-article h4 a:hover {
+    color: #4a7c59;
+    text-decoration: underline;
+}
+
+.related-meta {
+    font-size: 0.9em;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.related-meta .category {
+    background-color: #e8f5e8;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 0.8em;
+    margin-left: 10px;
+}
+
+.related-excerpt {
+    font-size: 0.95em;
+    line-height: 1.5;
+    margin: 10px 0 0 0;
+    color: #555;
+}
+
+.no-related {
+    font-style: italic;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+@media (min-width: 768px) {
+    .related-articles {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+}
+</style>
+
+<!-- Future Enhancement Placeholder -->
+<!-- 
+  Google Recommendations AI Integration:
+  - Replace the Liquid logic above with API calls to Google Recommendations AI
+  - Implement JavaScript to fetch personalized recommendations
+  - Add user behavior tracking for better recommendations
+  - Example integration point:
+  
+  <script>
+    // TODO: Integrate with Google Recommendations AI
+    // async function loadGoogleRecommendations() {
+    //   const response = await fetch('/api/recommendations?articleId={{ page.id }}');
+    //   const recommendations = await response.json();
+    //   updateRecommendationUI(recommendations);
+    // }
+  </script>
+-->
+{% endif %}

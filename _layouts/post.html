@@ -1,0 +1,133 @@
+---
+layout: default
+---
+
+<article class="post-content">
+    <header class="post-header">
+        <h1>{{ page.title }}</h1>
+        <div class="post-meta">
+            <time datetime="{{ page.date | date_to_xmlschema }}">
+                {{ page.date | date: "%d %B %Y" }}
+            </time>
+            {% if page.author %}
+                <span class="author">by {{ page.author }}</span>
+            {% endif %}
+            {% if page.categories %}
+                <div class="categories">
+                    Categorie: 
+                    {% for category in page.categories %}
+                        <span class="category">{{ category }}</span>{% unless forloop.last %}, {% endunless %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% if page.tags %}
+                <div class="tags">
+                    Tags: 
+                    {% for tag in page.tags %}
+                        <span class="tag">#{{ tag }}</span>{% unless forloop.last %}, {% endunless %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </header>
+    
+    {% if page.excerpt %}
+    <div class="post-excerpt">
+        {{ page.excerpt }}
+    </div>
+    {% endif %}
+    
+    <!-- Auto-Summary Section -->
+    {% include auto-summary.html %}
+    
+    <div class="post-body">
+        {{ content }}
+    </div>
+    
+    <!-- Article Recommender Section -->
+    {% include article-recommender.html %}
+</article>
+
+<style>
+.post-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.post-header h1 {
+    color: #2c5530;
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.post-meta {
+    color: #666;
+    font-size: 0.9em;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.post-meta time {
+    font-weight: bold;
+}
+
+.post-meta .author {
+    margin-left: 10px;
+}
+
+.categories, .tags {
+    margin-top: 10px;
+}
+
+.category, .tag {
+    background-color: #e8f5e8;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 0.8em;
+}
+
+.tag {
+    color: #2c5530;
+    font-weight: bold;
+}
+
+.post-excerpt {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-left: 4px solid #2c5530;
+    margin-bottom: 30px;
+    font-style: italic;
+}
+
+.post-body {
+    line-height: 1.8;
+}
+
+.post-body h2 {
+    color: #2c5530;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+.post-body h3 {
+    color: #4a7c59;
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+.post-body p {
+    margin-bottom: 20px;
+}
+
+.post-body ul, .post-body ol {
+    margin-bottom: 20px;
+    padding-left: 30px;
+}
+
+.post-body li {
+    margin-bottom: 5px;
+}
+</style>

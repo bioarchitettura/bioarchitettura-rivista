@@ -1,0 +1,28 @@
+<nav class="navbar">
+    <div class="nav-container">
+        <a href="{{ site.baseurl }}/" class="nav-logo">Bioarchitettura</a>
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="{{ site.baseurl }}/" class="nav-link {% if page.url == '/' %}active{% endif %}">Home</a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ site.baseurl }}/public/chi-siamo.html" class="nav-link">Chi Siamo</a>
+            </li>
+            <li class="nav-item">
+                <a href="#servizi" class="nav-link">Servizi</a>
+            </li>
+            <li class="nav-item">
+                <a href="#rivista" class="nav-link">Rivista</a>
+            </li>
+            <li class="nav-item">
+                <a href="#master" class="nav-link">Master</a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ site.baseurl }}/public/contatti.html" class="nav-link">Contatti</a>
+            </li>
+        </ul>
+        <button class="nav-toggle" id="nav-toggle">
+            ☰
+        </button>
+    </div>
+</nav>
