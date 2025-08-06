@@ -1,6 +1,11 @@
 # web
 @bioarchitettura web-project - 2025
 
+## 📋 Documentazione Repository
+
+Per informazioni complete sulle impostazioni GitHub, Actions e Copilot di questo repository, consulta:
+**[📖 Documentazione Impostazioni Repository](.github/SETTINGS.md)**
+
 ## Gestione Contenuti con Netlify CMS
 
 Questo sito è dotato di un sistema di gestione contenuti (CMS) basato su Netlify CMS che permette di modificare facilmente pagine e articoli tramite un'interfaccia web user-friendly.
