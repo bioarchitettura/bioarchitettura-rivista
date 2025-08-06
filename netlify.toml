@@ -1,0 +1,30 @@
+[build]
+  publish = "_site"
+  command = "bundle exec jekyll build"
+
+[build.environment]
+  JEKYLL_ENV = "production"
+
+[context.production.environment]
+  JEKYLL_ENV = "production"
+  
+[context.deploy-preview.environment]
+  JEKYLL_ENV = "production"
+
+[context.branch-deploy.environment]
+  JEKYLL_ENV = "production"
+
+# Headers for security
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "same-origin"
+
+# Redirect rules can be added here if needed
+# [[redirects]]
+#   from = "/old-path"
+#   to = "/new-path"
+#   status = 301
