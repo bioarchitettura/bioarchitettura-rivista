@@ -28,6 +28,7 @@ exclude:
   - Gemfile
   - Gemfile.lock
   - vendor/
+  - netlify.toml
 
 # Collections and defaults
 defaults:
