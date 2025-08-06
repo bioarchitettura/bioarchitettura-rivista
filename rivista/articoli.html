@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Articoli - BIOARCHITETTURA® Abitare la Terra</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <a href="index.html" class="nav-logo">
+                    <span class="logo-text">BIOARCHITETTURA®</span>
+                    <span class="logo-subtitle">ABITARE LA TERRA</span>
+                </a>
+                
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="articoli.html" class="nav-link active">Articoli</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="news.html" class="nav-link">News</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#archivio" class="nav-link">Archivio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#abbonamenti" class="nav-link">Abbonamenti</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../public/contatti.html" class="nav-link">Contatti</a>
+                    </li>
+                </ul>
+                
+                <button class="nav-toggle" id="nav-toggle">
+                    <span class="hamburger"></span>
+                    <span class="hamburger"></span>
+                    <span class="hamburger"></span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="grid-container">
+            <div class="page-header-content grid-col-12">
+                <h1 class="page-title">Articoli</h1>
+                <p class="page-subtitle">Approfondimenti, progetti e ricerche nel campo dell'architettura sostenibile</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filters Section -->
+    <section class="filters-section">
+        <div class="grid-container">
+            <div class="filters-content grid-col-12">
+                <div class="filter-tabs">
+                    <button class="filter-tab active" data-category="all">Tutti gli Articoli</button>
+                    <button class="filter-tab" data-category="progettazione">Progettazione</button>
+                    <button class="filter-tab" data-category="materiali">Materiali</button>
+                    <button class="filter-tab" data-category="tecnologia">Tecnologia</button>
+                    <button class="filter-tab" data-category="ricerca">Ricerca</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Articles Grid -->
+    <section class="articles-grid-section">
+        <div class="grid-container">
+            <!-- Featured Article -->
+            <article class="featured-article-large grid-col-12" data-category="progettazione">
+                <div class="article-image">
+                    <img src="images/article-featured-large.jpg" alt="Architettura bioclimatica">
+                    <div class="article-category">Progettazione</div>
+                </div>
+                <div class="article-content">
+                    <h2 class="article-title">Architettura Bioclimatica: Progettare con il Clima</h2>
+                    <p class="article-excerpt">Un'analisi approfondita dei principi della progettazione bioclimatica e delle sue applicazioni nell'architettura contemporanea. Scopri come integrare i fattori climatici nel processo progettuale per creare edifici energeticamente efficienti e confortevoli.</p>
+                    <div class="article-meta">
+                        <span class="article-date">20 Gennaio 2025</span>
+                        <span class="article-author">Prof. Giovanni Verdi</span>
+                        <span class="article-read-time">12 min di lettura</span>
+                    </div>
+                    <a href="#" class="btn btn-primary">Leggi l'Articolo</a>
+                </div>
+            </article>
+
+            <!-- Articles Grid -->
+            <div class="articles-grid grid-col-12">
+                <article class="article-card grid-col-4 grid-col-md-6 grid-col-sm-12" data-category="materiali">
+                    <div class="article-image">
+                        <img src="images/article-hemp.jpg" alt="Canapa in edilizia">
+                        <div class="article-category">Materiali</div>
+                    </div>
+                    <div class="article-content">
+                        <h3 class="article-title">La Canapa nell'Edilizia Sostenibile</h3>
+                        <p class="article-excerpt">Le proprietà isolanti e la sostenibilità della canapa come materiale da costruzione innovativo.</p>
+                        <div class="article-meta">
+                            <span class="article-date">18 Gennaio 2025</span>
+                            <span class="article-author">Dr. Laura Bianchi</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="article-card grid-col-4 grid-col-md-6 grid-col-sm-12" data-category="tecnologia">
+                    <div class="article-image">
+                        <img src="images/article-passive-house.jpg" alt="Casa passiva">
+                        <div class="article-category">Tecnologia</div>
+                    </div>
+                    <div class="article-content">
+                        <h3 class="article-title">Standard Passivhaus: Il Futuro dell'Efficienza Energetica</h3>
+                        <p class="article-excerpt">Analisi dettagliata dello standard Passivhaus e delle sue applicazioni in Italia.</p>
+                        <div class="article-meta">
+                            <span class="article-date">15 Gennaio 2025</span>
+                            <span class="article-author">Ing. Marco Neri</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="article-card grid-col-4 grid-col-md-6 grid-col-sm-12" data-category="progettazione">
+                    <div class="article-image">
+                        <img src="images/article-green-roof.jpg" alt="Tetti verdi">
+                        <div class="article-category">Progettazione</div>
+                    </div>
+                    <div class="article-content">
+                        <h3 class="article-title">Tetti Verdi: Natura e Architettura in Simbiosi</h3>
+                        <p class="article-excerpt">Progettazione e benefici dei tetti verdi nell'architettura urbana contemporanea.</p>
+                        <div class="article-meta">
+                            <span class="article-date">12 Gennaio 2025</span>
+                            <span class="article-author">Arch. Sofia Rossi</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="article-card grid-col-4 grid-col-md-6 grid-col-sm-12" data-category="ricerca">
+                    <div class="article-image">
+                        <img src="images/article-research.jpg" alt="Ricerca bioarchitettura">
+                        <div class="article-category">Ricerca</div>
+                    </div>
+                    <div class="article-content">
+                        <h3 class="article-title">Biomateriali Innovativi: La Ricerca del Futuro</h3>
+                        <p class="article-excerpt">Le ultime scoperte nel campo dei biomateriali per l'edilizia sostenibile.</p>
+                        <div class="article-meta">
+                            <span class="article-date">10 Gennaio 2025</span>
+                            <span class="article-author">Prof. Alessandro Blu</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="article-card grid-col-4 grid-col-md-6 grid-col-sm-12" data-category="tecnologia">
+                    <div class="article-image">
+                        <img src="images/article-smart-building.jpg" alt="Edifici intelligenti">
+                        <div class="article-category">Tecnologia</div>
+                    </div>
+                    <div class="article-content">
+                        <h3 class="article-title">Smart Building e Sostenibilità Ambientale</h3>
+                        <p class="article-excerpt">L'integrazione delle tecnologie smart negli edifici sostenibili.</p>
+                        <div class="article-meta">
+                            <span class="article-date">8 Gennaio 2025</span>
+                            <span class="article-author">Ing. Chiara Verde</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="article-card grid-col-4 grid-col-md-6 grid-col-sm-12" data-category="materiali">
+                    <div class="article-image">
+                        <img src="images/article-wood.jpg" alt="Costruzioni in legno">
+                        <div class="article-category">Materiali</div>
+                    </div>
+                    <div class="article-content">
+                        <h3 class="article-title">Costruzioni in Legno: Tradizione e Innovazione</h3>
+                        <p class="article-excerpt">Il legno come materiale del futuro per l'architettura sostenibile.</p>
+                        <div class="article-meta">
+                            <span class="article-date">5 Gennaio 2025</span>
+                            <span class="article-author">Arch. Luca Marroni</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="article-card grid-col-4 grid-col-md-6 grid-col-sm-12" data-category="progettazione">
+                    <div class="article-image">
+                        <img src="images/article-solar.jpg" alt="Energia solare">
+                        <div class="article-category">Progettazione</div>
+                    </div>
+                    <div class="article-content">
+                        <h3 class="article-title">Integrazione dell'Energia Solare in Architettura</h3>
+                        <p class="article-excerpt">Strategie progettuali per l'ottimale integrazione di sistemi solari.</p>
+                        <div class="article-meta">
+                            <span class="article-date">3 Gennaio 2025</span>
+                            <span class="article-author">Ing. Francesca Gialli</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="article-card grid-col-4 grid-col-md-6 grid-col-sm-12" data-category="ricerca">
+                    <div class="article-image">
+                        <img src="images/article-lifecycle.jpg" alt="Ciclo di vita edifici">
+                        <div class="article-category">Ricerca</div>
+                    </div>
+                    <div class="article-content">
+                        <h3 class="article-title">Analisi del Ciclo di Vita degli Edifici</h3>
+                        <p class="article-excerpt">Metodologie LCA applicate all'architettura sostenibile.</p>
+                        <div class="article-meta">
+                            <span class="article-date">1 Gennaio 2025</span>
+                            <span class="article-author">Dr. Roberto Viola</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="article-card grid-col-4 grid-col-md-6 grid-col-sm-12" data-category="tecnologia">
+                    <div class="article-image">
+                        <img src="images/article-geothermal.jpg" alt="Geotermia">
+                        <div class="article-category">Tecnologia</div>
+                    </div>
+                    <div class="article-content">
+                        <h3 class="article-title">Geotermia: Energia dal Sottosuolo</h3>
+                        <p class="article-excerpt">Applicazioni geotermiche nell'architettura residenziale e commerciale.</p>
+                        <div class="article-meta">
+                            <span class="article-date">28 Dicembre 2024</span>
+                            <span class="article-author">Prof. Elena Arancioni</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Load More Section -->
+    <section class="load-more-section">
+        <div class="grid-container">
+            <div class="load-more-content grid-col-12">
+                <button class="btn btn-outline" id="load-more-btn">Carica Altri Articoli</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter-section">
+        <div class="grid-container">
+            <div class="newsletter-content grid-col-8 grid-col-md-12 grid-offset-2 grid-offset-md-0">
+                <h2 class="newsletter-title">Non perdere i nostri articoli</h2>
+                <p class="newsletter-description">Iscriviti alla newsletter per ricevere i nuovi articoli direttamente nella tua casella email.</p>
+                <form class="newsletter-form" id="newsletter-form">
+                    <div class="form-group">
+                        <input type="email" class="form-input" placeholder="La tua email" required>
+                        <button type="submit" class="btn btn-primary">Iscriviti</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="grid-container">
+            <div class="footer-content grid-col-12">
+                <div class="footer-section grid-col-3 grid-col-md-6 grid-col-sm-12">
+                    <h3 class="footer-title">BIOARCHITETTURA®</h3>
+                    <p class="footer-description">La rivista di riferimento per l'architettura sostenibile e l'antropizzazione dell'ambiente.</p>
+                </div>
+                <div class="footer-section grid-col-3 grid-col-md-6 grid-col-sm-12">
+                    <h4 class="footer-subtitle">Sezioni</h4>
+                    <ul class="footer-links">
+                        <li><a href="articoli.html">Articoli</a></li>
+                        <li><a href="news.html">News</a></li>
+                        <li><a href="#archivio">Archivio</a></li>
+                        <li><a href="#abbonamenti">Abbonamenti</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section grid-col-3 grid-col-md-6 grid-col-sm-12">
+                    <h4 class="footer-subtitle">Fondazione</h4>
+                    <ul class="footer-links">
+                        <li><a href="../public/chi-siamo.html">Chi Siamo</a></li>
+                        <li><a href="../public/contatti.html">Contatti</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section grid-col-3 grid-col-md-6 grid-col-sm-12">
+                    <h4 class="footer-subtitle">Seguici</h4>
+                    <div class="social-links">
+                        <a href="#" class="social-link">Facebook</a>
+                        <a href="#" class="social-link">Twitter</a>
+                        <a href="#" class="social-link">LinkedIn</a>
+                        <a href="#" class="social-link">Instagram</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom grid-col-12">
+                <p>&copy; 2025 Fondazione Italiana per la Bioarchitettura®. Tutti i diritti riservati.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+    <script src="js/articles.js"></script>
+</body>
+</html>

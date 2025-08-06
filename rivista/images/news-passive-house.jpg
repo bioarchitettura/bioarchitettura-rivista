@@ -1,0 +1,7 @@
+<svg width="400" height="300" xmlns="http://www.w3.org/2000/svg">
+<rect width="100%" height="100%" fill="#f1f3f4"/>
+<rect x="20" y="20" width="360" height="260" fill="#e8f5e8" stroke="#2c5530" stroke-width="1" rx="4"/>
+<text x="200" y="140" font-family="Arial, sans-serif" font-size="14" fill="#2c5530" text-anchor="middle" font-weight="bold">BIOARCHITETTURA®</text>
+<text x="200" y="160" font-family="Arial, sans-serif" font-size="12" fill="#666" text-anchor="middle">news passive house</text>
+<text x="200" y="280" font-family="Arial, sans-serif" font-size="10" fill="#999" text-anchor="middle">Placeholder Image</text>
+</svg>

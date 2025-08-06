@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rivista BIOARCHITETTURA® - Abitare la Terra</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <a href="#" class="nav-logo">
+                    <span class="logo-text">BIOARCHITETTURA®</span>
+                    <span class="logo-subtitle">ABITARE LA TERRA</span>
+                </a>
+                
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link active">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="articoli.html" class="nav-link">Articoli</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="news.html" class="nav-link">News</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#archivio" class="nav-link">Archivio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#abbonamenti" class="nav-link">Abbonamenti</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../public/contatti.html" class="nav-link">Contatti</a>
+                    </li>
+                </ul>
+                
+                <button class="nav-toggle" id="nav-toggle">
+                    <span class="hamburger"></span>
+                    <span class="hamburger"></span>
+                    <span class="hamburger"></span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="grid-container">
+            <div class="hero-content grid-col-8 grid-col-md-12">
+                <h1 class="hero-title">La Rivista di Riferimento per l'Architettura Sostenibile</h1>
+                <p class="hero-subtitle">Esplora il mondo della bioarchitettura attraverso articoli di esperti, progetti innovativi e le ultime novità nel campo dell'architettura ecologica.</p>
+                <div class="hero-actions">
+                    <a href="articoli.html" class="btn btn-primary">Leggi gli Articoli</a>
+                    <a href="#ultimo-numero" class="btn btn-outline">Ultimo Numero</a>
+                </div>
+            </div>
+            <div class="hero-image grid-col-4 grid-col-md-12">
+                <img src="images/hero-magazine.jpg" alt="Rivista Bioarchitettura" class="hero-img">
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Articles Section -->
+    <section class="featured-section" id="articoli-evidenza">
+        <div class="grid-container">
+            <div class="section-header grid-col-12">
+                <h2 class="section-title">Articoli in Evidenza</h2>
+                <a href="articoli.html" class="section-link">Vedi tutti gli articoli</a>
+            </div>
+            
+            <article class="featured-article grid-col-8 grid-col-md-12">
+                <div class="article-image">
+                    <img src="images/article-featured.jpg" alt="Architettura sostenibile del futuro">
+                    <div class="article-category">Progettazione</div>
+                </div>
+                <div class="article-content">
+                    <h3 class="article-title">L'Architettura Sostenibile del Futuro: Materiali Innovativi e Design Bioclimatico</h3>
+                    <p class="article-excerpt">Scopri come i nuovi materiali eco-compatibili e le tecniche di progettazione bioclimatica stanno rivoluzionando il mondo dell'architettura sostenibile...</p>
+                    <div class="article-meta">
+                        <span class="article-date">15 Gennaio 2025</span>
+                        <span class="article-author">Dr. Maria Rossi</span>
+                        <span class="article-read-time">5 min di lettura</span>
+                    </div>
+                </div>
+            </article>
+            
+            <div class="sidebar-articles grid-col-4 grid-col-md-12">
+                <article class="sidebar-article">
+                    <div class="article-image">
+                        <img src="images/article-1.jpg" alt="Casa passiva">
+                        <div class="article-category">Tecnologia</div>
+                    </div>
+                    <div class="article-content">
+                        <h4 class="article-title">Case Passive: Il Standard del Futuro</h4>
+                        <div class="article-meta">
+                            <span class="article-date">12 Gennaio 2025</span>
+                        </div>
+                    </div>
+                </article>
+                
+                <article class="sidebar-article">
+                    <div class="article-image">
+                        <img src="images/article-2.jpg" alt="Materiali naturali">
+                        <div class="article-category">Materiali</div>
+                    </div>
+                    <div class="article-content">
+                        <h4 class="article-title">Materiali Naturali: Ritorno alle Origini</h4>
+                        <div class="article-meta">
+                            <span class="article-date">10 Gennaio 2025</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Latest News Section -->
+    <section class="news-section" id="ultime-news">
+        <div class="grid-container">
+            <div class="section-header grid-col-12">
+                <h2 class="section-title">Ultime News</h2>
+                <a href="news.html" class="section-link">Vedi tutte le news</a>
+            </div>
+            
+            <div class="news-grid">
+                <article class="news-item grid-col-4 grid-col-md-6 grid-col-sm-12">
+                    <div class="news-image">
+                        <img src="images/news-1.jpg" alt="Conferenza internazionale">
+                    </div>
+                    <div class="news-content">
+                        <div class="news-category">Eventi</div>
+                        <h3 class="news-title">Conferenza Internazionale sulla Bioarchitettura 2025</h3>
+                        <p class="news-excerpt">Si terrà a Milano il prossimo convegno dedicato alle nuove frontiere dell'architettura sostenibile...</p>
+                        <span class="news-date">2 giorni fa</span>
+                    </div>
+                </article>
+                
+                <article class="news-item grid-col-4 grid-col-md-6 grid-col-sm-12">
+                    <div class="news-image">
+                        <img src="images/news-2.jpg" alt="Premio architettura">
+                    </div>
+                    <div class="news-content">
+                        <div class="news-category">Premi</div>
+                        <h3 class="news-title">Assegnato il Premio Bioarchitettura 2024</h3>
+                        <p class="news-excerpt">Il progetto vincitore rappresenta l'eccellenza italiana nel campo dell'edilizia sostenibile...</p>
+                        <span class="news-date">1 settimana fa</span>
+                    </div>
+                </article>
+                
+                <article class="news-item grid-col-4 grid-col-md-12 grid-col-sm-12">
+                    <div class="news-image">
+                        <img src="images/news-3.jpg" alt="Nuova normativa">
+                    </div>
+                    <div class="news-content">
+                        <div class="news-category">Normativa</div>
+                        <h3 class="news-title">Nuove Direttive UE per l'Edilizia Sostenibile</h3>
+                        <p class="news-excerpt">Entrano in vigore le nuove norme europee che regolamentano l'efficienza energetica degli edifici...</p>
+                        <span class="news-date">2 settimane fa</span>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Current Issue Section -->
+    <section class="current-issue-section" id="ultimo-numero">
+        <div class="grid-container">
+            <div class="current-issue-content grid-col-6 grid-col-md-12">
+                <div class="issue-badge">Ultimo Numero</div>
+                <h2 class="issue-title">BIOARCHITETTURA® N. 98</h2>
+                <h3 class="issue-theme">Architettura Circolare: Costruire per il Futuro</h3>
+                <p class="issue-description">In questo numero esploriamo i principi dell'economia circolare applicati all'architettura, con progetti innovativi e interviste esclusive ai protagonisti del settore.</p>
+                <div class="issue-highlights">
+                    <ul>
+                        <li>Dossier: Materiali riciclabili nella costruzione</li>
+                        <li>Intervista: Stefano Boeri sull'architettura verde</li>
+                        <li>Progetto: La prima casa circolare d'Italia</li>
+                        <li>Tecnologie: Software per la progettazione sostenibile</li>
+                    </ul>
+                </div>
+                <div class="issue-actions">
+                    <a href="#" class="btn btn-primary">Leggi Online</a>
+                    <a href="#abbonamenti" class="btn btn-outline">Abbonati</a>
+                </div>
+            </div>
+            <div class="current-issue-image grid-col-6 grid-col-md-12">
+                <img src="images/magazine-cover.jpg" alt="Copertina Bioarchitettura N. 98" class="issue-cover">
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter-section">
+        <div class="grid-container">
+            <div class="newsletter-content grid-col-8 grid-col-md-12 grid-offset-2 grid-offset-md-0">
+                <h2 class="newsletter-title">Rimani sempre aggiornato</h2>
+                <p class="newsletter-description">Iscriviti alla nostra newsletter per ricevere gli ultimi articoli, news e novità dal mondo della bioarchitettura.</p>
+                <form class="newsletter-form" id="newsletter-form">
+                    <div class="form-group">
+                        <input type="email" class="form-input" placeholder="La tua email" required>
+                        <button type="submit" class="btn btn-primary">Iscriviti</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="grid-container">
+            <div class="footer-content grid-col-12">
+                <div class="footer-section grid-col-3 grid-col-md-6 grid-col-sm-12">
+                    <h3 class="footer-title">BIOARCHITETTURA®</h3>
+                    <p class="footer-description">La rivista di riferimento per l'architettura sostenibile e l'antropizzazione dell'ambiente.</p>
+                </div>
+                <div class="footer-section grid-col-3 grid-col-md-6 grid-col-sm-12">
+                    <h4 class="footer-subtitle">Sezioni</h4>
+                    <ul class="footer-links">
+                        <li><a href="articoli.html">Articoli</a></li>
+                        <li><a href="news.html">News</a></li>
+                        <li><a href="#archivio">Archivio</a></li>
+                        <li><a href="#abbonamenti">Abbonamenti</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section grid-col-3 grid-col-md-6 grid-col-sm-12">
+                    <h4 class="footer-subtitle">Fondazione</h4>
+                    <ul class="footer-links">
+                        <li><a href="../public/chi-siamo.html">Chi Siamo</a></li>
+                        <li><a href="../public/contatti.html">Contatti</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section grid-col-3 grid-col-md-6 grid-col-sm-12">
+                    <h4 class="footer-subtitle">Seguici</h4>
+                    <div class="social-links">
+                        <a href="#" class="social-link">Facebook</a>
+                        <a href="#" class="social-link">Twitter</a>
+                        <a href="#" class="social-link">LinkedIn</a>
+                        <a href="#" class="social-link">Instagram</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom grid-col-12">
+                <p>&copy; 2025 Fondazione Italiana per la Bioarchitettura®. Tutti i diritti riservati.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
