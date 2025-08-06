@@ -173,6 +173,123 @@
             text-align: center;
             font-size: 1.2em;
         }
+
+        /* Slideshow Styles */
+        .slideshow-container {
+            position: relative;
+            max-width: 100%;
+            margin: 0 auto;
+            background: #f8f9fa;
+            overflow: hidden;
+        }
+        
+        .slide {
+            display: none;
+            width: 100%;
+            height: 400px;
+            position: relative;
+        }
+        
+        .slide.active {
+            display: block;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+        
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        /* Slideshow navigation */
+        .slide-nav {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+        }
+        
+        .slide-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .slide-dot.active,
+        .slide-dot:hover {
+            background: white;
+            transform: scale(1.2);
+        }
+        
+        /* Arrow navigation */
+        .slide-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(44, 85, 48, 0.7);
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+        
+        .slide-arrow:hover {
+            background: rgba(44, 85, 48, 0.9);
+        }
+        
+        .slide-arrow.prev {
+            left: 20px;
+        }
+        
+        .slide-arrow.next {
+            right: 20px;
+        }
+        
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .slide {
+                height: 250px;
+            }
+            
+            .slide-arrow {
+                padding: 10px 15px;
+                font-size: 16px;
+            }
+            
+            .slide-arrow.prev {
+                left: 10px;
+            }
+            
+            .slide-arrow.next {
+                right: 10px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .slide {
+                height: 200px;
+            }
+            
+            .slide-arrow {
+                padding: 8px 12px;
+                font-size: 14px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -205,6 +322,16 @@
             </button>
         </div>
     </nav>
+
+    <!-- Slideshow -->
+    <div class="slideshow-container" id="slideshow">
+        <!-- Slides will be dynamically populated by JavaScript -->
+        <button class="slide-arrow prev" onclick="changeSlide(-1)">‹</button>
+        <button class="slide-arrow next" onclick="changeSlide(1)">›</button>
+        <div class="slide-nav" id="slideNav">
+            <!-- Navigation dots will be dynamically populated -->
+        </div>
+    </div>
 
     <div class="hero-section">
         <h1>La Fondazione Italiana per la Bioarchitettura® e l'Antropizzazione Sostenibile dell'Ambiente, per la sua storia, è l'Ente italiano di riferimento nell'ambito del costruire sano ed ecologico.</h1>
@@ -265,6 +392,7 @@
     <!-- Navigation JavaScript -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Initialize navigation
             const navToggle = document.getElementById('nav-toggle');
             const navMenu = document.querySelector('.nav-menu');
             
@@ -292,6 +420,166 @@
                     }
                 });
             });
+
+            // Initialize slideshow
+            initializeSlideshow();
+        });
+
+        // Slideshow functionality
+        let currentSlide = 0;
+        let slides = [];
+        let slideInterval;
+
+        // List of image files to look for in the root directory
+        // This will automatically detect common image file formats
+        const commonImageNames = [
+            'slide1', 'slide2', 'slide3', 'slide4', 'slide5',
+            'bioarchitettura1', 'bioarchitettura2', 'bioarchitettura3', 
+            'education', 'master', 'homepage1', 'homepage2', 'homepage3',
+            'photo1', 'photo2', 'photo3', 'image1', 'image2', 'image3'
+        ];
+        const imageExtensions = ['svg', 'jpg', 'jpeg', 'png', 'gif', 'webp'];
+        
+        const imageFiles = [];
+        commonImageNames.forEach(name => {
+            imageExtensions.forEach(ext => {
+                imageFiles.push(`../${name}.${ext}`);
+            });
+        });
+
+        async function initializeSlideshow() {
+            const slideshowContainer = document.getElementById('slideshow');
+            const slideNav = document.getElementById('slideNav');
+            
+            // Check which images exist and load them
+            const existingImages = [];
+            
+            for (const imageFile of imageFiles) {
+                try {
+                    // Create a new image to test if it loads
+                    const img = new Image();
+                    const imageExists = await new Promise((resolve) => {
+                        img.onload = () => resolve(true);
+                        img.onerror = () => resolve(false);
+                        img.src = imageFile;
+                    });
+                    
+                    if (imageExists) {
+                        existingImages.push(imageFile);
+                    }
+                } catch (error) {
+                    // Image doesn't exist, skip it
+                }
+            }
+
+            if (existingImages.length === 0) {
+                // Hide slideshow if no images found
+                slideshowContainer.style.display = 'none';
+                return;
+            }
+
+            slides = existingImages;
+            
+            // Create slide elements
+            slides.forEach((imageSrc, index) => {
+                const slideDiv = document.createElement('div');
+                slideDiv.className = 'slide';
+                if (index === 0) slideDiv.classList.add('active');
+                
+                const img = document.createElement('img');
+                img.src = imageSrc;
+                img.alt = `Bioarchitettura slide ${index + 1}`;
+                img.onerror = function() {
+                    // If image fails to load, try to remove this slide
+                    slideDiv.remove();
+                    slides.splice(index, 1);
+                    if (slides.length === 0) {
+                        slideshowContainer.style.display = 'none';
+                    }
+                };
+                
+                slideDiv.appendChild(img);
+                slideshowContainer.insertBefore(slideDiv, slideshowContainer.querySelector('.slide-arrow'));
+            });
+            
+            // Create navigation dots
+            slides.forEach((_, index) => {
+                const dot = document.createElement('div');
+                dot.className = 'slide-dot';
+                if (index === 0) dot.classList.add('active');
+                dot.onclick = () => goToSlide(index);
+                slideNav.appendChild(dot);
+            });
+            
+            // Start automatic slideshow
+            startSlideshow();
+        }
+
+        function changeSlide(direction) {
+            if (slides.length === 0) return;
+            
+            const currentSlideElement = document.querySelector('.slide.active');
+            const currentDot = document.querySelector('.slide-dot.active');
+            
+            currentSlideElement.classList.remove('active');
+            currentDot.classList.remove('active');
+            
+            currentSlide = (currentSlide + direction + slides.length) % slides.length;
+            
+            const allSlides = document.querySelectorAll('.slide');
+            const allDots = document.querySelectorAll('.slide-dot');
+            
+            allSlides[currentSlide].classList.add('active');
+            allDots[currentSlide].classList.add('active');
+            
+            resetSlideshow();
+        }
+
+        function goToSlide(index) {
+            if (slides.length === 0 || index === currentSlide) return;
+            
+            const currentSlideElement = document.querySelector('.slide.active');
+            const currentDot = document.querySelector('.slide-dot.active');
+            
+            currentSlideElement.classList.remove('active');
+            currentDot.classList.remove('active');
+            
+            currentSlide = index;
+            
+            const allSlides = document.querySelectorAll('.slide');
+            const allDots = document.querySelectorAll('.slide-dot');
+            
+            allSlides[currentSlide].classList.add('active');
+            allDots[currentSlide].classList.add('active');
+            
+            resetSlideshow();
+        }
+
+        function startSlideshow() {
+            if (slides.length <= 1) return;
+            
+            slideInterval = setInterval(() => {
+                changeSlide(1);
+            }, 4000); // Change slide every 4 seconds
+        }
+
+        function resetSlideshow() {
+            clearInterval(slideInterval);
+            startSlideshow();
+        }
+
+        // Pause slideshow on hover
+        document.addEventListener('DOMContentLoaded', function() {
+            const slideshowContainer = document.getElementById('slideshow');
+            if (slideshowContainer) {
+                slideshowContainer.addEventListener('mouseenter', () => {
+                    clearInterval(slideInterval);
+                });
+                
+                slideshowContainer.addEventListener('mouseleave', () => {
+                    startSlideshow();
+                });
+            }
         });
     </script>
 </body>
