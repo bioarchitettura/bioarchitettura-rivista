@@ -1,6 +1,8 @@
 # web
 @bioarchitettura web-project - 2025
 
+<!-- Workflow 36 re-run trigger -->
+
 ## Gestione Contenuti con Netlify CMS
 
 Questo sito è dotato di un sistema di gestione contenuti (CMS) basato su Netlify CMS che permette di modificare facilmente pagine e articoli tramite un'interfaccia web user-friendly.
