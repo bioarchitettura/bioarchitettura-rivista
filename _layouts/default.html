@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: site.lang | default: 'it' }}">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{{ page.excerpt | default: site.description | strip_html | normalize_whitespace | truncate: 160 | escape }}">
+    
+    <title>{% if page.title %}{{ page.title | escape }} | {{ site.title | escape }}{% else %}{{ site.title | escape }}{% endif %}</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+    <link rel="canonical" href="{{ page.url | replace:'index.html','' | absolute_url }}">
+    
+    <!-- Meta tags -->
+    <meta property="og:title" content="{% if page.title %}{{ page.title | escape }}{% else %}{{ site.title | escape }}{% endif %}">
+    <meta property="og:description" content="{{ page.excerpt | default: site.description | strip_html | normalize_whitespace | truncate: 300 | escape }}">
+    <meta property="og:url" content="{{ page.url | absolute_url }}">
+    <meta property="og:site_name" content="{{ site.title | escape }}">
+    <meta property="og:type" content="{% if page.layout == 'post' %}article{% else %}website{% endif %}">
+    {% if page.image %}
+    <meta property="og:image" content="{{ page.image | absolute_url }}">
+    {% endif %}
+    
+    <!-- RSS Feed -->
+    <link rel="alternate" type="application/rss+xml" title="{{ site.title | escape }}" href="{{ '/feed.xml' | relative_url }}">
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="{{ '/favicon.ico' | relative_url }}">
+</head>
+
+<body class="{{ page.layout | default: 'page' }}">
+    <!-- Language Selection Bar -->
+    <div id="language-bar" class="language-bar">
+        <div class="language-container">
+            <div class="language-selector">
+                <button class="lang-btn active" data-lang="it">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAyNCAxOCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjE4IiBmaWxsPSIjMDA5MjQ2Ii8+CjxyZWN0IHdpZHRoPSIyNCIgaGVpZ2h0PSIxMiIgZmlsbD0iI0ZGRkZGRiIvPgo8cmVjdCB3aWR0aD0iMjQiIGhlaWdodD0iNiIgZmlsbD0iI0NFMUEyNiIvPgo8L3N2Zz4K" alt="IT"> IT
+                </button>
+                <button class="lang-btn" data-lang="en">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAyNCAxOCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjE4IiBmaWxsPSIjMDEyMTY5Ii8+CjxwYXRoIGQ9Ik0wIDBoMjR2MkgweiIgZmlsbD0iI0ZGRiIvPgo8cGF0aCBkPSJNMCA0aDI0djJIMHoiIGZpbGw9IiNDRTFBMjYiLz4KPHA+dGggZD0iTTAgOGgyNHYySDB6IiBmaWxsPSIjRkZGIi8+CjxwYXRoIGQ9Ik0wIDEyaDI0djJIMHoiIGZpbGw9IiNDRTFBMjYiLz4KPHA+dGggZD0iTTAgMTZoMjR2MkgweiIgZmlsbD0iI0ZGRiIvPgo8L3N2Zz4K" alt="EN"> EN
+                </button>
+                <button class="lang-btn" data-lang="de">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAyNCAxOCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjYiIGZpbGw9IiMwMDAiLz4KPHJlY3QgeT0iNiIgd2lkdGg9IjI0IiBoZWlnaHQ9IjYiIGZpbGw9IiNEQzE0M0MiLz4KPHJlY3QgeT0iMTIiIHdpZHRoPSIyNCIgaGVpZ2h0PSI2IiBmaWxsPSIjRkZDRTAwIi8+Cjwvc3ZnPgo=" alt="DE"> DE
+                </button>
+                <button class="lang-btn" data-lang="fr">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAyNCAxOCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgiIGhlaWdodD0iMTgiIGZpbGw9IiMwMDJBOEYiLz4KPHJlY3QgeD0iOCIgd2lkdGg9IjgiIGhlaWdodD0iMTgiIGZpbGw9IiNGRkYiLz4KPHJlY3QgeD0iMTYiIHdpZHRoPSI4IiBoZWlnaHQ9IjE4IiBmaWxsPSIjRUQyOTM5Ii8+Cjwvc3ZnPgo=" alt="FR"> FR
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="{{ '/' | relative_url }}" class="nav-logo">
+                    <h1>{{ site.title_short | default: "Bioarchitettura" }}</h1>
+                </a>
+            </div>
+
+            <!-- Desktop Navigation -->
+            <ul class="nav-menu" id="nav-menu">
+                <li class="nav-item">
+                    <a href="{{ '/' | relative_url }}" class="nav-link">
+                        <span data-translate="nav.home">Home</span>
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="{{ '/rivista/' | relative_url }}" class="nav-link dropdown-toggle">
+                        <span data-translate="nav.magazine">Rivista</span>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a href="{{ '/rivista/archivio/' | relative_url }}" class="dropdown-item" data-translate="nav.archive">Archivio</a>
+                        <a href="{{ '/rivista/abbonamenti/' | relative_url }}" class="dropdown-item" data-translate="nav.subscription">Abbonamenti</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="{{ '/shop/' | relative_url }}" class="nav-link dropdown-toggle">
+                        <span data-translate="nav.shop">Shop</span>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a href="{{ '/shop/ebooks/' | relative_url }}" class="dropdown-item" data-translate="nav.ebooks">E-books</a>
+                        <a href="{{ '/shop/corsi/' | relative_url }}" class="dropdown-item" data-translate="nav.courses">Corsi</a>
+                        <a href="{{ '/shop/webinar/' | relative_url }}" class="dropdown-item" data-translate="nav.webinars">Webinar</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ '/chi-siamo/' | relative_url }}" class="nav-link">
+                        <span data-translate="nav.about">Chi Siamo</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ '/contatti/' | relative_url }}" class="nav-link">
+                        <span data-translate="nav.contact">Contatti</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <button class="cart-btn" id="cart-btn" title="Carrello">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="9" cy="21" r="1"></circle>
+                            <circle cx="20" cy="21" r="1"></circle>
+                            <path d="m1 1 4 4 16 2-3 12H7L5 3H2"></path>
+                        </svg>
+                        <span class="cart-count" id="cart-count">0</span>
+                    </button>
+                </li>
+            </ul>
+
+            <!-- Mobile Navigation Toggle -->
+            <div class="nav-toggle" id="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        {{ content }}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h3 data-translate="footer.foundation">Fondazione</h3>
+                    <p>{{ site.foundation.full_name }}</p>
+                    <p data-translate="footer.status">{{ site.foundation.legal_status }}</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 data-translate="footer.contact">Contatti</h3>
+                    <p>
+                        <strong data-translate="footer.phone">Telefono:</strong> 
+                        <a href="tel:{{ site.contact.phone }}">{{ site.contact.phone }}</a>
+                    </p>
+                    <p>
+                        <strong>Email:</strong> 
+                        <a href="mailto:{{ site.contact.email }}">{{ site.contact.email }}</a>
+                    </p>
+                    <p>
+                        <strong data-translate="footer.address">Indirizzo:</strong><br>
+                        {{ site.contact.address }}
+                    </p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 data-translate="footer.quick_links">Link Rapidi</h3>
+                    <ul>
+                        <li><a href="{{ '/rivista/' | relative_url }}" data-translate="footer.magazine">Rivista</a></li>
+                        <li><a href="{{ '/shop/' | relative_url }}" data-translate="footer.shop">Shop</a></li>
+                        <li><a href="{{ '/privacy/' | relative_url }}" data-translate="footer.privacy">Privacy</a></li>
+                        <li><a href="{{ '/terms/' | relative_url }}" data-translate="footer.terms">Termini</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 data-translate="footer.newsletter">Newsletter</h3>
+                    <form class="newsletter-form" id="newsletter-form">
+                        <input type="email" placeholder="La tua email" data-translate-placeholder="footer.email_placeholder" required>
+                        <button type="submit" data-translate="footer.subscribe">Iscriviti</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; {{ 'now' | date: "%Y" }} {{ site.title }}. <span data-translate="footer.rights">Tutti i diritti riservati.</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Shopping Cart Modal -->
+    <div id="cart-modal" class="cart-modal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2 data-translate="cart.title">Carrello</h2>
+                <button class="cart-close" id="cart-close">&times;</button>
+            </div>
+            <div class="cart-body" id="cart-items">
+                <p class="empty-cart" data-translate="cart.empty">Il carrello è vuoto</p>
+            </div>
+            <div class="cart-footer">
+                <div class="cart-total">
+                    <strong data-translate="cart.total">Totale: </strong>
+                    <span id="cart-total">€0.00</span>
+                </div>
+                <div class="cart-actions">
+                    <button class="btn btn-secondary" id="clear-cart" data-translate="cart.clear">Svuota</button>
+                    <button class="btn btn-primary" id="checkout-btn" data-translate="cart.checkout">Checkout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div id="notification-container" class="notification-container"></div>
+
+    <!-- Tidio Chat Widget -->
+    {% if site.tidio_key %}
+    <script src="//code.tidio.co/{{ site.tidio_key }}.js" async></script>
+    {% else %}
+    <!-- Fallback Chat Widget -->
+    <div class="chat-fallback" id="chat-fallback">
+        <button class="chat-btn" title="Chat Support">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z"></path>
+            </svg>
+        </button>
+    </div>
+    {% endif %}
+
+    <!-- JavaScript -->
+    <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
+    <script src="{{ '/assets/js/shop.js' | relative_url }}"></script>
+    <script src="{{ '/assets/js/translation.js' | relative_url }}"></script>
+    
+    {% if page.layout == 'post' %}
+    <script src="{{ '/assets/js/post.js' | relative_url }}"></script>
+    {% endif %}
+</body>
+</html>

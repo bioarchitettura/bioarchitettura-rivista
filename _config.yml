@@ -1,5 +1,6 @@
 # Jekyll configuration for bioarchitettura.org
 title: "Fondazione Italiana per la Bioarchitettura"
+title_short: "Bioarchitettura"
 description: "L'Ente italiano di riferimento nell'ambito del costruire sano ed ecologico"
 baseurl: ""
 url: "https://bioarchitettura.github.io/web"
@@ -8,11 +9,20 @@ url: "https://bioarchitettura.github.io/web"
 markdown: kramdown
 highlighter: rouge
 theme: minima
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
 
 # Plugin settings
 plugins:
   - jekyll-feed
   - jekyll-sitemap
+  - jekyll-seo-tag
+  - jekyll-paginate
+
+# Pagination
+paginate: 6
+paginate_path: "/posts/page:num/"
 
 # Source and destination
 source: .
@@ -21,6 +31,8 @@ destination: _site
 # Include public directory in processing
 include:
   - public
+  - _redirects
+  - .well-known
 
 # Exclude files from processing
 exclude:
@@ -28,8 +40,18 @@ exclude:
   - Gemfile
   - Gemfile.lock
   - vendor/
+  - node_modules/
+  - .git/
+  - .github/
+  - DEPLOYMENT.md
+  - package*.json
 
 # Collections and defaults
+collections:
+  products:
+    output: true
+    permalink: /:collection/:name/
+
 defaults:
   - scope:
       path: ""
@@ -46,15 +68,155 @@ defaults:
       type: "posts"
     values:
       layout: "post"
+      author: "Fondazione Italiana per la Bioarchitettura"
+      auto_summary: true
+  - scope:
+      path: ""
+      type: "products"
+    values:
+      layout: "product"
 
 # Site settings
 lang: it
 author: "Fondazione Italiana per la Bioarchitettura"
-keywords: "bioarchitettura, architettura sostenibile, costruzione ecologica"
+keywords: "bioarchitettura, architettura sostenibile, costruzione ecologica, casa passiva, efficienza energetica"
 
-# Navigation
-main_sections:
-  - home
-  - about
-  - services
-  - contact
+# Advanced Features Configuration
+paypal_merchant_email: "hannes.mitterer@gmail.com"
+max_related_articles: 3
+recommendation_fallback: true
+
+# Contact Information
+contact:
+  phone: "+39 0471 973097"
+  email: "bioa@bioarchitettura.org"
+  address: "Certosa di Firenze, Via della Certosa, 1, 50124 Firenze FI"
+
+# Foundation Legal Information
+foundation:
+  full_name: "Fondazione Italiana per la Bioarchitettura® e l'Antropizzazione Sostenibile dell'Ambiente"
+  legal_status: "Ente morale senza fini di lucro"
+  established: 1999
+  registration: "Ente riconosciuto con D.P.R. del 21/10/2004"
+
+# AI Integration Settings
+openai:
+  api_key: "" # Set via environment variable OPENAI_API_KEY
+  model: "gpt-3.5-turbo"
+  max_tokens: 150
+  temperature: 0.7
+
+# Translation Settings
+translations:
+  enabled: true
+  default_language: "it"
+  supported_languages:
+    - it
+    - en
+    - de
+    - fr
+  google_translate_key: "" # Set via environment variable
+
+# E-commerce Settings
+shop:
+  enabled: true
+  currency: "EUR"
+  vat_rate: 0.22
+  free_shipping_threshold: 50
+  categories:
+    - ebooks
+    - magazines
+    - courses
+    - webinars
+    - consultations
+    - subscriptions
+    - materials
+    - certifications
+
+# PayPal Configuration
+paypal:
+  client_id: "" # Set via environment variable PAYPAL_CLIENT_ID
+  environment: "sandbox" # or "production"
+  merchant_email: "hannes.mitterer@gmail.com"
+  currency: "EUR"
+
+# Analytics and Tracking
+analytics:
+  google_analytics_id: "" # Set via environment variable
+  google_tag_manager_id: ""
+  facebook_pixel_id: ""
+
+# Chat Integration
+tidio_key: "" # Set via environment variable
+
+# SEO and Social Media
+social:
+  facebook: "https://www.facebook.com/bioarchitettura"
+  twitter: "@bioarchitettura"
+  instagram: "bioarchitettura_official"
+  linkedin: "fondazione-italiana-per-la-bioarchitettura"
+  youtube: "FondazioneBioarchitettura"
+
+# RSS and Feed Settings
+feed:
+  excerpt_only: false
+  posts_limit: 20
+
+# Performance Settings
+compress_html:
+  clippings: all
+  comments: ["<!-- ", " -->"]
+  endings: all
+  startings: []
+  blanklines: false
+  profile: false
+
+# Security Headers
+security:
+  content_security_policy: "default-src 'self'; script-src 'self' 'unsafe-inline' *.paypal.com *.paypalobjects.com; style-src 'self' 'unsafe-inline' fonts.googleapis.com; font-src 'self' fonts.gstatic.com; img-src 'self' data: *; connect-src 'self' api.openai.com translate.googleapis.com;"
+
+# Development Settings
+livereload: true
+incremental: false
+profile: false
+
+# Menu Structure
+navigation:
+  main:
+    - title: "Home"
+      url: "/"
+    - title: "Rivista"
+      url: "/rivista/"
+      submenu:
+        - title: "Archivio"
+          url: "/rivista/archivio/"
+        - title: "Abbonamenti"
+          url: "/rivista/abbonamenti/"
+    - title: "Shop"
+      url: "/shop/"
+      submenu:
+        - title: "E-books"
+          url: "/shop/ebooks/"
+        - title: "Corsi"
+          url: "/shop/corsi/"
+        - title: "Webinar"
+          url: "/shop/webinar/"
+    - title: "Chi Siamo"
+      url: "/chi-siamo/"
+    - title: "Contatti"
+      url: "/contatti/"
+
+# Blog Categories
+blog_categories:
+  - architettura-sostenibile
+  - efficienza-energetica
+  - materiali-naturali
+  - casa-passiva
+  - certificazioni
+  - innovazione
+  - ricerca
+
+# Featured Content
+featured:
+  posts_count: 3
+  products_count: 6

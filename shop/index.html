@@ -1,0 +1,98 @@
+---
+layout: default
+title: "Shop - Bioarchitettura"
+permalink: /shop/
+---
+
+<section class="shop-header">
+    <div class="container">
+        <h1 data-translate="shop.title">Bioarchitettura Shop</h1>
+        <p data-translate="shop.description">Scopri la nostra selezione di prodotti per la bioarchitettura: ebooks, corsi, webinar e molto altro per la tua formazione professionale.</p>
+    </div>
+</section>
+
+<section class="shop-filters">
+    <div class="filter-container">
+        <!-- Filters will be populated by JavaScript -->
+    </div>
+</section>
+
+<section class="shop-content">
+    <div class="shop-grid">
+        <!-- Products will be populated by JavaScript -->
+        <div class="loading-products">
+            <div class="loading-spinner"></div>
+            <p data-translate="ui.loading">Caricamento prodotti...</p>
+        </div>
+    </div>
+</section>
+
+<section class="shop-features">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">📚</div>
+                    <h3>Contenuti di Qualità</h3>
+                    <p>Materiali didattici sviluppati da esperti del settore con anni di esperienza.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">🎓</div>
+                    <h3>Formazione Certificata</h3>
+                    <p>Corsi e webinar riconosciuti a livello nazionale ed europeo.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">💬</div>
+                    <h3>Supporto Esperto</h3>
+                    <p>Assistenza dedicata per tutti i nostri prodotti e servizi.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+.shop-features {
+    background-color: var(--gray-50);
+    padding: var(--space-16) 0;
+    margin-top: var(--space-16);
+}
+
+.feature-card {
+    text-align: center;
+    padding: var(--space-8);
+    background-color: var(--white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    transition: transform var(--transition-normal);
+}
+
+.feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.feature-icon {
+    font-size: var(--text-5xl);
+    margin-bottom: var(--space-4);
+}
+
+.feature-card h3 {
+    color: var(--primary-color);
+    margin-bottom: var(--space-3);
+}
+
+.loading-products {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: var(--space-16);
+}
+
+.loading-products .loading-spinner {
+    margin: 0 auto var(--space-4);
+}
+</style>

@@ -1,0 +1,478 @@
+---
+layout: default
+title: "Contatti - Fondazione Italiana per la Bioarchitettura"
+permalink: /contatti/
+---
+
+<section class="contact-header">
+    <div class="container">
+        <div class="row align-center">
+            <div class="col-md-8 text-center">
+                <h1 data-translate="contact.title">Contatti</h1>
+                <p class="lead" data-translate="contact.subtitle">Mettiti in contatto con i nostri esperti per informazioni, consulenze e supporto specializzato nella bioarchitettura.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="contact-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="contact-form-container">
+                    <h2 data-translate="contact.form_title">Invia un Messaggio</h2>
+                    <form id="contact-form" class="contact-form">
+                        <div class="form-group">
+                            <label for="name" class="form-label" data-translate="contact.name">Nome e Cognome *</label>
+                            <input type="text" id="name" name="name" class="form-input" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email" class="form-label" data-translate="contact.email">Email *</label>
+                            <input type="email" id="email" name="email" class="form-input" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone" class="form-label" data-translate="contact.phone">Telefono</label>
+                            <input type="tel" id="phone" name="phone" class="form-input">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="subject" class="form-label" data-translate="contact.subject">Oggetto *</label>
+                            <select id="subject" name="subject" class="form-select" required>
+                                <option value="" data-translate="contact.select_subject">Seleziona un argomento</option>
+                                <option value="info" data-translate="contact.info">Informazioni generali</option>
+                                <option value="courses" data-translate="contact.courses">Corsi e formazione</option>
+                                <option value="certification" data-translate="contact.certification">Certificazioni</option>
+                                <option value="consulting" data-translate="contact.consulting">Consulenze</option>
+                                <option value="magazine" data-translate="contact.magazine">Rivista</option>
+                                <option value="technical" data-translate="contact.technical">Supporto tecnico</option>
+                                <option value="partnership" data-translate="contact.partnership">Partnership</option>
+                                <option value="other" data-translate="contact.other">Altro</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message" class="form-label" data-translate="contact.message">Messaggio *</label>
+                            <textarea id="message" name="message" class="form-textarea" rows="6" required data-translate-placeholder="contact.message_placeholder"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="privacy" required>
+                                <span class="checkmark"></span>
+                                <span data-translate="contact.privacy">Acconsento al trattamento dei miei dati personali secondo la <a href="/privacy/">Privacy Policy</a> *</span>
+                            </label>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="newsletter">
+                                <span class="checkmark"></span>
+                                <span data-translate="contact.newsletter">Desidero ricevere la newsletter con aggiornamenti e novità</span>
+                            </label>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-lg" data-translate="contact.send">
+                            Invia Messaggio
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="contact-info">
+                    <h3 data-translate="contact.info_title">Informazioni di Contatto</h3>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">📍</div>
+                        <div class="contact-details">
+                            <h4 data-translate="contact.address">Indirizzo</h4>
+                            <p>{{ site.contact.address }}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">📞</div>
+                        <div class="contact-details">
+                            <h4 data-translate="contact.phone">Telefono</h4>
+                            <p><a href="tel:{{ site.contact.phone }}">{{ site.contact.phone }}</a></p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">📧</div>
+                        <div class="contact-details">
+                            <h4 data-translate="contact.email">Email</h4>
+                            <p><a href="mailto:{{ site.contact.email }}">{{ site.contact.email }}</a></p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">🕒</div>
+                        <div class="contact-details">
+                            <h4 data-translate="contact.hours">Orari</h4>
+                            <p>
+                                <span data-translate="contact.weekdays">Lunedì - Venerdì</span><br>
+                                09:00 - 18:00<br>
+                                <small data-translate="contact.closed_weekends">Chiuso nei weekend</small>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="quick-actions">
+                    <h3 data-translate="contact.quick_actions">Azioni Rapide</h3>
+                    
+                    <a href="/shop/consultations/" class="action-btn">
+                        <div class="action-icon">💬</div>
+                        <div class="action-content">
+                            <h4 data-translate="contact.consultation">Consulenza</h4>
+                            <p data-translate="contact.consultation_desc">Prenota una consulenza personalizzata</p>
+                        </div>
+                    </a>
+                    
+                    <a href="/shop/courses/" class="action-btn">
+                        <div class="action-icon">🎓</div>
+                        <div class="action-content">
+                            <h4 data-translate="contact.courses">Corsi</h4>
+                            <p data-translate="contact.courses_desc">Scopri la nostra offerta formativa</p>
+                        </div>
+                    </a>
+                    
+                    <a href="/rivista/abbonamenti/" class="action-btn">
+                        <div class="action-icon">📖</div>
+                        <div class="action-content">
+                            <h4 data-translate="contact.magazine">Rivista</h4>
+                            <p data-translate="contact.magazine_desc">Abbonati alla rivista Bioarchitettura</p>
+                        </div>
+                    </a>
+                </div>
+                
+                <div class="social-links">
+                    <h3 data-translate="contact.follow">Seguici</h3>
+                    <div class="social-buttons">
+                        {% if site.social.facebook %}
+                        <a href="{{ site.social.facebook }}" target="_blank" rel="noopener" class="social-btn facebook" aria-label="Facebook">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                        </a>
+                        {% endif %}
+                        
+                        {% if site.social.linkedin %}
+                        <a href="https://linkedin.com/company/{{ site.social.linkedin }}" target="_blank" rel="noopener" class="social-btn linkedin" aria-label="LinkedIn">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            </svg>
+                        </a>
+                        {% endif %}
+                        
+                        {% if site.social.youtube %}
+                        <a href="https://youtube.com/{{ site.social.youtube }}" target="_blank" rel="noopener" class="social-btn youtube" aria-label="YouTube">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                            </svg>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="map-section">
+    <div class="container">
+        <h2 data-translate="contact.location">La Nostra Sede</h2>
+        <div class="map-container">
+            <!-- In production, this would be a real Google Maps embed -->
+            <div class="map-placeholder">
+                <div class="map-content">
+                    <h3>📍 Certosa di Firenze</h3>
+                    <p>Via della Certosa, 1<br>50124 Firenze FI</p>
+                    <a href="https://maps.google.com/maps?q=Certosa+di+Firenze" target="_blank" class="btn btn-primary">
+                        <span data-translate="contact.directions">Ottieni Indicazioni</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+.contact-header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+    color: var(--white);
+    padding: var(--space-16) 0;
+    text-align: center;
+}
+
+.contact-content {
+    padding: var(--space-16) 0;
+}
+
+.contact-form-container {
+    background-color: var(--white);
+    padding: var(--space-8);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+}
+
+.contact-form .form-group {
+    margin-bottom: var(--space-6);
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    cursor: pointer;
+    font-size: var(--text-sm);
+    line-height: 1.5;
+}
+
+.checkbox-label input[type="checkbox"] {
+    display: none;
+}
+
+.checkmark {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--gray-300);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+    flex-shrink: 0;
+}
+
+.checkbox-label input[type="checkbox"]:checked + .checkmark {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.checkbox-label input[type="checkbox"]:checked + .checkmark::after {
+    content: '✓';
+    color: var(--white);
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.contact-info {
+    background-color: var(--gray-50);
+    padding: var(--space-8);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-6);
+}
+
+.contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+}
+
+.contact-icon {
+    font-size: var(--text-2xl);
+    flex-shrink: 0;
+}
+
+.contact-details h4 {
+    color: var(--primary-color);
+    margin-bottom: var(--space-2);
+    font-size: var(--text-lg);
+}
+
+.contact-details a {
+    color: var(--gray-700);
+    text-decoration: none;
+}
+
+.contact-details a:hover {
+    color: var(--primary-color);
+    text-decoration: underline;
+}
+
+.quick-actions {
+    margin-bottom: var(--space-8);
+}
+
+.action-btn {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-4);
+    background-color: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    color: inherit;
+    margin-bottom: var(--space-3);
+    transition: all var(--transition-fast);
+}
+
+.action-btn:hover {
+    background-color: var(--gray-50);
+    border-color: var(--primary-color);
+    text-decoration: none;
+    color: inherit;
+    transform: translateX(4px);
+}
+
+.action-icon {
+    font-size: var(--text-2xl);
+    flex-shrink: 0;
+}
+
+.action-content h4 {
+    margin-bottom: var(--space-1);
+    color: var(--primary-color);
+}
+
+.action-content p {
+    margin: 0;
+    font-size: var(--text-sm);
+    color: var(--gray-600);
+}
+
+.social-links {
+    margin-bottom: var(--space-8);
+}
+
+.social-buttons {
+    display: flex;
+    gap: var(--space-3);
+}
+
+.social-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-full);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+}
+
+.social-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+.social-btn.facebook {
+    background-color: #1877f2;
+    color: var(--white);
+}
+
+.social-btn.linkedin {
+    background-color: #0a66c2;
+    color: var(--white);
+}
+
+.social-btn.youtube {
+    background-color: #ff0000;
+    color: var(--white);
+}
+
+.social-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    text-decoration: none;
+    color: var(--white);
+}
+
+.map-section {
+    padding: var(--space-16) 0;
+    background-color: var(--gray-50);
+}
+
+.map-container {
+    margin-top: var(--space-8);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+.map-placeholder {
+    height: 400px;
+    background: linear-gradient(45deg, var(--gray-200) 25%, transparent 25%), 
+                linear-gradient(-45deg, var(--gray-200) 25%, transparent 25%), 
+                linear-gradient(45deg, transparent 75%, var(--gray-200) 75%), 
+                linear-gradient(-45deg, transparent 75%, var(--gray-200) 75%);
+    background-size: 20px 20px;
+    background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.map-content {
+    background-color: var(--white);
+    padding: var(--space-8);
+    border-radius: var(--radius-lg);
+    text-align: center;
+    box-shadow: var(--shadow-lg);
+}
+
+.map-content h3 {
+    color: var(--primary-color);
+    margin-bottom: var(--space-4);
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const contactForm = document.getElementById('contact-form');
+    
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Form validation
+            const formData = new FormData(contactForm);
+            const data = Object.fromEntries(formData.entries());
+            
+            // Check required fields
+            const requiredFields = ['name', 'email', 'subject', 'message', 'privacy'];
+            const missingFields = requiredFields.filter(field => !data[field] || data[field] === '');
+            
+            if (missingFields.length > 0) {
+                if (window.bioarchitetturaApp?.notificationManager) {
+                    window.bioarchitetturaApp.notificationManager.show(
+                        'Compila tutti i campi obbligatori',
+                        'error'
+                    );
+                }
+                return;
+            }
+            
+            // Simulate form submission
+            const submitBtn = contactForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            
+            submitBtn.textContent = 'Invio in corso...';
+            submitBtn.disabled = true;
+            
+            setTimeout(() => {
+                if (window.bioarchitetturaApp?.notificationManager) {
+                    window.bioarchitetturaApp.notificationManager.show(
+                        'Messaggio inviato con successo! Ti risponderemo entro 24 ore.',
+                        'success',
+                        'Messaggio Inviato'
+                    );
+                }
+                
+                contactForm.reset();
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+                
+                // In production, this would send the form data to a server
+                console.log('Contact form data:', data);
+            }, 2000);
+        });
+    }
+});
+</script>
