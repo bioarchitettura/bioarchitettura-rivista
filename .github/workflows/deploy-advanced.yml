@@ -1,0 +1,132 @@
+# Advanced Deployment Workflow for Bioarchitettura Web
+# Deploys deployment-ready branch with all advanced features
+name: Deploy Advanced Features to GitHub Pages
+
+on:
+  # Runs on pushes targeting the deployment-ready branch
+  push:
+    branches: ["deployment-ready"]
+  
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages-deployment-ready"
+  cancel-in-progress: false
+
+jobs:
+  # Build job
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1'
+          bundler-cache: true
+          
+      - name: Setup Node.js (for asset processing)
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          
+      - name: Install dependencies
+        run: |
+          gem install jekyll bundler
+          if [ -f Gemfile ]; then
+            bundle install
+          else
+            echo "Creating Gemfile for deployment"
+            cat > Gemfile << EOF
+          source "https://rubygems.org"
+          
+          gem "jekyll", "~> 4.2.0"
+          gem "minima", "~> 2.5"
+          
+          group :jekyll_plugins do
+            gem "jekyll-feed", "~> 0.12"
+            gem "jekyll-sitemap"
+          end
+          
+          platforms :mingw, :x64_mingw, :mswin, :jruby do
+            gem "tzinfo", "~> 1.2"
+            gem "tzinfo-data"
+          end
+          
+          gem "wdm", "~> 0.1.1", :platforms => [:mingw, :x64_mingw, :mswin]
+          EOF
+            bundle install
+          fi
+          
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+        
+      - name: Build with Jekyll
+        run: |
+          bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
+        env:
+          JEKYLL_ENV: production
+          
+      - name: Optimize assets
+        run: |
+          # Minify CSS
+          if command -v cleancss >/dev/null 2>&1; then
+            find _site -name "*.css" -exec cleancss -o {} {} \;
+          fi
+          
+          # Compress images if tools available
+          if command -v jpegoptim >/dev/null 2>&1; then
+            find _site -name "*.jpg" -exec jpegoptim --strip-all {} \;
+          fi
+          
+          if command -v optipng >/dev/null 2>&1; then
+            find _site -name "*.png" -exec optipng -o2 {} \;
+          fi
+          
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+
+  # Deployment job
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+        
+  # Post-deployment notification
+  notify:
+    runs-on: ubuntu-latest
+    needs: [build, deploy]
+    if: always()
+    steps:
+      - name: Deployment Status
+        run: |
+          if [ "${{ needs.deploy.result }}" == "success" ]; then
+            echo "✅ Deployment successful! Advanced features are now live."
+            echo "🌍 Site URL: ${{ steps.deployment.outputs.page_url || 'https://bioarchitettura.github.io/web' }}"
+            echo "🚀 Features deployed:"
+            echo "  - Editorial architecture with responsive design"
+            echo "  - E-commerce shop with PayPal integration"  
+            echo "  - AI integrations (OpenAI, Tidio chat, article recommender)"
+            echo "  - Multilingual support with Google Translate"
+            echo "  - Advanced Jekyll layouts and includes"
+          else
+            echo "❌ Deployment failed. Check the logs above for details."
+            exit 1
+          fi

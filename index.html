@@ -1,20 +1,111 @@
-<!DOCTYPE html>
-<html lang="it">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fondazione Italiana per la Bioarchitettura</title>
-    <meta http-equiv="refresh" content="0; url=public/">
-    <style>
-        body { 
-            font-family: Arial, sans-serif; 
-            text-align: center; 
-            padding: 50px;
-        }
-    </style>
-</head>
-<body>
-    <h1>Redirecting...</h1>
-    <p>If you are not redirected automatically, <a href="public/">click here</a>.</p>
-</body>
-</html>
+---
+layout: default
+title: "Fondazione Italiana per la Bioarchitettura - Homepage"
+description: "La Fondazione Italiana per la Bioarchitettura® è l'Ente italiano di riferimento nell'ambito del costruire sano ed ecologico"
+---
+
+<div class="hero-section">
+    <h1>La Fondazione Italiana per la Bioarchitettura® e l'Antropizzazione Sostenibile dell'Ambiente, per la sua storia, è l'Ente italiano di riferimento nell'ambito del costruire sano ed ecologico.</h1>
+    <h2 data-translate="Il punto di riferimento della Bioarchitettura® in Italia ed Europa">Il punto di riferimento della Bioarchitettura® in Italia ed Europa</h2>
+    <p>Scopri le soluzioni innovative e sostenibili per una vita sana ed ecologica, in sintonia con la Terra e diventa socio della Fondazione Italiana per la Bioarchitettura® e l'Antropizzazione Sostenibile dell'Ambiente.</p>
+    <a href="/chi-siamo" class="cta-button" data-translate="Scopri di più">Scopri di più</a>
+</div>
+
+<section class="about-section" id="chi-siamo">
+    <div class="container">
+        <h2>La Nostra Storia</h2>
+        <h3>Costruire un Futuro Sostenibile</h3>
+        <p>La {{ site.foundation.full_name }} è l'Ente italiano di riferimento nell'ambito del costruire sano ed ecologico. Un impegno che si riflette nella nostra rivista BIOARCHITETTURA® ABITARE LA TERRA e nel Master di II livello CasaClima-Bioarchitettura Certificazione e Consulenza Energetico-ambientale, offrendo percorsi di alta formazione per esperti in progettazione sostenibile.</p>
+    </div>
+</section>
+
+<section class="stats-section">
+    <div class="stat">
+        <span class="number">500+</span>
+        <span class="label">Edifici Certificati</span>
+    </div>
+    <div class="stat">
+        <span class="number">10+</span>
+        <span class="label">Master Disponibili</span>
+    </div>
+    <div class="stat">
+        <span class="number">100+</span>
+        <span class="label">Riviste Pubblicate</span>
+    </div>
+</section>
+
+<section class="services-section" id="servizi">
+    <div class="service" id="rivista">
+        <h3>Rivista BIOARCHITETTURA®</h3>
+        <p>La prima rivista italiana dedicata all'architettura ecologica, offrendo ispirazione e informazioni per un abitare consapevole.</p>
+        <a href="/rivista" class="btn btn-primary">Scopri la Rivista</a>
+    </div>
+    
+    <div class="service" id="master">
+        <h3>Master CasaClima-Bioarchitettura-I.T.A.C.A</h3>
+        <p>Percorso di alta formazione per esperti in progettazione sostenibile, garantendo certificazioni e consulenze energetico-ambientali di qualità.</p>
+        <a href="/master" class="btn btn-primary">Info Master</a>
+    </div>
+    
+    <div class="service" id="shop-highlight">
+        <h3>Shop Specializzato</h3>
+        <p>Libri, riviste, corsi e materiali formativi per professionisti della bioarchitettura.</p>
+        <a href="/shop" class="btn btn-primary">Vai al Shop</a>
+    </div>
+</section>
+
+<section class="mission-section">
+    <div class="mission">
+        <h3>Costruire Sano ed Ecologico</h3>
+        <p>Promuoviamo soluzioni innovative e sostenibili per un costruire rispettoso dell'ambiente e della vita.</p>
+    </div>
+    
+    <div class="mission">
+        <h3>Impegno per un Futuro Migliore</h3>
+        <p>La nostra missione è guidare il settore dell'architettura verso un futuro sostenibile e attento alle esigenze del pianeta e delle generazioni future.</p>
+    </div>
+</section>
+
+<!-- Latest Articles Section -->
+<section class="latest-articles section-alt">
+    <div class="container">
+        <h2>Ultimi Articoli</h2>
+        <div class="articles-grid">
+            {% for post in site.posts limit: 3 %}
+            <article class="article-card">
+                {% if post.image %}
+                <div class="article-image">
+                    <img src="{{ post.image | relative_url }}" alt="{{ post.title | escape }}" loading="lazy">
+                </div>
+                {% endif %}
+                
+                <div class="article-content">
+                    <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
+                    <p class="article-excerpt">{{ post.excerpt | strip_html | truncate: 120 }}</p>
+                    
+                    <div class="article-meta">
+                        <time datetime="{{ post.date | date_to_xmlschema }}">
+                            {{ post.date | date: "%B %d, %Y" }}
+                        </time>
+                        {% if post.author %}
+                        <span class="article-author">di {{ post.author }}</span>
+                        {% endif %}
+                    </div>
+                    
+                    <a href="{{ post.url | relative_url }}" class="read-more" data-translate="Leggi di più">Leggi di più →</a>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        
+        <div class="section-cta">
+            <a href="/rivista" class="btn btn-outline">Tutti gli Articoli</a>
+        </div>
+    </div>
+</section>
+
+<section class="focus-section">
+    <div class="container">
+        <p>Ecosostenibilità, in sintonia con architettura e progettazione bioclimatica con focus alla biocompatibilità.</p>
+    </div>
+</section>

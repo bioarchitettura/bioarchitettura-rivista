@@ -1,4 +1,4 @@
-# Jekyll configuration for bioarchitettura.org
+# Jekyll configuration for bioarchitettura.org - Advanced Features Deployment
 title: "Fondazione Italiana per la Bioarchitettura"
 description: "L'Ente italiano di riferimento nell'ambito del costruire sano ed ecologico"
 baseurl: ""
@@ -21,6 +21,7 @@ destination: _site
 # Include public directory in processing
 include:
   - public
+  - assets
 
 # Exclude files from processing
 exclude:
@@ -28,6 +29,8 @@ exclude:
   - Gemfile
   - Gemfile.lock
   - vendor/
+  - node_modules/
+  - .sass-cache/
 
 # Collections and defaults
 defaults:
@@ -52,9 +55,93 @@ lang: it
 author: "Fondazione Italiana per la Bioarchitettura"
 keywords: "bioarchitettura, architettura sostenibile, costruzione ecologica"
 
-# Navigation
-main_sections:
-  - home
-  - about
-  - services
-  - contact
+# Advanced Features Configuration
+
+# Google Analytics (replace with actual GA ID for production)
+# google_analytics: "UA-XXXXXXXXX-1"
+
+# Tidio Chat Integration (uncomment and add your key for production)
+# tidio_public_key: "your-tidio-public-key-here"
+
+# OpenAI Summarization (uncomment and add your key for production)  
+# openai_api_key: "your-openai-api-key-here"
+# auto_generate_summaries: false
+# max_summary_length: 200
+
+# Article Recommender Settings
+max_related_articles: 3
+recommendation_fallback: true
+
+# E-commerce Settings
+paypal_merchant_email: "hannes.mitterer@gmail.com"
+
+# Social Media Links
+social_media:
+  facebook_rivista: "bioarchitettura-rivista"
+  facebook_bioarch: "rivista-bioarchitettura"  
+  facebook_foundation: "bioarchitettura"
+  linkedin_group: "#"
+
+# Contact Information
+contact:
+  phone: "+39 0471 973097"
+  email: "bioa@bioarchitettura.org"
+  address: "Certosa di Firenze, Via della Certosa, 1, 50124 Firenze FI"
+
+# Foundation Legal Information
+foundation:
+  full_name: "Fondazione Italiana per la Bioarchitettura® e l'Antropizzazione Sostenibile dell'Ambiente"
+  legal_status: "Ente morale senza fini di lucro"
+
+# Navigation Menu
+navigation:
+  - title: "Fondazione"
+    url: "/"
+  - title: "Chi Siamo"  
+    url: "/chi-siamo"
+  - title: "Quota Iscrizione"
+    url: "/quota-iscrizione"
+  - title: "Libri & Pubblicazioni"
+    url: "/libri-pubblicazioni"
+  - title: "Rivista"
+    url: "/rivista"
+  - title: "Master"
+    url: "/master"
+  - title: "Shop"
+    url: "/shop"
+
+# Supported Languages for Translation
+languages:
+  - code: "it"
+    name: "Italiano"
+    flag: "🇮🇹"
+  - code: "en"
+    name: "English"
+    flag: "🇬🇧"
+  - code: "de"
+    name: "Deutsch"
+    flag: "🇩🇪"
+  - code: "fr"
+    name: "Français"
+    flag: "🇫🇷"
+
+# SEO and Performance
+seo:
+  twitter_username: "@bioarchitettura"
+  facebook_app_id: ""
+
+# Content Security Policy
+csp:
+  default_src: "'self'"
+  script_src: "'self' 'unsafe-inline' *.google.com *.googleapis.com *.paypal.com"
+  style_src: "'self' 'unsafe-inline' fonts.googleapis.com"
+  img_src: "'self' data: *.paypal.com"
+  font_src: "'self' fonts.gstatic.com"
+
+# Deployment Settings
+deployment:
+  environment: "production"
+  cdn_url: ""
+  compress_html: true
+  minify_css: true
+  minify_js: true

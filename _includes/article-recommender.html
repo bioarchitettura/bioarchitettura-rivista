@@ -1,0 +1,139 @@
+{% comment %}
+Article Recommender Engine
+Recommends related articles based on category and tag matching
+{% endcomment %}
+
+{% assign max_related = site.max_related_articles | default: 3 %}
+{% assign related_posts = '' | split: ',' %}
+{% assign current_categories = page.categories %}
+{% assign current_tags = page.tags %}
+
+<!-- Find related posts by category and tags -->
+{% for post in site.posts %}
+    {% unless post.url == page.url %}
+        {% assign relevance_score = 0 %}
+        
+        <!-- Score by category matches (weight: 2) -->
+        {% for category in post.categories %}
+            {% if current_categories contains category %}
+                {% assign relevance_score = relevance_score | plus: 2 %}
+            {% endif %}
+        {% endfor %}
+        
+        <!-- Score by tag matches (weight: 1) -->
+        {% for tag in post.tags %}
+            {% if current_tags contains tag %}
+                {% assign relevance_score = relevance_score | plus: 1 %}
+            {% endif %}
+        {% endfor %}
+        
+        <!-- Add to related posts if relevant -->
+        {% if relevance_score > 0 %}
+            {% assign post_with_score = post | append: '|' | append: relevance_score %}
+            {% assign related_posts = related_posts | push: post_with_score %}
+        {% endif %}
+    {% endunless %}
+{% endfor %}
+
+<!-- Sort by relevance score (manual sorting for Jekyll) -->
+{% assign sorted_related = '' | split: ',' %}
+{% for i in (1..10) reversed %}
+    {% for related_item in related_posts %}
+        {% assign item_parts = related_item | split: '|' %}
+        {% assign score = item_parts[1] | plus: 0 %}
+        {% if score == i %}
+            {% assign sorted_related = sorted_related | push: item_parts[0] %}
+        {% endif %}
+    {% endfor %}
+{% endfor %}
+
+{% if sorted_related.size > 0 or site.recommendation_fallback %}
+<section class="related-articles">
+    <h3>Articoli Correlati</h3>
+    
+    {% if sorted_related.size > 0 %}
+        <div class="articles-grid">
+            {% assign count = 0 %}
+            {% for post_url in sorted_related limit: max_related %}
+                {% for post in site.posts %}
+                    {% if post.url == post_url %}
+                        <article class="related-article">
+                            {% if post.image %}
+                            <div class="article-image">
+                                <img src="{{ post.image | relative_url }}" alt="{{ post.title | escape }}" loading="lazy">
+                            </div>
+                            {% endif %}
+                            
+                            <div class="article-content">
+                                <h4><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h4>
+                                <p class="article-excerpt">{{ post.excerpt | strip_html | truncate: 120 }}</p>
+                                
+                                <div class="article-meta">
+                                    <time datetime="{{ post.date | date_to_xmlschema }}">
+                                        {{ post.date | date: "%B %d, %Y" }}
+                                    </time>
+                                    
+                                    {% if post.categories %}
+                                    <div class="article-categories">
+                                        {% for category in post.categories limit: 2 %}
+                                        <span class="category">{{ category }}</span>
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <a href="{{ post.url | relative_url }}" class="read-more">Leggi di più →</a>
+                            </div>
+                        </article>
+                        {% assign count = count | plus: 1 %}
+                        {% break %}
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        </div>
+    {% else %}
+        <!-- Fallback: Show recent articles -->
+        <div class="articles-grid">
+            <p class="recommendation-fallback">Ecco alcuni dei nostri articoli più recenti:</p>
+            {% for post in site.posts limit: max_related %}
+                <article class="related-article">
+                    {% if post.image %}
+                    <div class="article-image">
+                        <img src="{{ post.image | relative_url }}" alt="{{ post.title | escape }}" loading="lazy">
+                    </div>
+                    {% endif %}
+                    
+                    <div class="article-content">
+                        <h4><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h4>
+                        <p class="article-excerpt">{{ post.excerpt | strip_html | truncate: 120 }}</p>
+                        
+                        <div class="article-meta">
+                            <time datetime="{{ post.date | date_to_xmlschema }}">
+                                {{ post.date | date: "%B %d, %Y" }}
+                            </time>
+                            
+                            {% if post.categories %}
+                            <div class="article-categories">
+                                {% for category in post.categories limit: 2 %}
+                                <span class="category">{{ category }}</span>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                        
+                        <a href="{{ post.url | relative_url }}" class="read-more">Leggi di più →</a>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+    {% endif %}
+    
+    <!-- Future upgrade placeholder for Google Recommendations AI -->
+    {% comment %}
+    <!-- Google Recommendations AI integration point -->
+    <div id="google-recommendations" style="display: none;">
+        <!-- This section can be enhanced with Google Recommendations AI in the future -->
+    </div>
+    {% endcomment %}
+</section>
+{% endif %}

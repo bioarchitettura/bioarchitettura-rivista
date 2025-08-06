@@ -1,0 +1,239 @@
+{% comment %}
+OpenAI Summarization with JavaScript Fallback
+Configuration: Set openai_api_key in _config.yml for production
+{% endcomment %}
+
+<script>
+class ArticleSummarizer {
+    constructor() {
+        this.apiKey = '{{ site.openai_api_key }}';
+        this.maxLength = {{ site.max_summary_length | default: 200 }};
+        this.autoGenerate = {{ site.auto_generate_summaries | default: false }};
+        
+        this.init();
+    }
+    
+    init() {
+        const generateBtn = document.getElementById('generate-summary-btn');
+        const regenerateBtn = document.getElementById('regenerate-summary');
+        const copyBtn = document.getElementById('copy-summary');
+        
+        if (generateBtn) {
+            generateBtn.addEventListener('click', () => this.generateSummary());
+        }
+        
+        if (regenerateBtn) {
+            regenerateBtn.addEventListener('click', () => this.generateSummary());
+        }
+        
+        if (copyBtn) {
+            copyBtn.addEventListener('click', () => this.copySummary());
+        }
+        
+        // Auto-generate if enabled
+        if (this.autoGenerate) {
+            setTimeout(() => this.generateSummary(), 2000);
+        }
+    }
+    
+    async generateSummary() {
+        const articleText = this.extractArticleText();
+        if (!articleText) {
+            this.showError('Impossibile estrarre il testo dell\'articolo');
+            return;
+        }
+        
+        this.showLoading();
+        
+        try {
+            let summary;
+            
+            // Try OpenAI API first if key is available
+            if (this.apiKey && this.apiKey !== '' && this.apiKey !== '{{ site.openai_api_key }}') {
+                summary = await this.generateOpenAISummary(articleText);
+            } else {
+                // Fallback to JavaScript extraction
+                summary = this.generateJSSummary(articleText);
+            }
+            
+            this.displaySummary(summary);
+            
+        } catch (error) {
+            console.error('Summary generation failed:', error);
+            // Fallback to JavaScript summary
+            const summary = this.generateJSSummary(articleText);
+            this.displaySummary(summary);
+        }
+    }
+    
+    async generateOpenAISummary(text) {
+        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${this.apiKey}`
+            },
+            body: JSON.stringify({
+                model: 'gpt-3.5-turbo',
+                messages: [{
+                    role: 'user',
+                    content: `Riassumi questo articolo sulla bioarchitettura in italiano in circa ${this.maxLength} caratteri. Focus sui punti chiave e le soluzioni sostenibili:\n\n${text}`
+                }],
+                max_tokens: 150,
+                temperature: 0.7
+            })
+        });
+        
+        if (!response.ok) {
+            throw new Error(`OpenAI API error: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        return data.choices[0].message.content.trim();
+    }
+    
+    generateJSSummary(text) {
+        // JavaScript extractive summarization
+        const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 20);
+        
+        if (sentences.length <= 3) {
+            return sentences.join('. ').trim() + '.';
+        }
+        
+        // Score sentences based on keyword frequency and position
+        const keywords = this.extractKeywords(text);
+        const scoredSentences = sentences.map((sentence, index) => {
+            let score = 0;
+            
+            // Position scoring (earlier sentences get higher scores)
+            score += (sentences.length - index) / sentences.length * 2;
+            
+            // Keyword scoring
+            keywords.forEach(keyword => {
+                const regex = new RegExp(keyword, 'gi');
+                const matches = (sentence.match(regex) || []).length;
+                score += matches * 1.5;
+            });
+            
+            // Length penalty for very short or very long sentences
+            const length = sentence.length;
+            if (length < 50 || length > 200) {
+                score *= 0.7;
+            }
+            
+            return { sentence: sentence.trim(), score };
+        });
+        
+        // Sort by score and take top sentences
+        scoredSentences.sort((a, b) => b.score - a.score);
+        const topSentences = scoredSentences.slice(0, 3).map(s => s.sentence);
+        
+        let summary = topSentences.join('. ') + '.';
+        
+        // Truncate if too long
+        if (summary.length > this.maxLength) {
+            summary = summary.substring(0, this.maxLength - 3) + '...';
+        }
+        
+        return summary;
+    }
+    
+    extractKeywords(text) {
+        // Extract keywords relevant to bioarchitecture
+        const bioKeywords = [
+            'bioarchitettura', 'sostenibile', 'ecologico', 'energia', 'ambiente',
+            'costruzione', 'materiali', 'casa', 'edificio', 'progettazione',
+            'verde', 'rinnovabili', 'efficienza', 'passiva', 'isolamento'
+        ];
+        
+        const words = text.toLowerCase().split(/\W+/);
+        const frequency = {};
+        
+        // Count word frequency
+        words.forEach(word => {
+            if (word.length > 4) {
+                frequency[word] = (frequency[word] || 0) + 1;
+            }
+        });
+        
+        // Sort by frequency and include bio keywords
+        const keywords = Object.keys(frequency)
+            .sort((a, b) => frequency[b] - frequency[a])
+            .slice(0, 10);
+            
+        // Add bio-specific keywords that appear in text
+        bioKeywords.forEach(keyword => {
+            if (text.toLowerCase().includes(keyword) && !keywords.includes(keyword)) {
+                keywords.push(keyword);
+            }
+        });
+        
+        return keywords.slice(0, 15);
+    }
+    
+    extractArticleText() {
+        const contentElement = document.querySelector('.post-content');
+        if (!contentElement) return null;
+        
+        return contentElement.textContent || contentElement.innerText;
+    }
+    
+    showLoading() {
+        document.getElementById('summary-content').style.display = 'none';
+        document.getElementById('summary-loading').style.display = 'block';
+    }
+    
+    displaySummary(summary) {
+        document.getElementById('summary-loading').style.display = 'none';
+        document.getElementById('summary-text').textContent = summary;
+        document.getElementById('summary-content').style.display = 'block';
+    }
+    
+    copySummary() {
+        const summaryText = document.getElementById('summary-text').textContent;
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(summaryText).then(() => {
+                this.showToast('Riassunto copiato negli appunti!');
+            });
+        } else {
+            // Fallback for older browsers
+            const textArea = document.createElement('textarea');
+            textArea.value = summaryText;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            this.showToast('Riassunto copiato negli appunti!');
+        }
+    }
+    
+    showError(message) {
+        document.getElementById('summary-loading').style.display = 'none';
+        document.getElementById('summary-text').innerHTML = `<p class="error">${message}</p>`;
+        document.getElementById('summary-content').style.display = 'block';
+    }
+    
+    showToast(message) {
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        
+        setTimeout(() => {
+            toast.classList.add('show');
+        }, 100);
+        
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => document.body.removeChild(toast), 300);
+        }, 3000);
+    }
+}
+
+// Initialize on DOM ready
+document.addEventListener('DOMContentLoaded', function() {
+    if (document.querySelector('.post-content')) {
+        new ArticleSummarizer();
+    }
+});
+</script>

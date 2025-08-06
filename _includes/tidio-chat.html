@@ -1,0 +1,96 @@
+{% comment %}
+Tidio Chat Integration with graceful fallback
+Configuration: Set tidio_public_key in _config.yml
+{% endcomment %}
+
+{% if site.tidio_public_key %}
+<!-- Tidio Live Chat -->
+<script src="//code.tidio.co/{{ site.tidio_public_key }}.js" async></script>
+{% else %}
+<!-- Fallback Chat Widget (Development) -->
+<div id="chat-widget" class="chat-widget">
+    <div class="chat-button" id="chat-toggle">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2ZM20 16H5.17L4 17.17V4H20V16Z"/>
+            <circle cx="8" cy="10" r="1"/>
+            <circle cx="12" cy="10" r="1"/>
+            <circle cx="16" cy="10" r="1"/>
+        </svg>
+    </div>
+    
+    <div class="chat-popup" id="chat-popup" style="display: none;">
+        <div class="chat-header">
+            <h4>Assistenza Bioarchitettura</h4>
+            <button class="chat-close" id="chat-close">&times;</button>
+        </div>
+        <div class="chat-body">
+            <div class="chat-message system">
+                <p>Ciao! Sono qui per aiutarti con informazioni sulla bioarchitettura e i nostri servizi. Come posso aiutarti oggi?</p>
+            </div>
+            <div class="chat-options">
+                <button class="chat-option" data-message="Informazioni sui corsi">📚 Info Corsi</button>
+                <button class="chat-option" data-message="Abbonamento rivista">📖 Rivista</button>
+                <button class="chat-option" data-message="Consulenza tecnica">🏗️ Consulenza</button>
+                <button class="chat-option" data-message="Contatti">📞 Contatti</button>
+            </div>
+        </div>
+        <div class="chat-footer">
+            <input type="text" placeholder="Scrivi un messaggio..." id="chat-input">
+            <button id="chat-send">Invia</button>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const chatToggle = document.getElementById('chat-toggle');
+    const chatPopup = document.getElementById('chat-popup');
+    const chatClose = document.getElementById('chat-close');
+    const chatOptions = document.querySelectorAll('.chat-option');
+    const chatInput = document.getElementById('chat-input');
+    const chatSend = document.getElementById('chat-send');
+    const chatBody = document.querySelector('.chat-body');
+
+    if (!chatToggle) return;
+
+    chatToggle.addEventListener('click', function() {
+        chatPopup.style.display = chatPopup.style.display === 'none' ? 'block' : 'none';
+    });
+
+    chatClose.addEventListener('click', function() {
+        chatPopup.style.display = 'none';
+    });
+
+    chatOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            const message = this.getAttribute('data-message');
+            addChatMessage(message, 'user');
+            
+            // Simulate response
+            setTimeout(() => {
+                let response = getAutoResponse(message);
+                addChatMessage(response, 'system');
+            }, 1000);
+        });
+    });
+
+    function addChatMessage(message, sender) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `chat-message ${sender}`;
+        messageDiv.innerHTML = `<p>${message}</p>`;
+        chatBody.appendChild(messageDiv);
+        chatBody.scrollTop = chatBody.scrollHeight;
+    }
+
+    function getAutoResponse(message) {
+        const responses = {
+            'Informazioni sui corsi': 'I nostri corsi includono il Master CasaClima-Bioarchitettura-I.T.A.C.A. Per informazioni dettagliate, visita la sezione Master o contattaci al +39 0471 973097.',
+            'Abbonamento rivista': 'La rivista BIOARCHITETTURA® è disponibile in abbonamento annuale. Puoi trovare tutte le opzioni nel nostro shop online.',
+            'Consulenza tecnica': 'Offriamo servizi di consulenza per progetti di bioarchitettura. Contattaci a bioa@bioarchitettura.org per una consulenza personalizzata.',
+            'Contatti': 'Puoi contattarci al +39 0471 973097 o via email a bioa@bioarchitettura.org. La nostra sede è a Certosa di Firenze, Via della Certosa, 1.'
+        };
+        return responses[message] || 'Grazie per il tuo messaggio. Ti risponderemo il prima possibile. Per urgenze, contattaci direttamente al +39 0471 973097.';
+    }
+});
+</script>
+{% endif %}

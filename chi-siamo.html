@@ -1,0 +1,74 @@
+---
+layout: default
+title: "Chi Siamo - Fondazione Italiana per la Bioarchitettura"
+description: "Scopri la storia e la missione della Fondazione Italiana per la Bioarchitettura"
+---
+
+<div class="hero-section">
+    <h1>Chi Siamo</h1>
+    <p>La storia e la missione della {{ site.foundation.full_name }}</p>
+</div>
+
+<div class="container">
+    <section class="about-content">
+        <h2>La Nostra Storia</h2>
+        <p>La {{ site.foundation.full_name }} è nata dalla volontà di promuovere un approccio innovativo e sostenibile all'architettura. Fondata con l'obiettivo di essere l'ente di riferimento per il costruire sano ed ecologico in Italia, la Fondazione opera da anni nel campo della ricerca, della formazione e della divulgazione scientifica.</p>
+        
+        <h2>La Nostra Missione</h2>
+        <p>Promuoviamo la cultura della bioarchitettura attraverso:</p>
+        <ul>
+            <li>Ricerca scientifica e sviluppo di nuove tecnologie sostenibili</li>
+            <li>Formazione professionale specializzata</li>
+            <li>Divulgazione attraverso pubblicazioni e eventi</li>
+            <li>Consulenza tecnica per progetti innovativi</li>
+            <li>Certificazioni per l'edilizia sostenibile</li>
+        </ul>
+        
+        <h2>I Nostri Valori</h2>
+        <div class="values-grid">
+            <div class="value-item">
+                <h3>Sostenibilità</h3>
+                <p>Ogni progetto deve rispettare l'ambiente e le generazioni future</p>
+            </div>
+            <div class="value-item">
+                <h3>Innovazione</h3>
+                <p>Ricerca continua di soluzioni tecnologiche all'avanguardia</p>
+            </div>
+            <div class="value-item">
+                <h3>Qualità</h3>
+                <p>Excellence in ogni aspetto del nostro lavoro</p>
+            </div>
+            <div class="value-item">
+                <h3>Formazione</h3>
+                <p>Trasmissione del sapere alle nuove generazioni</p>
+            </div>
+        </div>
+    </section>
+</div>
+
+<style>
+.about-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 0;
+}
+
+.values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.value-item {
+    background: var(--light-bg);
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    text-align: center;
+}
+
+.value-item h3 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+</style>

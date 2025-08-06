@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: site.lang | default: 'it' }}">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>{% if page.title %}{{ page.title | escape }}{% else %}{{ site.title | escape }}{% endif %}</title>
+    <meta name="description" content="{{ page.excerpt | default: site.description | strip_html | normalize_whitespace | truncate: 160 | escape }}">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+    <link rel="canonical" href="{{ page.url | replace:'index.html','' | absolute_url }}">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{ '/assets/images/favicon.ico' | relative_url }}">
+    
+    <!-- Google Analytics -->
+    {% if site.google_analytics %}
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ site.google_analytics }}"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '{{ site.google_analytics }}');
+    </script>
+    {% endif %}
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ '/' | relative_url }}" class="nav-logo">
+                BIOARCHITETTURA®
+            </a>
+            
+            <ul class="nav-menu" id="nav-menu">
+                <li class="nav-item">
+                    <a href="{{ '/' | relative_url }}" class="nav-link">Fondazione</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ '/chi-siamo' | relative_url }}" class="nav-link">Chi Siamo</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ '/quota-iscrizione' | relative_url }}" class="nav-link">Quota Iscrizione</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ '/libri-pubblicazioni' | relative_url }}" class="nav-link">Libri & Pubblicazioni</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ '/rivista' | relative_url }}" class="nav-link">Rivista</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ '/master' | relative_url }}" class="nav-link">Master</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ '/shop' | relative_url }}" class="nav-link">Shop</a>
+                </li>
+                <li class="nav-item">
+                    <div class="language-selector">
+                        <select id="language-select" onchange="translatePage(this.value)">
+                            <option value="it">🇮🇹 IT</option>
+                            <option value="en">🇬🇧 EN</option>
+                            <option value="de">🇩🇪 DE</option>
+                            <option value="fr">🇫🇷 FR</option>
+                        </select>
+                    </div>
+                </li>
+            </ul>
+            
+            <!-- Shopping Cart Icon -->
+            <div class="cart-icon" id="cart-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M7 4V2C7 1.45 7.45 1 8 1H16C16.55 1 17 1.45 17 2V4H20C20.55 4 21 4.45 21 5S20.55 6 20 6H19V19C19 20.1 18.1 21 17 21H7C5.9 21 5 20.1 5 19V6H4C3.45 6 3 5.55 3 5S3.45 4 4 4H7ZM9 3V4H15V3H9ZM7 6V19H17V6H7Z"/>
+                </svg>
+                <span class="cart-count" id="cart-count">0</span>
+            </div>
+            
+            <button class="nav-toggle" id="nav-toggle">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        {{ content }}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Fondazione Italiana per la Bioarchitettura</h3>
+                <p>La Fondazione Italiana per la Bioarchitettura® e l'Antropizzazione Sostenibile dell'Ambiente è un Ente morale senza fini di lucro</p>
+                
+                <div class="contact-info">
+                    <p><strong>Telefono:</strong> +39 0471 973097</p>
+                    <p><strong>Email:</strong> bioa@bioarchitettura.org</p>
+                    <p><strong>Indirizzo:</strong> Certosa di Firenze, Via della Certosa, 1, 50124 Firenze FI</p>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Collegamenti Rapidi</h3>
+                <ul class="footer-links">
+                    <li><a href="{{ '/chi-siamo' | relative_url }}">Chi Siamo</a></li>
+                    <li><a href="{{ '/rivista' | relative_url }}">Rivista</a></li>
+                    <li><a href="{{ '/master' | relative_url }}">Master</a></li>
+                    <li><a href="{{ '/shop' | relative_url }}">Shop</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Seguici</h3>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/bioarchitettura-rivista" target="_blank" rel="noopener">Facebook Rivista</a>
+                    <a href="https://www.facebook.com/rivista-bioarchitettura" target="_blank" rel="noopener">Facebook Bioarchitettura</a>
+                    <a href="https://www.facebook.com/bioarchitettura" target="_blank" rel="noopener">Facebook Fondazione</a>
+                    <a href="#" target="_blank" rel="noopener">LinkedIn Gruppo</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; {{ 'now' | date: "%Y" }} Fondazione Italiana per la Bioarchitettura. Tutti i diritti riservati.</p>
+        </div>
+    </footer>
+
+    <!-- Shopping Cart Modal -->
+    <div id="cart-modal" class="cart-modal">
+        <div class="cart-modal-content">
+            <span class="cart-close">&times;</span>
+            <h2>Carrello della Spesa</h2>
+            <div id="cart-items"></div>
+            <div class="cart-total">
+                <h3>Totale: €<span id="cart-total">0.00</span></h3>
+            </div>
+            <div class="cart-actions">
+                <button id="clear-cart" class="btn btn-secondary">Svuota Carrello</button>
+                <button id="checkout-btn" class="btn btn-primary">Procedi al Pagamento</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include Tidio Chat -->
+    {% include tidio-chat.html %}
+    
+    <!-- Include JavaScript -->
+    <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
+    <script src="{{ '/assets/js/shop.js' | relative_url }}"></script>
+    <script src="{{ '/assets/js/translation.js' | relative_url }}"></script>
+</body>
+</html>

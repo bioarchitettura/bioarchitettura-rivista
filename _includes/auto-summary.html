@@ -1,0 +1,35 @@
+{% comment %}
+Auto-Summary Generation System with OpenAI Integration
+Includes fallback JavaScript summarization algorithm
+{% endcomment %}
+
+<div class="auto-summary-section">
+    <div class="summary-header">
+        <h3>Riassunto Articolo</h3>
+        <button id="generate-summary-btn" class="btn btn-outline">
+            <span class="summary-icon">✨</span>
+            Genera Riassunto
+        </button>
+    </div>
+    
+    <div id="summary-content" class="summary-content" style="display: none;">
+        <div class="summary-text" id="summary-text">
+            <!-- AI-generated summary will appear here -->
+        </div>
+        <div class="summary-actions">
+            <button id="regenerate-summary" class="btn btn-sm">🔄 Rigenera</button>
+            <button id="copy-summary" class="btn btn-sm">📋 Copia</button>
+        </div>
+        <p class="summary-disclaimer">
+            <small>Riassunto generato automaticamente. Potrebbe non riflettere completamente tutti i contenuti dell'articolo.</small>
+        </p>
+    </div>
+    
+    <div id="summary-loading" class="summary-loading" style="display: none;">
+        <div class="loading-spinner"></div>
+        <p>Generando riassunto...</p>
+    </div>
+</div>
+
+<!-- Include OpenAI summarization JavaScript -->
+{% include openai-summarization.html %}
