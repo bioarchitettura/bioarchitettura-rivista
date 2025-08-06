@@ -4,17 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fondazione Italiana per la Bioarchitettura</title>
+    <!-- Security Headers as meta tags where possible -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), interest-cohort=()">
+    <!-- Proper HTTP redirect using Jekyll redirect plugin -->
     <meta http-equiv="refresh" content="0; url=public/">
+    <link rel="canonical" href="public/">
     <style>
         body { 
             font-family: Arial, sans-serif; 
             text-align: center; 
             padding: 50px;
+            background-color: #f8f9fa;
+            color: #2c5530;
+        }
+        .loader {
+            margin: 20px auto;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #e3e3e3;
+            border-top: 4px solid #2c5530;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
-    <h1>Redirecting...</h1>
-    <p>If you are not redirected automatically, <a href="public/">click here</a>.</p>
+    <h1>Fondazione Italiana per la Bioarchitettura</h1>
+    <div class="loader"></div>
+    <p>Redirecting to the main site...</p>
+    <p>If you are not redirected automatically, <a href="public/" style="color: #2c5530; font-weight: bold;">click here</a>.</p>
+    <script>
+        // JavaScript redirect as fallback
+        setTimeout(function() {
+            window.location.href = 'public/';
+        }, 100);
+    </script>
 </body>
 </html>

@@ -13,14 +13,17 @@ theme: minima
 plugins:
   - jekyll-feed
   - jekyll-sitemap
+  - jekyll-redirect-from
 
 # Source and destination
 source: .
 destination: _site
 
-# Include public directory in processing
+# Include public directory and header/redirect files in processing
 include:
   - public
+  - _headers
+  - _redirects
 
 # Exclude files from processing
 exclude:
@@ -51,6 +54,22 @@ defaults:
 lang: it
 author: "Fondazione Italiana per la Bioarchitettura"
 keywords: "bioarchitettura, architettura sostenibile, costruzione ecologica"
+
+# Security settings
+security:
+  enable_csp: true
+  enable_hsts: true
+  frame_options: "DENY"
+  content_type_options: "nosniff"
+  xss_protection: "1; mode=block"
+  referrer_policy: "strict-origin-when-cross-origin"
+
+# Performance settings
+performance:
+  preload_fonts: true
+  dns_prefetch: true
+  enable_compression: true
+  cache_static_assets: true
 
 # Navigation
 main_sections:

@@ -1,0 +1,49 @@
+# Redirect rules for bioarchitettura-rivista site
+# These work in conjunction with the _headers file
+
+# Main redirect from root to public directory
+# Remove the meta refresh and use proper HTTP redirect
+/ /public/ 302
+
+# Handle legacy URLs and common patterns
+/home /public/ 302
+/index /public/ 302
+/index.htm /public/ 302
+
+# Ensure trailing slash consistency
+/public /public/ 301
+
+# Admin access should remain direct
+/admin/* /admin/:splat 200
+
+# API endpoints (if any)
+/api/* /api/:splat 200
+
+# Handle common file requests that might be in wrong location
+/favicon.ico /public/favicon.ico 301
+/robots.txt /public/robots.txt 301
+/sitemap.xml /sitemap.xml 200
+
+# Handle image requests that might be requested from root
+/*.jpg /public/:splat.jpg 301
+/*.jpeg /public/:splat.jpeg 301  
+/*.png /public/:splat.png 301
+/*.gif /public/:splat.gif 301
+/*.svg /public/:splat.svg 301
+
+# Handle CSS and JS that might be requested from wrong path
+/*.css /public/:splat.css 301
+/*.js /public/:splat.js 301
+
+# CMS and static site redirects
+/contatti.md /public/contatti.html 301
+/chi-siamo.md /public/chi-siamo.html 301
+
+# Ensure Jekyll-generated feeds work properly
+/feed.xml /feed.xml 200
+
+# Handle any remaining public directory access patterns
+/public/* /public/:splat 200
+
+# Catch-all for any other requests - redirect to main public area
+/* /public/ 302

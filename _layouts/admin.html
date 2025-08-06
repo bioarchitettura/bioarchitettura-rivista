@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: site.lang | default: 'it' }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Relaxed security headers for admin interface -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    
+    <!-- Admin-specific CSP that allows Netlify CMS -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://identity.netlify.com https://unpkg.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://api.netlify.com https://api.github.com wss://api.netlify.com; frame-src 'self' https://api.netlify.com; object-src 'none'; base-uri 'self'">
+    
+    <!-- Admin meta -->
+    <title>{% if page.title %}{{ page.title }} - Admin{% else %}Admin - {{ site.title }}{% endif %}</title>
+    <meta name="robots" content="noindex, nofollow">
+    
+    <!-- Admin specific resources -->
+    {% if page.admin_head %}{{ page.admin_head }}{% endif %}
+</head>
+<body class="admin-layout">
+    {{ content }}
+    
+    <!-- Admin specific scripts -->
+    {% if page.admin_scripts %}
+        {% for script in page.admin_scripts %}
+            <script src="{{ script }}"></script>
+        {% endfor %}
+    {% endif %}
+</body>
+</html>

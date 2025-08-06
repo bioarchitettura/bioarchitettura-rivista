@@ -1,0 +1,109 @@
+# Default security and performance headers for all pages
+/*
+  # Security Headers
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  X-XSS-Protection: 1; mode=block
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), interest-cohort=()
+  
+  # Content Security Policy
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://identity.netlify.com https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://api.netlify.com; frame-src https://www.youtube.com https://player.vimeo.com; object-src 'none'; base-uri 'self'; form-action 'self' https://formspree.io; upgrade-insecure-requests
+  
+  # Performance Headers
+  Cache-Control: public, max-age=31536000, immutable
+
+# HTML pages - shorter cache and additional security
+/*.html
+  Cache-Control: public, max-age=3600, must-revalidate
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  X-XSS-Protection: 1; mode=block
+
+# CSS files - longer cache with versioning support
+/*.css
+  Cache-Control: public, max-age=31536000, immutable
+  Content-Type: text/css; charset=utf-8
+
+# JavaScript files - cache with integrity checks
+/*.js
+  Cache-Control: public, max-age=31536000, immutable
+  Content-Type: application/javascript; charset=utf-8
+
+# Images - optimized caching
+/*.jpg
+  Cache-Control: public, max-age=31536000, immutable
+  Content-Type: image/jpeg
+
+/*.jpeg
+  Cache-Control: public, max-age=31536000, immutable
+  Content-Type: image/jpeg
+
+/*.png
+  Cache-Control: public, max-age=31536000, immutable
+  Content-Type: image/png
+
+/*.gif
+  Cache-Control: public, max-age=31536000, immutable
+  Content-Type: image/gif
+
+/*.svg
+  Cache-Control: public, max-age=31536000, immutable
+  Content-Type: image/svg+xml
+
+/*.webp
+  Cache-Control: public, max-age=31536000, immutable
+  Content-Type: image/webp
+
+# Admin interface specific headers
+/admin/*
+  X-Frame-Options: SAMEORIGIN
+  X-Robots-Tag: noindex, nofollow
+  Cache-Control: no-cache, no-store, must-revalidate
+
+# API and form endpoints
+/api/*
+  Access-Control-Allow-Origin: https://bioarchitettura.github.io
+  Access-Control-Allow-Methods: GET, POST, OPTIONS
+  Access-Control-Allow-Headers: Content-Type, Authorization
+  Cache-Control: no-cache, no-store, must-revalidate
+
+# Public directory specific rules
+/public/*
+  Cache-Control: public, max-age=7200, must-revalidate
+
+# RSS and XML feeds
+/*.xml
+  Cache-Control: public, max-age=3600, must-revalidate
+  Content-Type: application/xml; charset=utf-8
+
+/*.rss
+  Cache-Control: public, max-age=3600, must-revalidate
+  Content-Type: application/rss+xml; charset=utf-8
+
+# Special handling for the root redirect
+/index.html
+  Cache-Control: no-cache, no-store, must-revalidate
+  X-Robots-Tag: noindex
+  
+# Manifest and service worker files
+/*.json
+  Cache-Control: public, max-age=3600, must-revalidate
+  Content-Type: application/json; charset=utf-8
+
+# Font files
+/*.woff
+  Cache-Control: public, max-age=31536000, immutable
+  Content-Type: font/woff
+
+/*.woff2
+  Cache-Control: public, max-age=31536000, immutable
+  Content-Type: font/woff2
+
+/*.ttf
+  Cache-Control: public, max-age=31536000, immutable
+  Content-Type: font/ttf
+
+/*.eot
+  Cache-Control: public, max-age=31536000, immutable
+  Content-Type: application/vnd.ms-fontobject
