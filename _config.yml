@@ -14,10 +14,6 @@ plugins:
   - jekyll-feed
   - jekyll-sitemap
 
-# Source and destination
-source: .
-destination: _site
-
 # Include public directory in processing
 include:
   - public
