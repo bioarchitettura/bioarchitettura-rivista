@@ -1,0 +1,15 @@
+<svg width="800" height="400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2c5530;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#4a7c59;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="400" fill="url(#grad1)"/>
+  <rect x="50" y="50" width="700" height="300" fill="white" opacity="0.9" rx="10"/>
+  <text x="400" y="150" font-family="Arial, sans-serif" font-size="36" font-weight="bold" text-anchor="middle" fill="#2c5530">RIVISTA</text>
+  <text x="400" y="200" font-family="Arial, sans-serif" font-size="48" font-weight="bold" text-anchor="middle" fill="#2c5530">BIOARCHITETTURA</text>
+  <text x="400" y="250" font-family="Arial, sans-serif" font-size="24" text-anchor="middle" fill="#4a7c59">Abitare la Terra</text>
+  <circle cx="150" cy="120" r="30" fill="#4a7c59" opacity="0.7"/>
+  <circle cx="650" cy="280" r="25" fill="#2c5530" opacity="0.7"/>
+</svg>
