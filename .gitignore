@@ -9,10 +9,7 @@ _site/
 
 # Additional Ruby/bundler ignore for when you run: bundle install
 /vendor
+.bundle/
 
-# Specific ignore for GitHub Pages
-# GitHub Pages will always use its own deployed version of pages-gem 
-# This means GitHub Pages will NOT use your Gemfile.lock and therefore it is
-# counterproductive to check this file into the repository.
-# Details at https://github.com/github/pages-gem/issues/768
-Gemfile.lock
+# Note: Gemfile.lock is committed for Netlify builds to ensure reproducible deployments
+# For GitHub Pages, Gemfile.lock would be ignored, but this site uses Netlify CMS and Netlify deployment
