@@ -1,0 +1,136 @@
+---
+layout: default
+title: "Pagamento Completato - Grazie per il tuo acquisto"
+description: "Pagamento completato con successo"
+---
+
+<div class="container">
+    <div class="payment-status success">
+        <h1>✅ Pagamento Completato!</h1>
+        <p>Grazie per il tuo acquisto presso il nostro shop. La transazione è stata completata con successo.</p>
+        
+        <div class="payment-details">
+            <h2>Cosa succede ora?</h2>
+            <ul>
+                <li>Riceverai una email di conferma con i dettagli dell'ordine</li>
+                <li>Per i prodotti digitali, troverai i link per il download nella email</li>
+                <li>I prodotti fisici verranno spediti all'indirizzo indicato</li>
+                <li>Per qualsiasi domanda, contattaci a {{ site.contact.email }}</li>
+            </ul>
+        </div>
+        
+        <div class="next-steps">
+            <h2>Prossimi Passi</h2>
+            <div class="actions">
+                <a href="/shop" class="btn btn-primary">Continua lo Shopping</a>
+                <a href="/" class="btn btn-secondary">Torna alla Homepage</a>
+                <a href="/contatti" class="btn btn-outline">Contattaci</a>
+            </div>
+        </div>
+        
+        <div class="support-info">
+            <p><strong>Hai bisogno di aiuto?</strong></p>
+            <p>Contattaci al {{ site.contact.phone }} o scrivi a {{ site.contact.email }}</p>
+        </div>
+    </div>
+</div>
+
+<script>
+// Clear the cart after successful payment
+document.addEventListener('DOMContentLoaded', function() {
+    if (window.shop) {
+        window.shop.handlePaymentSuccess();
+    }
+    
+    // Remove any pending cart data
+    try {
+        localStorage.removeItem('bioarch_pending_cart');
+    } catch (e) {
+        console.warn('Unable to clear pending cart:', e);
+    }
+});
+</script>
+
+<style>
+.payment-status {
+    text-align: center;
+    max-width: 600px;
+    margin: 3rem auto;
+    padding: 3rem;
+    border-radius: var(--border-radius);
+}
+
+.payment-status.success {
+    background: #d4edda;
+    border: 2px solid #28a745;
+    color: #155724;
+}
+
+.payment-status h1 {
+    color: #28a745;
+    margin-bottom: 1.5rem;
+    font-size: 2.5rem;
+}
+
+.payment-details, .next-steps {
+    margin: 2rem 0;
+    text-align: left;
+}
+
+.payment-details h2, .next-steps h2 {
+    color: #28a745;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.payment-details ul {
+    list-style: none;
+    padding: 0;
+}
+
+.payment-details li {
+    margin: 0.5rem 0;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(40, 167, 69, 0.2);
+}
+
+.payment-details li:before {
+    content: "✓ ";
+    color: #28a745;
+    font-weight: bold;
+    margin-right: 0.5rem;
+}
+
+.actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin: 2rem 0;
+    flex-wrap: wrap;
+}
+
+.support-info {
+    margin-top: 2rem;
+    padding: 1rem;
+    background: rgba(40, 167, 69, 0.1);
+    border-radius: var(--border-radius-sm);
+    font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+    .payment-status {
+        margin: 1rem;
+        padding: 2rem 1rem;
+    }
+    
+    .actions {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .actions .btn {
+        width: 100%;
+        max-width: 200px;
+    }
+}
+</style>
