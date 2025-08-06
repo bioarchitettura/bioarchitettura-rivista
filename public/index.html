@@ -49,15 +49,17 @@
         
         .nav-item {
             margin: 0;
+            position: relative;
         }
         
         .nav-link {
             display: block;
             color: white;
             text-decoration: none;
-            padding: 20px 20px;
+            padding: 20px 15px;
             transition: background-color 0.3s ease;
             font-weight: 500;
+            white-space: nowrap;
         }
         
         .nav-link:hover {
@@ -67,6 +69,96 @@
         
         .nav-link.active {
             background-color: #4a7c59;
+        }
+
+        /* Language Selector */
+        .language-selector {
+            margin-left: 20px;
+            position: relative;
+        }
+
+        .language-btn {
+            background: none;
+            border: 1px solid #4a7c59;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .language-btn:hover {
+            background-color: #4a7c59;
+        }
+
+        .language-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            min-width: 120px;
+            z-index: 1001;
+            display: none;
+        }
+
+        .language-dropdown.show {
+            display: block;
+        }
+
+        .language-option {
+            padding: 10px 15px;
+            cursor: pointer;
+            color: #333;
+            transition: background-color 0.3s ease;
+            border-bottom: 1px solid #eee;
+        }
+
+        .language-option:last-child {
+            border-bottom: none;
+        }
+
+        .language-option:hover {
+            background-color: #f5f5f5;
+        }
+
+        /* Dropdown menu styles */
+        .nav-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            min-width: 200px;
+            z-index: 1001;
+            display: none;
+        }
+
+        .nav-dropdown.show {
+            display: block;
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 12px 20px;
+            color: #333;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            border-bottom: 1px solid #eee;
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-item:hover {
+            background-color: #f5f5f5;
+            color: #2c5530;
         }
         
         /* Mobile Navigation */
@@ -91,6 +183,8 @@
                 text-align: center;
                 transition: 0.3s;
                 box-shadow: 0 10px 27px rgba(0,0,0,0.05);
+                max-height: calc(100vh - 70px);
+                overflow-y: auto;
             }
             
             .nav-menu.active {
@@ -109,6 +203,37 @@
             
             .nav-toggle {
                 display: block;
+            }
+
+            .language-selector {
+                position: absolute;
+                top: 15px;
+                right: 60px;
+                margin: 0;
+            }
+
+            .nav-dropdown {
+                position: static;
+                display: none;
+                background: #4a7c59;
+                border: none;
+                box-shadow: none;
+                border-radius: 0;
+            }
+
+            .nav-dropdown.show {
+                display: block;
+            }
+
+            .dropdown-item {
+                color: white;
+                border-bottom: 1px solid #2c5530;
+                padding: 10px 20px;
+            }
+
+            .dropdown-item:hover {
+                background-color: #2c5530;
+                color: white;
             }
         }
         .hero-section {
@@ -173,6 +298,70 @@
             text-align: center;
             font-size: 1.2em;
         }
+
+        /* Footer styles */
+        .footer {
+            background-color: #1a1a1a;
+            color: white;
+            padding: 40px 20px 20px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-section h4 {
+            color: #4a7c59;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .footer-section p, .footer-section a {
+            font-size: 0.9em;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #4a7c59;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .social-link {
+            display: inline-block;
+            padding: 8px;
+            background-color: #333;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .social-link:hover {
+            background-color: #4a7c59;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #333;
+            padding-top: 20px;
+            text-align: center;
+            font-size: 0.8em;
+            color: #ccc;
+        }
     </style>
 </head>
 <body>
@@ -182,24 +371,64 @@
             <a href="#" class="nav-logo">Bioarchitettura</a>
             <ul class="nav-menu">
                 <li class="nav-item">
-                    <a href="#" class="nav-link active">Home</a>
+                    <a href="index.html" class="nav-link active">Fondazione</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#chi-siamo" class="nav-link">Chi Siamo</a>
+                    <a href="chi-siamo.html" class="nav-link">Chi Siamo</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#servizi" class="nav-link">Servizi</a>
+                    <a href="quota-iscrizione.html" class="nav-link">Quota Iscrizione</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#rivista" class="nav-link">Rivista</a>
+                    <a href="libri-pubblicazioni.html" class="nav-link">Libri & Pubblicazioni</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="rivista.html" class="nav-link">Rivista ▾</a>
+                    <div class="nav-dropdown">
+                        <a href="rivista-edizioni.html" class="dropdown-item">Tutte le edizioni</a>
+                        <a href="rivista-articoli.html" class="dropdown-item">Articoli</a>
+                        <a href="rivista-abbonamenti.html" class="dropdown-item">Abbonamenti</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="master.html" class="nav-link">Master ▾</a>
+                    <div class="nav-dropdown">
+                        <a href="casaclima-bioarchitettura.html" class="dropdown-item">Casaclima Bioarchitettura®</a>
+                        <a href="progetti-master.html" class="dropdown-item">Progetti Master</a>
+                        <a href="dicono-di-noi.html" class="dropdown-item">Dicono di noi</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="informazione.html" class="nav-link">Informazione ▾</a>
+                    <div class="nav-dropdown">
+                        <a href="news.html" class="dropdown-item">News</a>
+                        <a href="attivita.html" class="dropdown-item">Attività</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="supporto.html" class="nav-link">Supporto ▾</a>
+                    <div class="nav-dropdown">
+                        <a href="faq.html" class="dropdown-item">FAQ</a>
+                        <a href="privacy.html" class="dropdown-item">Privacy</a>
+                        <a href="contatti.html" class="dropdown-item">Contatti</a>
+                    </div>
                 </li>
                 <li class="nav-item">
-                    <a href="#master" class="nav-link">Master</a>
+                    <a href="cerca.html" class="nav-link">Cerca</a>
                 </li>
                 <li class="nav-item">
-                    <a href="contatti.html" class="nav-link">Contatti</a>
+                    <a href="shop.html" class="nav-link">🛒 Shop</a>
                 </li>
             </ul>
+            <div class="language-selector">
+                <button class="language-btn" id="language-btn">🌐 IT ▾</button>
+                <div class="language-dropdown" id="language-dropdown">
+                    <div class="language-option" data-lang="it">🇮🇹 Italiano</div>
+                    <div class="language-option" data-lang="en">🇬🇧 English</div>
+                    <div class="language-option" data-lang="de">🇩🇪 Deutsch</div>
+                    <div class="language-option" data-lang="fr">🇫🇷 Français</div>
+                </div>
+            </div>
             <button class="nav-toggle" id="nav-toggle">
                 ☰
             </button>
@@ -262,12 +491,83 @@
         <p>Ecosostenibilità, in sintonia con architettura e progettazione bioclimatica con focus alla biocompatibilità.</p>
     </section>
 
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Fondazione</h4>
+                <p>La Fondazione Italiana per la Bioarchitettura® e l'Antropizzazione Sostenibile dell'Ambiente è un Ente morale senza fini di lucro</p>
+                <p><strong>Sede legale:</strong><br>
+                Certosa di Firenze<br>
+                Via della Certosa, 1<br>
+                50124 Firenze FI</p>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Contatti</h4>
+                <p><strong>Domande?</strong><br>
+                <a href="tel:+390471973097">+39 0471 973097</a></p>
+                <p><strong>Email:</strong><br>
+                <a href="mailto:bioa@bioarchitettura.org">bioa@bioarchitettura.org</a></p>
+            </div>
+
+            <div class="footer-section">
+                <h4>Seguici</h4>
+                <p>Rimani aggiornato sulle nostre attività</p>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/bioarchitettura-rivista" target="_blank" class="social-link" title="Facebook Bioarchitettura Rivista">📘</a>
+                    <a href="https://www.facebook.com/rivista-bioarchitettura" target="_blank" class="social-link" title="Facebook Rivista Bioarchitettura">📘</a>
+                    <a href="https://www.facebook.com/bioarchitettura" target="_blank" class="social-link" title="Facebook Bioarchitettura">📘</a>
+                    <a href="https://www.linkedin.com/groups/LinkedIn-Gruppo" target="_blank" class="social-link" title="LinkedIn Gruppo">💼</a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h4>Servizi</h4>
+                <p><a href="rivista.html">Rivista BIOARCHITETTURA®</a></p>
+                <p><a href="master.html">Master CasaClima</a></p>
+                <p><a href="libri-pubblicazioni.html">Libri & Pubblicazioni</a></p>
+                <p><a href="shop.html">Shop Online</a></p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2024 Fondazione Italiana per la Bioarchitettura® e l'Antropizzazione Sostenibile dell'Ambiente. Tutti i diritti riservati.</p>
+        </div>
+    </footer>
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'GA_MEASUREMENT_ID'); // Replace with actual Google Analytics ID
+    </script>
+
+    <!-- Google Translate -->
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'it',
+                includedLanguages: 'it,en,de,fr',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+    </script>
+    <div id="google_translate_element" style="display: none;"></div>
+
     <!-- Navigation JavaScript -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const navToggle = document.getElementById('nav-toggle');
             const navMenu = document.querySelector('.nav-menu');
+            const languageBtn = document.getElementById('language-btn');
+            const languageDropdown = document.getElementById('language-dropdown');
             
+            // Mobile navigation toggle
             navToggle.addEventListener('click', function() {
                 navMenu.classList.toggle('active');
             });
@@ -277,6 +577,60 @@
                 link.addEventListener('click', () => {
                     navMenu.classList.remove('active');
                 });
+            });
+            
+            // Language selector
+            languageBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                languageDropdown.classList.toggle('show');
+            });
+
+            // Handle language selection
+            document.querySelectorAll('.language-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const lang = this.getAttribute('data-lang');
+                    const text = this.textContent;
+                    languageBtn.innerHTML = text.substring(0, 5) + ' ▾';
+                    languageDropdown.classList.remove('show');
+                    
+                    // Trigger Google Translate
+                    const select = document.querySelector('.goog-te-combo');
+                    if (select) {
+                        select.value = lang;
+                        select.dispatchEvent(new Event('change'));
+                    }
+                });
+            });
+
+            // Dropdown menus
+            document.querySelectorAll('.nav-item.dropdown').forEach(dropdown => {
+                const link = dropdown.querySelector('.nav-link');
+                const menu = dropdown.querySelector('.nav-dropdown');
+                
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    menu.classList.toggle('show');
+                    
+                    // Close other dropdowns
+                    document.querySelectorAll('.nav-dropdown').forEach(otherMenu => {
+                        if (otherMenu !== menu) {
+                            otherMenu.classList.remove('show');
+                        }
+                    });
+                });
+            });
+
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.nav-item.dropdown')) {
+                    document.querySelectorAll('.nav-dropdown').forEach(menu => {
+                        menu.classList.remove('show');
+                    });
+                }
+                
+                if (!e.target.closest('.language-selector')) {
+                    languageDropdown.classList.remove('show');
+                }
             });
             
             // Smooth scrolling for anchor links

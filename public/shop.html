@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Online - Fondazione Italiana per la Bioarchitettura</title>
+    <style>
+        /* Include all the navigation and base styles from index.html */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        
+        /* Navigation Styles */
+        .navbar {
+            background-color: #2c5530;
+            padding: 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .nav-logo {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            padding: 15px 0;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .nav-item {
+            margin: 0;
+        }
+        
+        .nav-link {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 20px 15px;
+            transition: background-color 0.3s ease;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        
+        .nav-link:hover {
+            background-color: #4a7c59;
+            color: white;
+        }
+        
+        .nav-link.active {
+            background-color: #4a7c59;
+        }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 15px 0;
+        }
+
+        /* Shop Styles */
+        .shop-header {
+            background: linear-gradient(135deg, #2c5530 0%, #4a7c59 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .shop-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .shop-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .category-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tab-btn {
+            padding: 12px 24px;
+            background: #f8f9fa;
+            border: 2px solid #ddd;
+            color: #333;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .tab-btn.active {
+            background: #2c5530;
+            color: white;
+            border-color: #2c5530;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .product-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 3rem;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #2c5530;
+            margin-bottom: 10px;
+        }
+
+        .product-description {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .product-price {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #2c5530;
+            margin-bottom: 15px;
+        }
+
+        .add-to-cart {
+            width: 100%;
+            padding: 12px;
+            background: #2c5530;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+
+        .add-to-cart:hover {
+            background: #4a7c59;
+        }
+
+        .cart-sidebar {
+            position: fixed;
+            right: -400px;
+            top: 0;
+            width: 400px;
+            height: 100vh;
+            background: white;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+            z-index: 2000;
+            transition: right 0.3s ease;
+            overflow-y: auto;
+        }
+
+        .cart-sidebar.open {
+            right: 0;
+        }
+
+        .cart-header {
+            background: #2c5530;
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .cart-items {
+            padding: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-total {
+            background: #f8f9fa;
+            padding: 20px;
+            border-top: 2px solid #2c5530;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 15px;
+            background: #2c5530;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        .cart-icon {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #2c5530;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            width: 60px;
+            height: 60px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            z-index: 1500;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: red;
+            color: white;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                flex-direction: column;
+                background-color: #2c5530;
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 27px rgba(0,0,0,0.05);
+            }
+            
+            .nav-menu.active {
+                left: 0;
+            }
+            
+            .nav-link {
+                padding: 15px;
+                border-bottom: 1px solid #4a7c59;
+            }
+            
+            .nav-toggle {
+                display: block;
+            }
+
+            .cart-sidebar {
+                width: 100vw;
+                right: -100vw;
+            }
+
+            .category-tabs {
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">Bioarchitettura</a>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Fondazione</a>
+                </li>
+                <li class="nav-item">
+                    <a href="chi-siamo.html" class="nav-link">Chi Siamo</a>
+                </li>
+                <li class="nav-item">
+                    <a href="quota-iscrizione.html" class="nav-link">Quota Iscrizione</a>
+                </li>
+                <li class="nav-item">
+                    <a href="libri-pubblicazioni.html" class="nav-link">Libri & Pubblicazioni</a>
+                </li>
+                <li class="nav-item">
+                    <a href="rivista.html" class="nav-link">Rivista</a>
+                </li>
+                <li class="nav-item">
+                    <a href="master.html" class="nav-link">Master</a>
+                </li>
+                <li class="nav-item">
+                    <a href="contatti.html" class="nav-link">Contatti</a>
+                </li>
+                <li class="nav-item">
+                    <a href="shop.html" class="nav-link active">Shop</a>
+                </li>
+            </ul>
+            <button class="nav-toggle" id="nav-toggle">☰</button>
+        </div>
+    </nav>
+
+    <!-- Shop Header -->
+    <div class="shop-header">
+        <h1>Shop Online</h1>
+        <p>Scopri i nostri ebook, corsi, abbonamenti e prodotti per la bioarchitettura</p>
+    </div>
+
+    <!-- Shop Content -->
+    <div class="shop-content">
+        <!-- Category Tabs -->
+        <div class="category-tabs">
+            <button class="tab-btn active" data-category="all">Tutti i prodotti</button>
+            <button class="tab-btn" data-category="ebooks">Ebook</button>
+            <button class="tab-btn" data-category="articles">Articoli</button>
+            <button class="tab-btn" data-category="subscriptions">Abbonamenti</button>
+            <button class="tab-btn" data-category="courses">Corsi</button>
+            <button class="tab-btn" data-category="print">Prodotti Stampati</button>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="products-grid" id="products-grid">
+            <!-- Products will be dynamically loaded here -->
+        </div>
+    </div>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h3>Carrello</h3>
+            <button class="cart-close" id="cart-close">✕</button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <!-- Cart items will be added here -->
+        </div>
+        <div class="cart-total">
+            <div>Totale: <span id="cart-total">€0,00</span></div>
+            <button class="checkout-btn" id="checkout-btn">Procedi al pagamento</button>
+        </div>
+    </div>
+
+    <!-- Floating Cart Icon -->
+    <button class="cart-icon" id="cart-icon">
+        🛒
+        <span class="cart-count" id="cart-count">0</span>
+    </button>
+
+    <!-- Shop JavaScript -->
+    <script>
+        // Product catalog
+        const products = [
+            {
+                id: 1,
+                title: "Bioarchitettura - Guida Completa",
+                description: "Ebook completo sui principi della bioarchitettura e costruzione sostenibile",
+                price: 29.99,
+                category: "ebooks",
+                image: "📚",
+                type: "digital"
+            },
+            {
+                id: 2,
+                title: "Articoli Rivista 2024",
+                description: "Collezione di articoli della rivista BIOARCHITETTURA® del 2024",
+                price: 19.99,
+                category: "articles",
+                image: "📰",
+                type: "digital"
+            },
+            {
+                id: 3,
+                title: "Abbonamento Annuale Rivista",
+                description: "Abbonamento annuale alla rivista BIOARCHITETTURA® (12 numeri)",
+                price: 89.99,
+                category: "subscriptions",
+                image: "📖",
+                type: "subscription"
+            },
+            {
+                id: 4,
+                title: "Master CasaClima Online",
+                description: "Corso completo di formazione CasaClima-Bioarchitettura online",
+                price: 1299.99,
+                category: "courses",
+                image: "🎓",
+                type: "course"
+            },
+            {
+                id: 5,
+                title: "Webinar: Materiali Naturali",
+                description: "Webinar sui materiali naturali nell'edilizia sostenibile",
+                price: 49.99,
+                category: "courses",
+                image: "💻",
+                type: "webinar"
+            },
+            {
+                id: 6,
+                title: "Rivista Stampata - Numero Singolo",
+                description: "Copia stampata del numero più recente della rivista",
+                price: 12.99,
+                category: "print",
+                image: "📑",
+                type: "physical"
+            },
+            {
+                id: 7,
+                title: "Manuale Pratico Bioarchitettura",
+                description: "Manuale pratico per progettisti e costruttori",
+                price: 45.00,
+                category: "ebooks",
+                image: "📋",
+                type: "digital"
+            },
+            {
+                id: 8,
+                title: "Abbonamento Digitale Premium",
+                description: "Accesso completo all'archivio digitale e nuove pubblicazioni",
+                price: 149.99,
+                category: "subscriptions",
+                image: "💎",
+                type: "subscription"
+            }
+        ];
+
+        let cart = [];
+        let currentCategory = 'all';
+
+        // Initialize shop
+        document.addEventListener('DOMContentLoaded', function() {
+            setupEventListeners();
+            renderProducts(products);
+            updateCartCount();
+        });
+
+        function setupEventListeners() {
+            // Mobile navigation
+            const navToggle = document.getElementById('nav-toggle');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            navToggle.addEventListener('click', function() {
+                navMenu.classList.toggle('active');
+            });
+
+            // Category tabs
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentCategory = this.getAttribute('data-category');
+                    filterProducts();
+                });
+            });
+
+            // Cart functionality
+            document.getElementById('cart-icon').addEventListener('click', openCart);
+            document.getElementById('cart-close').addEventListener('click', closeCart);
+            document.getElementById('checkout-btn').addEventListener('click', checkout);
+        }
+
+        function renderProducts(productsToRender) {
+            const grid = document.getElementById('products-grid');
+            grid.innerHTML = '';
+
+            productsToRender.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                productCard.innerHTML = `
+                    <div class="product-image">${product.image}</div>
+                    <div class="product-info">
+                        <h3 class="product-title">${product.title}</h3>
+                        <p class="product-description">${product.description}</p>
+                        <div class="product-price">€${product.price.toFixed(2)}</div>
+                        <button class="add-to-cart" onclick="addToCart(${product.id})">
+                            Aggiungi al carrello
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(productCard);
+            });
+        }
+
+        function filterProducts() {
+            if (currentCategory === 'all') {
+                renderProducts(products);
+            } else {
+                const filtered = products.filter(product => product.category === currentCategory);
+                renderProducts(filtered);
+            }
+        }
+
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const existingItem = cart.find(item => item.id === productId);
+
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({...product, quantity: 1});
+            }
+
+            updateCartCount();
+            renderCartItems();
+            
+            // Show feedback
+            const button = event.target;
+            const originalText = button.textContent;
+            button.textContent = 'Aggiunto!';
+            button.style.background = '#4a7c59';
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.style.background = '#2c5530';
+            }, 1000);
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCartCount();
+            renderCartItems();
+        }
+
+        function updateCartCount() {
+            const count = cart.reduce((total, item) => total + item.quantity, 0);
+            document.getElementById('cart-count').textContent = count;
+            document.getElementById('cart-count').style.display = count > 0 ? 'flex' : 'none';
+        }
+
+        function renderCartItems() {
+            const cartItems = document.getElementById('cart-items');
+            const cartTotal = document.getElementById('cart-total');
+
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p style="text-align: center; color: #666; padding: 20px;">Il tuo carrello è vuoto</p>';
+                cartTotal.textContent = '€0,00';
+                return;
+            }
+
+            cartItems.innerHTML = '';
+            let total = 0;
+
+            cart.forEach(item => {
+                const cartItem = document.createElement('div');
+                cartItem.className = 'cart-item';
+                cartItem.innerHTML = `
+                    <div>
+                        <strong>${item.title}</strong><br>
+                        <small>€${item.price.toFixed(2)} x ${item.quantity}</small>
+                    </div>
+                    <button onclick="removeFromCart(${item.id})" style="background: #dc3545; color: white; border: none; border-radius: 3px; padding: 5px 10px; cursor: pointer;">
+                        Rimuovi
+                    </button>
+                `;
+                cartItems.appendChild(cartItem);
+                total += item.price * item.quantity;
+            });
+
+            cartTotal.textContent = `€${total.toFixed(2)}`;
+        }
+
+        function openCart() {
+            document.getElementById('cart-sidebar').classList.add('open');
+            renderCartItems();
+        }
+
+        function closeCart() {
+            document.getElementById('cart-sidebar').classList.remove('open');
+        }
+
+        function checkout() {
+            if (cart.length === 0) {
+                alert('Il tuo carrello è vuoto!');
+                return;
+            }
+
+            // Calculate total
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            
+            // Create PayPal form
+            const form = document.createElement('form');
+            form.action = 'https://www.paypal.com/cgi-bin/webscr';
+            form.method = 'post';
+            form.target = '_blank';
+
+            // PayPal form fields
+            const formFields = {
+                'cmd': '_cart',
+                'upload': '1',
+                'business': 'hannes.mitterer@gmail.com', // PayPal email
+                'currency_code': 'EUR',
+                'return': window.location.origin + '/public/payment-success.html',
+                'cancel_return': window.location.origin + '/public/payment-cancel.html'
+            };
+
+            // Add form fields
+            Object.keys(formFields).forEach(key => {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = formFields[key];
+                form.appendChild(input);
+            });
+
+            // Add cart items
+            cart.forEach((item, index) => {
+                const itemIndex = index + 1;
+                const itemFields = {
+                    [`item_name_${itemIndex}`]: item.title,
+                    [`amount_${itemIndex}`]: item.price.toFixed(2),
+                    [`quantity_${itemIndex}`]: item.quantity
+                };
+
+                Object.keys(itemFields).forEach(key => {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = key;
+                    input.value = itemFields[key];
+                    form.appendChild(input);
+                });
+            });
+
+            // Submit form
+            document.body.appendChild(form);
+            form.submit();
+            document.body.removeChild(form);
+
+            // Show confirmation
+            alert(`Reindirizzamento a PayPal per il pagamento di €${total.toFixed(2)}...`);
+        }
+    </script>
+</body>
+</html>
