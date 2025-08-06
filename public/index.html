@@ -173,6 +173,179 @@
             text-align: center;
             font-size: 1.2em;
         }
+        
+        /* Slideshow Styles */
+        .slideshow-section {
+            position: relative;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        
+        .slideshow-container {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            background-image: url('images/slideshow-bg.svg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        
+        .slideshow-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(248, 249, 250, 0.2);
+            z-index: 1;
+        }
+        
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            z-index: 2;
+        }
+        
+        .slide.active {
+            opacity: 1;
+        }
+        
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        
+        /* Navigation arrows */
+        .slideshow-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(44, 85, 48, 0.8);
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            cursor: pointer;
+            font-size: 18px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            z-index: 10;
+        }
+        
+        .slideshow-nav:hover {
+            background-color: rgba(44, 85, 48, 1);
+        }
+        
+        .slideshow-nav.prev {
+            left: 20px;
+        }
+        
+        .slideshow-nav.next {
+            right: 20px;
+        }
+        
+        /* Dots indicators */
+        .slideshow-dots {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+        
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .dot.active {
+            background-color: white;
+            border-color: #2c5530;
+        }
+        
+        .dot:hover {
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+        
+        /* Slideshow title */
+        .slideshow-title {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .slideshow-title h2 {
+            color: #2c5530;
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .slideshow-title p {
+            color: #666;
+            font-size: 1.1em;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .slideshow-container {
+                height: 300px;
+            }
+            
+            .slideshow-nav {
+                padding: 10px 15px;
+                font-size: 16px;
+            }
+            
+            .slideshow-nav.prev {
+                left: 10px;
+            }
+            
+            .slideshow-nav.next {
+                right: 10px;
+            }
+            
+            .slideshow-title h2 {
+                font-size: 1.5em;
+            }
+            
+            .slideshow-title p {
+                font-size: 1em;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .slideshow-container {
+                height: 250px;
+            }
+            
+            .slideshow-nav {
+                padding: 8px 12px;
+                font-size: 14px;
+            }
+            
+            .dot {
+                width: 10px;
+                height: 10px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -212,6 +385,41 @@
         <p>Scopri le soluzioni innovative e sostenibili per una vita sana ed ecologica, in sintonia con la Terra e diventa socio della Fondazione Italiana per la Bioarchitettura® e l'Antropizzazione Sostenibile dell'Ambiente.</p>
         <a href="#" class="cta-button">Scopri di più</a>
     </div>
+
+    <!-- Slideshow Section -->
+    <section class="slideshow-section">
+        <div class="slideshow-title">
+            <h2>Rivista Bioarchitettura</h2>
+            <p>Scopri il mondo della bioarchitettura attraverso le nostre pubblicazioni e progetti</p>
+        </div>
+        
+        <div class="slideshow-container">
+            <div class="slide active">
+                <img src="images/slide1.svg" alt="Rivista Bioarchitettura - Abitare la Terra in modo sostenibile">
+            </div>
+            <div class="slide">
+                <img src="images/slide2.svg" alt="Costruire Sostenibile - Architettura in armonia con l'ambiente">
+            </div>
+            <div class="slide">
+                <img src="images/slide3.svg" alt="Architettura Ecologica - Progettazione bioclimatica e biocompatibile">
+            </div>
+            <div class="slide">
+                <img src="images/slide4.svg" alt="Antropizzazione Sostenibile dell'Ambiente - Master CasaClima-Bioarchitettura">
+            </div>
+            
+            <!-- Navigation arrows -->
+            <button class="slideshow-nav prev" onclick="changeSlide(-1)">❮</button>
+            <button class="slideshow-nav next" onclick="changeSlide(1)">❯</button>
+            
+            <!-- Dots indicators -->
+            <div class="slideshow-dots">
+                <span class="dot active" onclick="currentSlide(1)"></span>
+                <span class="dot" onclick="currentSlide(2)"></span>
+                <span class="dot" onclick="currentSlide(3)"></span>
+                <span class="dot" onclick="currentSlide(4)"></span>
+            </div>
+        </div>
+    </section>
 
     <section class="about-section" id="chi-siamo">
         <h2>La Nostra Storia</h2>
@@ -292,6 +500,68 @@
                     }
                 });
             });
+
+            // Slideshow functionality
+            let currentSlideIndex = 0;
+            const slides = document.querySelectorAll('.slide');
+            const dots = document.querySelectorAll('.dot');
+            const totalSlides = slides.length;
+            let autoAdvanceInterval;
+
+            function showSlide(index) {
+                // Remove active class from all slides and dots
+                slides.forEach(slide => slide.classList.remove('active'));
+                dots.forEach(dot => dot.classList.remove('active'));
+                
+                // Add active class to current slide and dot
+                if (slides[index]) slides[index].classList.add('active');
+                if (dots[index]) dots[index].classList.add('active');
+            }
+
+            function changeSlide(direction) {
+                currentSlideIndex += direction;
+                
+                // Wrap around to beginning/end
+                if (currentSlideIndex >= totalSlides) {
+                    currentSlideIndex = 0;
+                } else if (currentSlideIndex < 0) {
+                    currentSlideIndex = totalSlides - 1;
+                }
+                
+                showSlide(currentSlideIndex);
+            }
+
+            function currentSlide(index) {
+                currentSlideIndex = index - 1;
+                showSlide(currentSlideIndex);
+            }
+
+            // Make functions globally available
+            window.changeSlide = changeSlide;
+            window.currentSlide = currentSlide;
+
+            // Auto-advance slides every 5 seconds
+            function startAutoAdvance() {
+                autoAdvanceInterval = setInterval(() => {
+                    changeSlide(1);
+                }, 5000);
+            }
+
+            function stopAutoAdvance() {
+                if (autoAdvanceInterval) {
+                    clearInterval(autoAdvanceInterval);
+                }
+            }
+
+            // Start auto-advance
+            startAutoAdvance();
+
+            // Pause auto-advance on hover
+            const slideshowContainer = document.querySelector('.slideshow-container');
+            if (slideshowContainer) {
+                slideshowContainer.addEventListener('mouseenter', stopAutoAdvance);
+                slideshowContainer.addEventListener('mouseleave', startAutoAdvance);
+            }
         });
     </script>
 </body>
