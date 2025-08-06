@@ -1,6 +1,10 @@
 # web
 @bioarchitettura web-project - 2025
 
+## Deployment
+
+This website is automatically deployed to Netlify when changes are pushed to the main branch. The site is built using Jekyll and configured with Netlify CMS for content management.
+
 ## Gestione Contenuti con Netlify CMS
 
 Questo sito è dotato di un sistema di gestione contenuti (CMS) basato su Netlify CMS che permette di modificare facilmente pagine e articoli tramite un'interfaccia web user-friendly.
@@ -8,7 +12,7 @@ Questo sito è dotato di un sistema di gestione contenuti (CMS) basato su Netlif
 ### Accesso al CMS
 
 #### Opzione 1: Tramite Netlify (Consigliato)
-Se il sito è deployato su Netlify:
+Il sito è deployato su Netlify:
 1. Visita `https://yourdomain.netlify.app/admin/`
 2. Effettua il login con il tuo account GitHub
 3. Inizia a gestire i contenuti
@@ -61,5 +65,5 @@ Il CMS è configurato con un flusso di lavoro editoriale che richiede:
 
 Per accedere al CMS è necessario:
 - Avere un account GitHub
-- Essere collaboratori del repository `bioarchitettura/web`
+- Essere collaboratori del repository `bioarchitettura/bioarchitettura-rivista`
 - Avere i permessi di scrittura sul repository

@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: bioarchitettura/web
+  repo: bioarchitettura/bioarchitettura-rivista
   branch: main # Branch to update (optional; defaults to master)
   base_url: https://api.netlify.com # Path to ext auth provider (optional)
   auth_endpoint: /auth # Path to ext auth provider (optional)
