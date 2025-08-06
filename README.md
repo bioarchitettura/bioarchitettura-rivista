@@ -131,7 +131,16 @@ Il workflow `deploy-rivista.yml` è progettato per essere robusto e adattivo:
    # Branch: gh-pages / (root) per il workflow rivista
    ```
 
-3. **Testare il Deployment**:
+   **⚠️ Importante**: Per il workflow rivista, è essenziale configurare GitHub Pages per utilizzare il branch `gh-pages` come source. Questo perché il workflow deploya i contenuti in questo branch, non nell'ambiente GitHub Pages standard.
+
+3. **Configurare Permessi del Workflow**:
+   ```bash
+   # Andare su: Settings > Actions > General > Workflow permissions
+   # Selezionare "Read and write permissions"
+   # Abilitare "Allow GitHub Actions to create and approve pull requests" se necessario
+   ```
+
+4. **Testare il Deployment**:
    ```bash
    git checkout rivista
    git push origin rivista
@@ -208,3 +217,30 @@ git push -u origin gh-pages
 - `public/`: Directory contenente il sito statico (rivista branch)
 - `_config.yml`: Configurazione Jekyll (se presente)
 - `gh-pages` branch: Branch di destinazione per il deployment rivista
+
+## Riepilogo del Sistema di Deployment
+
+Il repository `bioarchitettura/web` è ora configurato con un sistema di deployment automatico a due livelli:
+
+### Branch Main → GitHub Pages (Ambiente Standard)
+- **Workflow**: `jekyll-gh-pages.yml`
+- **Contenuto**: Sito Jekyll completo
+- **Destinazione**: Ambiente GitHub Pages standard
+- **URL**: `https://bioarchitettura.github.io/web`
+
+### Branch Rivista → gh-pages Branch  
+- **Workflow**: `deploy-rivista.yml`
+- **Contenuto**: Sito statico da `public/` directory
+- **Destinazione**: Branch `gh-pages`
+- **URL**: Configurabile nelle impostazioni GitHub Pages
+
+**Caratteristiche Principali del Workflow Rivista:**
+- ✅ Deployment automatico su push al branch `rivista`
+- ✅ Rilevamento automatico del tipo di sito (statico/Jekyll)
+- ✅ Gestione robusta degli errori con fallback
+- ✅ Isolamento completo dal workflow main (concurrency groups separati)
+- ✅ Supporto per deployment manuale tramite workflow_dispatch
+- ✅ Creazione automatica del branch `gh-pages` se necessario
+- ✅ Documentazione completa per setup e troubleshooting
+
+Entrambi i sistemi sono completamente isolati e possono operare simultaneamente senza interferenze.
