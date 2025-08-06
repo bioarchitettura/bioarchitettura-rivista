@@ -100,4 +100,19 @@ Per abilitare GitHub Pages nel repository:
 3. **Deploy:** Il contenuto viene pubblicato nella branch `gh-pages`
 4. **Pubblicazione:** GitHub Pages serve automaticamente il sito dalla branch `gh-pages`
 
+#### Prerequisiti per il Deployment
+
+Per il corretto funzionamento del workflow di deployment, il branch `rivista` deve contenere:
+- Un file `Gemfile` con le dipendenze Jekyll (vedi esempio nel repository)
+- La configurazione Jekyll (`_config.yml`)
+- I file del sito nella struttura Jekyll appropriata
+
+**Nota:** Se il Gemfile non è presente nel branch rivista, copiarlo da questo branch usando:
+```bash
+git checkout rivista
+git checkout main -- Gemfile
+git commit -m "Add Gemfile for Jekyll dependencies"
+git push origin rivista
+```
+
 Il sito risultante sarà accessibile all'indirizzo configurato nelle impostazioni del repository.

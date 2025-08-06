@@ -34,6 +34,26 @@ jobs:
           ruby-version: '3.1'
           bundler-cache: true
 
+      - name: Create Gemfile if missing
+        run: |
+          if [ ! -f Gemfile ]; then
+            echo "Gemfile not found, creating basic Gemfile..."
+            cat > Gemfile << 'EOF'
+          source "https://rubygems.org"
+          gem "jekyll", "~> 4.2.2"
+          gem "minima", "~> 2.5"
+          gem "jekyll-feed", "~> 0.12"
+          gem "jekyll-sitemap", "~> 1.4"
+          platforms :mingw, :x64_mingw, :mswin, :jruby do
+            gem "tzinfo", "~> 1.2"
+            gem "tzinfo-data"
+          end
+          gem "wdm", "~> 0.1.1", :platforms => [:mingw, :x64_mingw, :mswin]
+          gem "http_parser.rb", "~> 0.6.0", :platforms => [:jruby]
+          EOF
+            bundle install
+          fi
+
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
