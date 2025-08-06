@@ -1,0 +1,749 @@
+---
+layout: default
+title: Shop - Fondazione Bioarchitettura
+description: Acquista ebooks, abbonamenti, corsi e pubblicazioni sulla bioarchitettura e sostenibilità ambientale
+keywords: shop bioarchitettura, ebooks sostenibilità, abbonamenti rivista, corsi online
+---
+
+<div class="shop-container">
+    <header class="shop-header">
+        <h1>Shop Bioarchitettura</h1>
+        <p class="shop-description">
+            Scopri la nostra selezione di ebooks, pubblicazioni, abbonamenti e corsi specializzati 
+            in bioarchitettura e costruzioni sostenibili.
+        </p>
+    </header>
+
+    <!-- Product Filters -->
+    <section class="product-filters" aria-label="Filtri prodotti">
+        <button class="filter-btn active" data-category="all">Tutti i Prodotti</button>
+        <button class="filter-btn" data-category="ebooks">📚 Ebooks</button>
+        <button class="filter-btn" data-category="magazines">📰 Riviste</button>
+        <button class="filter-btn" data-category="subscriptions">📅 Abbonamenti</button>
+        <button class="filter-btn" data-category="courses">🎓 Corsi</button>
+        <button class="filter-btn" data-category="webinars">💻 Webinars</button>
+        <button class="filter-btn" data-category="printed">📖 Materiale Stampato</button>
+        <button class="filter-btn" data-category="publications">📄 Pubblicazioni</button>
+        <button class="filter-btn" data-category="consultancy">💡 Consulenze</button>
+    </section>
+
+    <!-- Products Grid -->
+    <section class="products-section" aria-label="Prodotti disponibili">
+        <div class="products-grid" id="products-grid">
+            <!-- Products will be loaded here by JavaScript -->
+        </div>
+        
+        <div class="loading-message" id="loading-message" style="display: none;">
+            <div class="loading-spinner"></div>
+            <p>Caricamento prodotti...</p>
+        </div>
+        
+        <div class="no-products" id="no-products" style="display: none;">
+            <p>Nessun prodotto trovato per questa categoria.</p>
+        </div>
+    </section>
+
+    <!-- Featured Products Section -->
+    <section class="featured-products">
+        <h2>Prodotti in Evidenza</h2>
+        <div class="featured-grid">
+            <div class="featured-product">
+                <div class="featured-image">📚</div>
+                <div class="featured-content">
+                    <h3>Guida Completa alla Bioarchitettura</h3>
+                    <p>Il manuale essenziale per professionisti e appassionati di costruzioni sostenibili.</p>
+                    <span class="featured-price">€29,99</span>
+                </div>
+            </div>
+            
+            <div class="featured-product">
+                <div class="featured-image">📅</div>
+                <div class="featured-content">
+                    <h3>Abbonamento Annuale Rivista</h3>
+                    <p>Ricevi 12 numeri della rivista BIOARCHITETTURA® direttamente a casa tua.</p>
+                    <span class="featured-price">€89,00</span>
+                </div>
+            </div>
+            
+            <div class="featured-product">
+                <div class="featured-image">🎓</div>
+                <div class="featured-content">
+                    <h3>Master CasaClima-Bioarchitettura</h3>
+                    <p>Corso di alta formazione per esperti in progettazione sostenibile.</p>
+                    <span class="featured-price">€1.200,00</span>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- PayPal Success/Cancel Pages -->
+<div id="payment-success" class="payment-page" style="display: none;">
+    <div class="payment-content">
+        <div class="payment-icon success">✅</div>
+        <h2>Pagamento Completato!</h2>
+        <p>Il tuo ordine è stato processato con successo. Riceverai una conferma via email a breve.</p>
+        <button class="btn-primary" onclick="location.reload()">Continua Shopping</button>
+    </div>
+</div>
+
+<div id="payment-cancel" class="payment-page" style="display: none;">
+    <div class="payment-content">
+        <div class="payment-icon cancel">❌</div>
+        <h2>Pagamento Annullato</h2>
+        <p>Il pagamento è stato annullato. I tuoi prodotti sono ancora nel carrello.</p>
+        <button class="btn-secondary" onclick="location.reload()">Torna al Shop</button>
+    </div>
+</div>
+
+<script>
+// Product Data
+const products = [
+    // Ebooks
+    {
+        id: 'ebook-guide-bioarchitettura',
+        name: 'Guida Completa alla Bioarchitettura',
+        category: 'ebooks',
+        price: 29.99,
+        description: 'Il manuale essenziale per professionisti e appassionati di costruzioni sostenibili. Include tecniche avanzate, materiali eco-compatibili e progetti pratici.',
+        image: '📚',
+        featured: true,
+        preview: 'Anteprima disponibile'
+    },
+    {
+        id: 'ebook-materiali-naturali',
+        name: 'Materiali Naturali in Edilizia',
+        category: 'ebooks',
+        price: 24.99,
+        description: 'Una guida completa sui materiali naturali utilizzabili in edilizia sostenibile, dalle proprietà alle applicazioni pratiche.',
+        image: '📚'
+    },
+    {
+        id: 'ebook-certificazione-energetica',
+        name: 'Certificazione Energetica degli Edifici',
+        category: 'ebooks',
+        price: 34.99,
+        description: 'Tutto quello che devi sapere sulla certificazione energetica: normative, procedure e software di calcolo.',
+        image: '📚'
+    },
+    
+    // Magazines
+    {
+        id: 'magazine-current',
+        name: 'BIOARCHITETTURA® - Numero Corrente',
+        category: 'magazines',
+        price: 8.50,
+        description: 'Il numero più recente della rivista BIOARCHITETTURA®, con articoli, progetti e approfondimenti sul costruire sostenibile.',
+        image: '📰'
+    },
+    {
+        id: 'magazine-collection-2024',
+        name: 'Collezione Completa 2024',
+        category: 'magazines',
+        price: 89.00,
+        description: 'Tutti i 12 numeri della rivista BIOARCHITETTURA® pubblicati nel 2024, in formato digitale.',
+        image: '📰'
+    },
+    
+    // Subscriptions
+    {
+        id: 'subscription-annual',
+        name: 'Abbonamento Annuale Cartaceo',
+        category: 'subscriptions',
+        price: 89.00,
+        description: 'Ricevi 12 numeri della rivista BIOARCHITETTURA® in formato cartaceo direttamente a casa tua.',
+        image: '📅',
+        featured: true
+    },
+    {
+        id: 'subscription-digital',
+        name: 'Abbonamento Annuale Digitale',
+        category: 'subscriptions',
+        price: 49.00,
+        description: 'Accesso digitale a tutti i numeri della rivista BIOARCHITETTURA® per un anno completo.',
+        image: '📱'
+    },
+    {
+        id: 'subscription-premium',
+        name: 'Abbonamento Premium (Cartaceo + Digitale)',
+        category: 'subscriptions',
+        price: 119.00,
+        description: 'Il meglio di entrambi i mondi: ricevi la rivista a casa e accedi alla versione digitale.',
+        image: '🌟'
+    },
+    
+    // Courses
+    {
+        id: 'course-master-casaclima',
+        name: 'Master CasaClima-Bioarchitettura',
+        category: 'courses',
+        price: 1200.00,
+        description: 'Corso di alta formazione per esperti in progettazione sostenibile con certificazione CasaClima e I.T.A.C.A.',
+        image: '🎓',
+        featured: true
+    },
+    {
+        id: 'course-progettazione-sostenibile',
+        name: 'Corso Progettazione Sostenibile',
+        category: 'courses',
+        price: 450.00,
+        description: 'Corso pratico sui principi della progettazione sostenibile e biocompatibile.',
+        image: '🎓'
+    },
+    {
+        id: 'course-materiali-biocompatibili',
+        name: 'Corso Materiali Biocompatibili',
+        category: 'courses',
+        price: 350.00,
+        description: 'Approfondimento sui materiali biocompatibili e le loro applicazioni in edilizia.',
+        image: '🎓'
+    },
+    
+    // Webinars
+    {
+        id: 'webinar-efficienza-energetica',
+        name: 'Webinar: Efficienza Energetica',
+        category: 'webinars',
+        price: 75.00,
+        description: 'Webinar interattivo sull\'efficienza energetica negli edifici moderni.',
+        image: '💻'
+    },
+    {
+        id: 'webinar-domotica-sostenibile',
+        name: 'Webinar: Domotica Sostenibile',
+        category: 'webinars',
+        price: 65.00,
+        description: 'Come integrare sistemi domotici in un\'ottica di sostenibilità ambientale.',
+        image: '💻'
+    },
+    
+    // Printed Materials
+    {
+        id: 'print-poster-materiali',
+        name: 'Poster Materiali Sostenibili',
+        category: 'printed',
+        price: 25.00,
+        description: 'Poster educativo sui materiali sostenibili, perfetto per uffici e aule.',
+        image: '📖'
+    },
+    {
+        id: 'print-manuale-progettazione',
+        name: 'Manuale Progettazione Cartaceo',
+        category: 'printed',
+        price: 45.00,
+        description: 'Versione cartacea del manuale di progettazione bioarchitettonica.',
+        image: '📖'
+    },
+    
+    // Publications
+    {
+        id: 'pub-atti-convegno-2024',
+        name: 'Atti Convegno Bioarchitettura 2024',
+        category: 'publications',
+        price: 35.00,
+        description: 'Raccolta completa degli atti del convegno nazionale di bioarchitettura 2024.',
+        image: '📄'
+    },
+    {
+        id: 'pub-ricerca-sostenibilita',
+        name: 'Ricerche sulla Sostenibilità',
+        category: 'publications',
+        price: 28.00,
+        description: 'Pubblicazione scientifica con le ultime ricerche in campo di sostenibilità edilizia.',
+        image: '📄'
+    },
+    
+    // Consultancy
+    {
+        id: 'consult-progettazione',
+        name: 'Consulenza Progettazione',
+        category: 'consultancy',
+        price: 150.00,
+        description: 'Sessione di consulenza individuale per progetti di bioarchitettura (2 ore).',
+        image: '💡'
+    },
+    {
+        id: 'consult-certificazione',
+        name: 'Consulenza Certificazione Energetica',
+        category: 'consultancy',
+        price: 200.00,
+        description: 'Supporto specialistico per la certificazione energetica del tuo edificio.',
+        image: '💡'
+    }
+];
+
+// Shop functionality
+document.addEventListener('DOMContentLoaded', function() {
+    initializeShop();
+    initializeFilters();
+    loadProducts();
+});
+
+function initializeShop() {
+    // Load any saved preferences or cart state
+    console.log('Shop initialized');
+    
+    // Track shop page view
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'page_view', {
+            'page_title': 'Shop',
+            'page_location': window.location.href
+        });
+    }
+}
+
+function initializeFilters() {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Update active filter
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Filter products
+            const category = this.dataset.category;
+            filterProducts(category);
+            
+            // Track filter usage
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'filter_products', {
+                    'event_category': 'shop',
+                    'event_label': category
+                });
+            }
+        });
+    });
+}
+
+function loadProducts(category = 'all') {
+    const productsGrid = document.getElementById('products-grid');
+    const loadingMessage = document.getElementById('loading-message');
+    const noProducts = document.getElementById('no-products');
+    
+    // Show loading
+    loadingMessage.style.display = 'block';
+    productsGrid.innerHTML = '';
+    noProducts.style.display = 'none';
+    
+    // Simulate loading delay
+    setTimeout(() => {
+        loadingMessage.style.display = 'none';
+        renderProducts(category);
+    }, 500);
+}
+
+function filterProducts(category) {
+    loadProducts(category);
+}
+
+function renderProducts(category = 'all') {
+    const productsGrid = document.getElementById('products-grid');
+    const noProducts = document.getElementById('no-products');
+    
+    let filteredProducts = products;
+    
+    if (category !== 'all') {
+        filteredProducts = products.filter(product => product.category === category);
+    }
+    
+    if (filteredProducts.length === 0) {
+        noProducts.style.display = 'block';
+        return;
+    }
+    
+    productsGrid.innerHTML = filteredProducts.map(product => `
+        <div class="product-card" data-category="${product.category}">
+            <div class="product-image">${product.image}</div>
+            <div class="product-info">
+                <div class="product-category">${getCategoryName(product.category)}</div>
+                <h3 class="product-title">${product.name}</h3>
+                <p class="product-description">${product.description}</p>
+                ${product.preview ? `<div class="product-preview">${product.preview}</div>` : ''}
+                <div class="product-price">€${product.price.toFixed(2)}</div>
+                <button class="add-to-cart" onclick="addToCart(${JSON.stringify(product).replace(/"/g, '&quot;')})" 
+                        aria-label="Aggiungi ${product.name} al carrello">
+                    Aggiungi al Carrello
+                </button>
+            </div>
+        </div>
+    `).join('');
+}
+
+function getCategoryName(category) {
+    const categoryNames = {
+        'ebooks': 'Ebooks',
+        'magazines': 'Riviste',
+        'subscriptions': 'Abbonamenti',
+        'courses': 'Corsi',
+        'webinars': 'Webinars',
+        'printed': 'Materiale Stampato',
+        'publications': 'Pubblicazioni',
+        'consultancy': 'Consulenze'
+    };
+    
+    return categoryNames[category] || category;
+}
+
+// Initialize shop on page load
+loadProducts();
+</script>
+
+<style>
+/* Shop-specific styles */
+.shop-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.shop-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.shop-header h1 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    font-size: 2.5rem;
+}
+
+.shop-description {
+    font-size: 1.1rem;
+    color: var(--text-light);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.product-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    margin-bottom: 50px;
+    padding: 20px;
+    background: var(--background-light);
+    border-radius: var(--border-radius);
+}
+
+.filter-btn {
+    padding: 12px 20px;
+    border: 2px solid var(--border-color);
+    background: white;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.filter-btn:hover {
+    border-color: var(--primary-color);
+    background: var(--secondary-color);
+}
+
+.filter-btn.active {
+    border-color: var(--primary-color);
+    background: var(--primary-color);
+    color: white;
+}
+
+.products-section {
+    margin-bottom: 60px;
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.product-card {
+    background: white;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-light);
+    transition: var(--transition);
+    border: 1px solid #eee;
+}
+
+.product-card:hover {
+    box-shadow: var(--shadow-medium);
+    transform: translateY(-5px);
+    border-color: var(--primary-color);
+}
+
+.product-image {
+    height: 180px;
+    background: linear-gradient(135deg, var(--secondary-color) 0%, #f0f8f0 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    color: var(--primary-color);
+}
+
+.product-info {
+    padding: 25px;
+}
+
+.product-category {
+    display: inline-block;
+    background: var(--secondary-color);
+    color: var(--primary-color);
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+}
+
+.product-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: var(--primary-color);
+    line-height: 1.3;
+}
+
+.product-description {
+    color: var(--text-light);
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 15px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.product-preview {
+    background: #fff3cd;
+    color: #856404;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.product-price {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+.add-to-cart {
+    width: 100%;
+    padding: 15px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: var(--transition);
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.add-to-cart:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+}
+
+.loading-message {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-light);
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 20px auto;
+}
+
+.no-products {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-light);
+    font-size: 1.1rem;
+}
+
+/* Featured Products */
+.featured-products {
+    margin-top: 80px;
+    padding: 60px 30px;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
+    border-radius: var(--border-radius);
+    color: white;
+    text-align: center;
+}
+
+.featured-products h2 {
+    color: white;
+    margin-bottom: 40px;
+    font-size: 2.2rem;
+}
+
+.featured-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.featured-product {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius);
+    padding: 30px 20px;
+    transition: var(--transition);
+    backdrop-filter: blur(10px);
+}
+
+.featured-product:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-5px);
+}
+
+.featured-image {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.featured-content h3 {
+    color: white;
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+}
+
+.featured-content p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+.featured-price {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: var(--accent-color);
+}
+
+/* Payment Pages */
+.payment-page {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+}
+
+.payment-content {
+    background: white;
+    padding: 60px 40px;
+    border-radius: var(--border-radius);
+    text-align: center;
+    max-width: 500px;
+    margin: 0 20px;
+}
+
+.payment-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+}
+
+.payment-icon.success {
+    color: #28a745;
+}
+
+.payment-icon.cancel {
+    color: #dc3545;
+}
+
+.payment-content h2 {
+    margin-bottom: 20px;
+    color: var(--primary-color);
+}
+
+.payment-content p {
+    margin-bottom: 30px;
+    color: var(--text-light);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .shop-container {
+        padding: 20px 15px;
+    }
+    
+    .shop-header h1 {
+        font-size: 2rem;
+    }
+    
+    .product-filters {
+        padding: 15px;
+        gap: 10px;
+    }
+    
+    .filter-btn {
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+    
+    .products-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .featured-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .featured-products {
+        padding: 40px 20px;
+        margin-top: 60px;
+    }
+    
+    .payment-content {
+        padding: 40px 30px;
+        margin: 0 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .product-info {
+        padding: 20px;
+    }
+    
+    .product-title {
+        font-size: 1.1rem;
+    }
+    
+    .product-price {
+        font-size: 1.3rem;
+    }
+    
+    .featured-products h2 {
+        font-size: 1.8rem;
+    }
+}
+</style>

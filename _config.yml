@@ -28,6 +28,8 @@ exclude:
   - Gemfile
   - Gemfile.lock
   - vendor/
+  - node_modules/
+  - ADVANCED_FEATURES.md
 
 # Collections and defaults
 defaults:
@@ -50,7 +52,30 @@ defaults:
 # Site settings
 lang: it
 author: "Fondazione Italiana per la Bioarchitettura"
-keywords: "bioarchitettura, architettura sostenibile, costruzione ecologica"
+keywords: "bioarchitettura, architettura sostenibile, costruzione ecologica, edifici sani, certificazione energetica, materiali naturali"
+
+# Social Media Links
+social:
+  facebook:
+    - "bioarchitettura-rivista"
+    - "rivista-bioarchitettura"
+    - "bioarchitettura"
+  linkedin: "linkedin-gruppo-bioarchitettura"
+
+# Contact Information
+contact:
+  phone: "+39 0471 973097"
+  email: "bioa@bioarchitettura.org"
+  address:
+    name: "Certosa di Firenze"
+    street: "Via della Certosa, 1"
+    city: "50124 Firenze FI"
+    country: "Italia"
+
+# Foundation Legal Status
+foundation:
+  full_name: "La Fondazione Italiana per la Bioarchitettura® e l'Antropizzazione Sostenibile dell'Ambiente"
+  legal_status: "Ente morale senza fini di lucro"
 
 # Navigation
 main_sections:
@@ -58,3 +83,89 @@ main_sections:
   - about
   - services
   - contact
+
+# Google Analytics (placeholder - replace with actual GA ID)
+# google_analytics: "GA_MEASUREMENT_ID"
+
+# Tidio Chat Integration (uncomment and add your key)
+# tidio_public_key: "your-tidio-public-key-here"
+
+# OpenAI Summarization Settings (uncomment and configure)
+# openai_api_key: "your-openai-api-key-here"
+# auto_generate_summaries: false
+# max_summary_length: 200
+
+# Google Recommendations AI (for future upgrade)
+# google_recommendations_api_key: "your-google-recommendations-api-key"
+# google_recommendations_placement_id: "your-placement-id"
+
+# Article Recommender Settings
+max_related_articles: 3
+recommendation_fallback: true
+
+# Shop Settings
+paypal:
+  client_id: "YOUR_PAYPAL_CLIENT_ID"  # Replace with actual PayPal client ID
+  currency: "EUR"
+  merchant_email: "hannes.mitterer@gmail.com"
+
+# SEO and Performance
+permalink: /:categories/:year/:month/:day/:title/
+timezone: Europe/Rome
+
+# Pagination
+paginate: 10
+paginate_path: "/page:num/"
+
+# Sass/SCSS
+sass:
+  sass_dir: _sass
+  style: compressed
+
+# Compression
+compress_html:
+  clippings: all
+  comments: all
+  endings: all
+  startings: [html, head, body]
+  blanklines: false
+  profile: false
+
+# Security
+safe: true
+incremental: false
+
+# Archives
+archive:
+  enabled: true
+  layout: archive
+  permalinks:
+    category: /categoria/:name/
+    tag: /tag/:name/
+
+# Multilingual Support
+languages: ["it", "en", "de", "fr"]
+default_language: "it"
+
+# Feed Settings
+feed:
+  posts_limit: 20
+  excerpt_only: true
+
+# Sitemap Settings  
+sitemap:
+  file: "/sitemap.xml"
+  exclude:
+    - "/404.html"
+    - "/admin/"
+  
+# Performance and Security Headers (for deployment)
+headers:
+  - name: "X-Content-Type-Options"
+    value: "nosniff"
+  - name: "X-Frame-Options" 
+    value: "DENY"
+  - name: "X-XSS-Protection"
+    value: "1; mode=block"
+  - name: "Referrer-Policy"
+    value: "strict-origin-when-cross-origin"

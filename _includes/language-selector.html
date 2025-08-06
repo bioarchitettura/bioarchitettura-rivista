@@ -1,0 +1,105 @@
+<!-- Language Selector -->
+<div class="language-selector">
+    <div class="language-toggle" id="language-toggle" aria-label="Select language">
+        <span class="current-lang">🇮🇹 IT</span>
+        <span class="dropdown-arrow">▼</span>
+    </div>
+    
+    <div class="language-dropdown" id="language-dropdown">
+        <div class="language-options">
+            <a href="#" class="language-option" data-lang="it" aria-label="Italiano">
+                <span class="flag">🇮🇹</span>
+                <span class="lang-name">Italiano</span>
+            </a>
+            <a href="#" class="language-option" data-lang="en" aria-label="English">
+                <span class="flag">🇬🇧</span>
+                <span class="lang-name">English</span>
+            </a>
+            <a href="#" class="language-option" data-lang="de" aria-label="Deutsch">
+                <span class="flag">🇩🇪</span>
+                <span class="lang-name">Deutsch</span>
+            </a>
+            <a href="#" class="language-option" data-lang="fr" aria-label="Français">
+                <span class="flag">🇫🇷</span>
+                <span class="lang-name">Français</span>
+            </a>
+        </div>
+        
+        <!-- Google Translate Element (hidden) -->
+        <div id="google_translate_element" style="display: none;"></div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const languageToggle = document.getElementById('language-toggle');
+    const languageDropdown = document.getElementById('language-dropdown');
+    const currentLang = document.querySelector('.current-lang');
+    const languageOptions = document.querySelectorAll('.language-option');
+    
+    // Toggle dropdown
+    languageToggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        languageDropdown.classList.toggle('active');
+        languageToggle.setAttribute('aria-expanded', languageDropdown.classList.contains('active'));
+    });
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function() {
+        languageDropdown.classList.remove('active');
+        languageToggle.setAttribute('aria-expanded', 'false');
+    });
+    
+    // Handle language selection
+    languageOptions.forEach(option => {
+        option.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const selectedLang = this.dataset.lang;
+            const flag = this.querySelector('.flag').textContent;
+            const langName = this.querySelector('.lang-name').textContent;
+            
+            // Update current language display
+            currentLang.innerHTML = `${flag} ${selectedLang.toUpperCase()}`;
+            
+            // Trigger Google Translate
+            triggerGoogleTranslate(selectedLang);
+            
+            // Close dropdown
+            languageDropdown.classList.remove('active');
+            languageToggle.setAttribute('aria-expanded', 'false');
+            
+            // Store preference
+            localStorage.setItem('preferred-language', selectedLang);
+        });
+    });
+    
+    // Function to trigger Google Translate
+    function triggerGoogleTranslate(langCode) {
+        if (typeof google !== 'undefined' && google.translate) {
+            const translator = new google.translate.TranslateElement({
+                pageLanguage: 'it',
+                includedLanguages: 'en,de,fr,it',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            });
+            
+            // Simulate selection in Google Translate
+            const selectElement = document.querySelector('.goog-te-combo');
+            if (selectElement) {
+                selectElement.value = langCode;
+                selectElement.dispatchEvent(new Event('change'));
+            }
+        }
+    }
+    
+    // Load saved language preference
+    const savedLang = localStorage.getItem('preferred-language');
+    if (savedLang) {
+        const option = document.querySelector(`[data-lang="${savedLang}"]`);
+        if (option) {
+            option.click();
+        }
+    }
+});
+</script>

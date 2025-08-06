@@ -1,0 +1,146 @@
+<!-- Footer -->
+<footer class="site-footer" role="contentinfo">
+    <div class="footer-container">
+        <div class="footer-content">
+            <!-- Foundation Info -->
+            <div class="footer-section">
+                <h3>Fondazione Italiana per la Bioarchitettura®</h3>
+                <p class="foundation-status">
+                    La Fondazione Italiana per la Bioarchitettura® e l'Antropizzazione Sostenibile dell'Ambiente 
+                    è un Ente morale senza fini di lucro
+                </p>
+                <div class="contact-info">
+                    <p>
+                        <strong>Telefono:</strong> 
+                        <a href="tel:+390471973097">+39 0471 973097</a>
+                    </p>
+                    <p>
+                        <strong>Email:</strong> 
+                        <a href="mailto:bioa@bioarchitettura.org">bioa@bioarchitettura.org</a>
+                    </p>
+                    <p>
+                        <strong>Indirizzo legale:</strong><br>
+                        Certosa di Firenze<br>
+                        Via della Certosa, 1<br>
+                        50124 Firenze FI
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Quick Links -->
+            <div class="footer-section">
+                <h4>Link Utili</h4>
+                <ul class="footer-links">
+                    <li><a href="{{ '/' | relative_url }}">Fondazione</a></li>
+                    <li><a href="{{ '/chi-siamo' | relative_url }}">Chi Siamo</a></li>
+                    <li><a href="{{ '/quota-iscrizione' | relative_url }}">Quota Iscrizione</a></li>
+                    <li><a href="{{ '/libri-pubblicazioni' | relative_url }}">Libri &amp; Pubblicazioni</a></li>
+                    <li><a href="{{ '/rivista' | relative_url }}">Rivista</a></li>
+                    <li><a href="{{ '/master' | relative_url }}">Master</a></li>
+                    <li><a href="{{ '/shop' | relative_url }}">Shop</a></li>
+                </ul>
+            </div>
+            
+            <!-- Social Media -->
+            <div class="footer-section">
+                <h4>Seguici</h4>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/bioarchitettura-rivista" 
+                       target="_blank" rel="noopener" aria-label="Facebook bioarchitettura-rivista">
+                        <span class="social-icon">📘</span>
+                        <span>bioarchitettura-rivista</span>
+                    </a>
+                    <a href="https://www.facebook.com/rivista-bioarchitettura" 
+                       target="_blank" rel="noopener" aria-label="Facebook rivista-bioarchitettura">
+                        <span class="social-icon">📘</span>
+                        <span>rivista-bioarchitettura</span>
+                    </a>
+                    <a href="https://www.facebook.com/bioarchitettura" 
+                       target="_blank" rel="noopener" aria-label="Facebook bioarchitettura">
+                        <span class="social-icon">📘</span>
+                        <span>bioarchitettura</span>
+                    </a>
+                    <a href="#" 
+                       target="_blank" rel="noopener" aria-label="LinkedIn Gruppo">
+                        <span class="social-icon">💼</span>
+                        <span>LinkedIn Gruppo</span>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Newsletter -->
+            <div class="footer-section">
+                <h4>Newsletter</h4>
+                <p>Resta aggiornato su bioarchitettura e sostenibilità</p>
+                <form class="footer-newsletter" action="#" method="post">
+                    <input type="email" name="newsletter_email" placeholder="La tua email" required>
+                    <button type="submit" aria-label="Iscriviti alla newsletter">Iscriviti</button>
+                </form>
+                <p class="newsletter-privacy">
+                    <small>
+                        Iscrivendoti accetti la nostra 
+                        <a href="{{ '/privacy-policy' | relative_url }}">Privacy Policy</a>
+                    </small>
+                </p>
+            </div>
+        </div>
+        
+        <!-- Footer Bottom -->
+        <div class="footer-bottom">
+            <div class="footer-bottom-content">
+                <p class="copyright">
+                    © {{ 'now' | date: '%Y' }} Fondazione Italiana per la Bioarchitettura®. 
+                    Tutti i diritti riservati.
+                </p>
+                <div class="footer-legal">
+                    <a href="{{ '/privacy-policy' | relative_url }}">Privacy Policy</a>
+                    <a href="{{ '/cookie-policy' | relative_url }}">Cookie Policy</a>
+                    <a href="{{ '/terms-of-service' | relative_url }}">Termini di Servizio</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Back to Top Button -->
+<button class="back-to-top" id="back-to-top" aria-label="Torna in cima">
+    <span>↑</span>
+</button>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Back to top functionality
+    const backToTopButton = document.getElementById('back-to-top');
+    
+    window.addEventListener('scroll', function() {
+        if (window.pageYOffset > 300) {
+            backToTopButton.classList.add('visible');
+        } else {
+            backToTopButton.classList.remove('visible');
+        }
+    });
+    
+    backToTopButton.addEventListener('click', function() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+    
+    // Newsletter form
+    const newsletterForm = document.querySelector('.footer-newsletter');
+    if (newsletterForm) {
+        newsletterForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            
+            // Here you would integrate with your newsletter service
+            console.log('Newsletter subscription:', email);
+            
+            // Show success message
+            alert('Grazie per esserti iscritto alla nostra newsletter!');
+            this.reset();
+        });
+    }
+});
+</script>

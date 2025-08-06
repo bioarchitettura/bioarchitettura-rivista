@@ -1,0 +1,358 @@
+<!-- Auto-Summary Feature -->
+{% if page.layout == 'post' %}
+<div class="auto-summary-container">
+    <div class="summary-header">
+        <h4>📝 Riassunto Automatico</h4>
+        <button class="summary-generate-btn" id="generate-summary" 
+                aria-label="Genera riassunto automatico">
+            Genera Riassunto
+        </button>
+    </div>
+    
+    <div class="summary-content" id="summary-content" style="display: none;">
+        <div class="summary-loading" id="summary-loading" style="display: none;">
+            <div class="loading-spinner"></div>
+            <p>Generazione riassunto in corso...</p>
+        </div>
+        
+        <div class="summary-text" id="summary-text"></div>
+        
+        <div class="summary-actions" id="summary-actions" style="display: none;">
+            <button class="btn-secondary" id="regenerate-summary">🔄 Rigenera</button>
+            <button class="btn-secondary" id="copy-summary">📋 Copia</button>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const generateBtn = document.getElementById('generate-summary');
+    const summaryContent = document.getElementById('summary-content');
+    const summaryLoading = document.getElementById('summary-loading');
+    const summaryText = document.getElementById('summary-text');
+    const summaryActions = document.getElementById('summary-actions');
+    const regenerateBtn = document.getElementById('regenerate-summary');
+    const copyBtn = document.getElementById('copy-summary');
+    
+    let currentSummary = '';
+    
+    // Get article content for summarization
+    function getArticleContent() {
+        const contentElement = document.querySelector('.post-content');
+        if (!contentElement) return '';
+        
+        // Extract text content, removing HTML tags
+        const text = contentElement.innerText || contentElement.textContent;
+        
+        // Clean up text (remove extra whitespace, line breaks)
+        return text.replace(/\s+/g, ' ').trim();
+    }
+    
+    // OpenAI-powered summarization (primary method)
+    async function generateOpenAISummary(content) {
+        {% if site.openai_api_key %}
+        try {
+            // Note: In production, this should go through a backend endpoint for security
+            const response = await fetch('/api/summarize', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    content: content,
+                    max_length: {{ site.max_summary_length | default: 200 }},
+                    language: 'it'
+                })
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                return data.summary;
+            }
+        } catch (error) {
+            console.log('OpenAI summarization failed, falling back to extractive method');
+        }
+        {% endif %}
+        
+        // Fallback to JavaScript-based extractive summarization
+        return generateExtractiveSummary(content);
+    }
+    
+    // JavaScript-based extractive summarization (fallback)
+    function generateExtractiveSummary(content) {
+        if (!content || content.length < 100) {
+            return 'Contenuto troppo breve per generare un riassunto significativo.';
+        }
+        
+        // Split into sentences
+        const sentences = content.match(/[^\.!?]+[\.!?]+/g) || [];
+        
+        if (sentences.length <= 3) {
+            return sentences.join(' ').trim();
+        }
+        
+        // Simple extractive algorithm
+        // 1. Score sentences by word frequency and position
+        const words = content.toLowerCase().split(/\s+/);
+        const wordFreq = {};
+        
+        // Calculate word frequencies (excluding common stop words)
+        const stopWords = new Set([
+            'il', 'la', 'di', 'che', 'e', 'un', 'una', 'in', 'per', 'con', 'da', 'su',
+            'del', 'della', 'dei', 'delle', 'al', 'alla', 'ai', 'alle', 'nel', 'nella',
+            'nei', 'nelle', 'sul', 'sulla', 'sui', 'sulle', 'dal', 'dalla', 'dai', 'dalle',
+            'è', 'sono', 'ha', 'hanno', 'si', 'se', 'ma', 'anche', 'come', 'più', 'molto',
+            'questo', 'questa', 'questi', 'queste', 'quello', 'quella', 'quelli', 'quelle'
+        ]);
+        
+        words.forEach(word => {
+            const cleanWord = word.replace(/[^\w]/g, '').toLowerCase();
+            if (cleanWord.length > 2 && !stopWords.has(cleanWord)) {
+                wordFreq[cleanWord] = (wordFreq[cleanWord] || 0) + 1;
+            }
+        });
+        
+        // Score sentences
+        const sentenceScores = sentences.map((sentence, index) => {
+            const sentenceWords = sentence.toLowerCase().split(/\s+/);
+            let score = 0;
+            let wordCount = 0;
+            
+            sentenceWords.forEach(word => {
+                const cleanWord = word.replace(/[^\w]/g, '').toLowerCase();
+                if (wordFreq[cleanWord]) {
+                    score += wordFreq[cleanWord];
+                    wordCount++;
+                }
+            });
+            
+            // Normalize score by sentence length
+            const normalizedScore = wordCount > 0 ? score / wordCount : 0;
+            
+            // Boost score for early sentences (introduction bias)
+            const positionBoost = index < 3 ? 1.2 : 1;
+            
+            return {
+                sentence: sentence.trim(),
+                score: normalizedScore * positionBoost,
+                index: index
+            };
+        });
+        
+        // Select top sentences
+        const topSentences = sentenceScores
+            .sort((a, b) => b.score - a.score)
+            .slice(0, 3)
+            .sort((a, b) => a.index - b.index);
+        
+        const summary = topSentences.map(item => item.sentence).join(' ');
+        
+        // Truncate if too long
+        const maxLength = {{ site.max_summary_length | default: 200 }};
+        if (summary.length > maxLength) {
+            return summary.substring(0, maxLength - 3) + '...';
+        }
+        
+        return summary;
+    }
+    
+    // Generate summary function
+    async function generateSummary() {
+        const content = getArticleContent();
+        
+        if (!content) {
+            alert('Impossibile generare il riassunto: contenuto non trovato.');
+            return;
+        }
+        
+        // Show loading
+        summaryContent.style.display = 'block';
+        summaryLoading.style.display = 'block';
+        summaryText.style.display = 'none';
+        summaryActions.style.display = 'none';
+        generateBtn.disabled = true;
+        
+        try {
+            // Generate summary
+            currentSummary = await generateOpenAISummary(content);
+            
+            // Display summary
+            summaryLoading.style.display = 'none';
+            summaryText.innerHTML = `<p>${currentSummary}</p>`;
+            summaryText.style.display = 'block';
+            summaryActions.style.display = 'flex';
+            
+            // Track analytics
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'generate_summary', {
+                    'event_category': 'ai_features',
+                    'event_label': 'auto_summarization'
+                });
+            }
+            
+        } catch (error) {
+            console.error('Summary generation failed:', error);
+            summaryLoading.style.display = 'none';
+            summaryText.innerHTML = '<p class="error">Errore nella generazione del riassunto. Riprova.</p>';
+            summaryText.style.display = 'block';
+        } finally {
+            generateBtn.disabled = false;
+        }
+    }
+    
+    // Copy summary to clipboard
+    async function copySummary() {
+        if (!currentSummary) return;
+        
+        try {
+            await navigator.clipboard.writeText(currentSummary);
+            
+            // Show feedback
+            const originalText = copyBtn.textContent;
+            copyBtn.textContent = '✅ Copiato!';
+            copyBtn.disabled = true;
+            
+            setTimeout(() => {
+                copyBtn.textContent = originalText;
+                copyBtn.disabled = false;
+            }, 2000);
+            
+            // Track analytics
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'copy_summary', {
+                    'event_category': 'ai_features',
+                    'event_label': 'copy_to_clipboard'
+                });
+            }
+            
+        } catch (error) {
+            alert('Impossibile copiare il riassunto negli appunti');
+        }
+    }
+    
+    // Event listeners
+    generateBtn.addEventListener('click', generateSummary);
+    regenerateBtn.addEventListener('click', generateSummary);
+    copyBtn.addEventListener('click', copySummary);
+    
+    // Auto-generate summary if enabled
+    {% if site.auto_generate_summaries %}
+    // Wait a bit for page to load completely
+    setTimeout(generateSummary, 2000);
+    {% endif %}
+});
+</script>
+
+<style>
+.auto-summary-container {
+    margin: 30px 0;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #2c5530;
+}
+
+.summary-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.summary-header h4 {
+    margin: 0;
+    color: #2c5530;
+    font-size: 1.1em;
+}
+
+.summary-generate-btn {
+    background: #2c5530;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s;
+}
+
+.summary-generate-btn:hover:not(:disabled) {
+    background: #4a7c59;
+}
+
+.summary-generate-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+.summary-loading {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #666;
+}
+
+.loading-spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #2c5530;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.summary-text {
+    margin: 15px 0;
+    padding: 15px;
+    background: white;
+    border-radius: 4px;
+    line-height: 1.6;
+}
+
+.summary-text .error {
+    color: #dc3545;
+}
+
+.summary-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.summary-actions button {
+    padding: 6px 12px;
+    border: 1px solid #ddd;
+    background: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.3s;
+}
+
+.summary-actions button:hover:not(:disabled) {
+    background: #f8f9fa;
+    border-color: #2c5530;
+}
+
+.summary-actions button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+    .summary-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .summary-actions {
+        flex-wrap: wrap;
+    }
+}
+</style>
+{% endif %}

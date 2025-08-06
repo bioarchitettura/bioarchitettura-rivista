@@ -1,0 +1,64 @@
+<!-- Navigation Bar -->
+<nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="nav-container">
+        <a href="{{ '/' | relative_url }}" class="nav-logo" aria-label="Home page">
+            <span class="logo-text">Bioarchitettura</span>
+        </a>
+        
+        <ul class="nav-menu" role="menubar">
+            <li class="nav-item" role="none">
+                <a href="{{ '/' | relative_url }}" class="nav-link {% if page.url == '/' %}active{% endif %}" role="menuitem">
+                    Fondazione
+                </a>
+            </li>
+            <li class="nav-item" role="none">
+                <a href="{{ '/chi-siamo' | relative_url }}" class="nav-link {% if page.url contains 'chi-siamo' %}active{% endif %}" role="menuitem">
+                    Chi Siamo
+                </a>
+            </li>
+            <li class="nav-item" role="none">
+                <a href="{{ '/quota-iscrizione' | relative_url }}" class="nav-link {% if page.url contains 'quota-iscrizione' %}active{% endif %}" role="menuitem">
+                    Quota Iscrizione
+                </a>
+            </li>
+            <li class="nav-item" role="none">
+                <a href="{{ '/libri-pubblicazioni' | relative_url }}" class="nav-link {% if page.url contains 'libri-pubblicazioni' %}active{% endif %}" role="menuitem">
+                    Libri &amp; Pubblicazioni
+                </a>
+            </li>
+            <li class="nav-item" role="none">
+                <a href="{{ '/rivista' | relative_url }}" class="nav-link {% if page.url contains 'rivista' %}active{% endif %}" role="menuitem">
+                    Rivista
+                </a>
+            </li>
+            <li class="nav-item" role="none">
+                <a href="{{ '/master' | relative_url }}" class="nav-link {% if page.url contains 'master' %}active{% endif %}" role="menuitem">
+                    Master
+                </a>
+            </li>
+            <li class="nav-item" role="none">
+                <a href="{{ '/shop' | relative_url }}" class="nav-link {% if page.url contains 'shop' %}active{% endif %}" role="menuitem">
+                    Shop
+                </a>
+            </li>
+        </ul>
+        
+        <!-- Mobile Navigation Toggle -->
+        <button class="nav-toggle" id="nav-toggle" aria-controls="nav-menu" aria-expanded="false" aria-label="Toggle navigation menu">
+            <span class="hamburger"></span>
+            <span class="hamburger"></span>
+            <span class="hamburger"></span>
+        </button>
+        
+        <!-- Shopping Cart Icon -->
+        <div class="nav-cart">
+            <button class="cart-toggle" id="cart-toggle" aria-label="Shopping cart">
+                <span class="cart-icon">🛒</span>
+                <span class="cart-count" id="cart-count">0</span>
+            </button>
+        </div>
+    </div>
+</nav>
+
+<!-- Mobile Navigation Overlay -->
+<div class="nav-overlay" id="nav-overlay"></div>

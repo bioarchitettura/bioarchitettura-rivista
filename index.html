@@ -1,20 +1,672 @@
-<!DOCTYPE html>
-<html lang="it">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fondazione Italiana per la Bioarchitettura</title>
-    <meta http-equiv="refresh" content="0; url=public/">
-    <style>
-        body { 
-            font-family: Arial, sans-serif; 
-            text-align: center; 
-            padding: 50px;
-        }
-    </style>
-</head>
-<body>
-    <h1>Redirecting...</h1>
-    <p>If you are not redirected automatically, <a href="public/">click here</a>.</p>
-</body>
-</html>
+---
+layout: default
+title: "Fondazione Italiana per la Bioarchitettura"
+description: "L'Ente italiano di riferimento nell'ambito del costruire sano ed ecologico. Scopri la rivista, i master, lo shop e le nostre iniziative per la bioarchitettura."
+keywords: "bioarchitettura, architettura sostenibile, costruzione ecologica, fondazione, rivista, master casaclima"
+---
+
+<!-- Hero Section -->
+<section class="hero-section" aria-label="Presentazione della fondazione">
+    <div class="container">
+        <h1>La Fondazione Italiana per la Bioarchitettura® e l'Antropizzazione Sostenibile dell'Ambiente</h1>
+        <h2>Il punto di riferimento della Bioarchitettura® in Italia ed Europa</h2>
+        <p>
+            Scopri le soluzioni innovative e sostenibili per una vita sana ed ecologica, 
+            in sintonia con la Terra e diventa socio della Fondazione Italiana per la Bioarchitettura® 
+            e l'Antropizzazione Sostenibile dell'Ambiente.
+        </p>
+        <div class="hero-actions">
+            <a href="{{ '/chi-siamo' | relative_url }}" class="btn-primary">Scopri di più</a>
+            <a href="{{ '/shop' | relative_url }}" class="btn-secondary">Esplora lo Shop</a>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="stats-section" aria-label="I nostri numeri">
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat">
+                <span class="number" data-target="500">0</span>
+                <span class="label">Edifici Certificati</span>
+            </div>
+            <div class="stat">
+                <span class="number" data-target="50">0</span>
+                <span class="label">Anni di Esperienza</span>
+            </div>
+            <div class="stat">
+                <span class="number" data-target="100">0</span>
+                <span class="label">Riviste Pubblicate</span>
+            </div>
+            <div class="stat">
+                <span class="number" data-target="25">0</span>
+                <span class="label">Master Erogati</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section class="about-section" id="chi-siamo" aria-label="Chi siamo">
+    <div class="container">
+        <div class="grid-2">
+            <div class="content">
+                <h2>La Nostra Storia</h2>
+                <h3>Costruire un Futuro Sostenibile</h3>
+                <p>
+                    La Fondazione Italiana per la Bioarchitettura® e l'Antropizzazione Sostenibile dell'Ambiente 
+                    è l'Ente italiano di riferimento nell'ambito del costruire sano ed ecologico. 
+                    Un impegno che si riflette nella nostra rivista BIOARCHITETTURA® ABITARE LA TERRA e 
+                    nel Master di II livello CasaClima-Bioarchitettura Certificazione e Consulenza Energetico-ambientale, 
+                    offrendo percorsi di alta formazione per esperti in progettazione sostenibile.
+                </p>
+                <p>
+                    La nostra missione è guidare il settore dell'architettura verso un futuro sostenibile 
+                    e attento alle esigenze del pianeta e delle generazioni future.
+                </p>
+                <a href="{{ '/chi-siamo' | relative_url }}" class="btn-primary">Scopri la nostra storia</a>
+            </div>
+            <div class="image-content">
+                <div class="about-image">
+                    🏛️
+                    <p>Sede storica presso la Certosa di Firenze</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Services Section -->
+<section class="services-section" id="servizi" aria-label="I nostri servizi">
+    <div class="container">
+        <h2 class="section-title">I Nostri Servizi</h2>
+        <div class="grid-3">
+            <div class="card service-card" id="rivista">
+                <div class="service-icon">📰</div>
+                <h3>Rivista BIOARCHITETTURA®</h3>
+                <p>
+                    La prima rivista italiana dedicata all'architettura ecologica, 
+                    offrendo ispirazione e informazioni per un abitare consapevole.
+                </p>
+                <div class="service-features">
+                    <ul>
+                        <li>12 numeri all'anno</li>
+                        <li>Articoli di esperti</li>
+                        <li>Progetti internazionali</li>
+                        <li>Versione digitale e cartacea</li>
+                    </ul>
+                </div>
+                <a href="{{ '/rivista' | relative_url }}" class="btn-primary">Scopri la Rivista</a>
+            </div>
+            
+            <div class="card service-card" id="master">
+                <div class="service-icon">🎓</div>
+                <h3>Master CasaClima-Bioarchitettura-I.T.A.C.A</h3>
+                <p>
+                    Percorso di alta formazione per esperti in progettazione sostenibile, 
+                    garantendo certificazioni e consulenze energetico-ambientali di qualità.
+                </p>
+                <div class="service-features">
+                    <ul>
+                        <li>Certificazione CasaClima</li>
+                        <li>Protocollo I.T.A.C.A</li>
+                        <li>Docenti esperti</li>
+                        <li>Stage pratici</li>
+                    </ul>
+                </div>
+                <a href="{{ '/master' | relative_url }}" class="btn-primary">Scopri i Master</a>
+            </div>
+            
+            <div class="card service-card" id="shop">
+                <div class="service-icon">🛒</div>
+                <h3>Shop Online</h3>
+                <p>
+                    Acquista ebooks, pubblicazioni, abbonamenti e corsi specializzati 
+                    in bioarchitettura e costruzioni sostenibili.
+                </p>
+                <div class="service-features">
+                    <ul>
+                        <li>Ebooks specializzati</li>
+                        <li>Abbonamenti rivista</li>
+                        <li>Corsi online</li>
+                        <li>Consulenze personalizzate</li>
+                    </ul>
+                </div>
+                <a href="{{ '/shop' | relative_url }}" class="btn-primary">Visita lo Shop</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Mission Section -->
+<section class="mission-section" aria-label="La nostra missione">
+    <div class="container">
+        <h2 class="section-title">La Nostra Missione</h2>
+        <div class="grid-2">
+            <div class="card mission-card">
+                <div class="mission-icon">🌱</div>
+                <h3>Costruire Sano ed Ecologico</h3>
+                <p>
+                    Promuoviamo soluzioni innovative e sostenibili per un costruire 
+                    rispettoso dell'ambiente e della vita.
+                </p>
+            </div>
+            
+            <div class="card mission-card">
+                <div class="mission-icon">🎯</div>
+                <h3>Impegno per un Futuro Migliore</h3>
+                <p>
+                    La nostra missione è guidare il settore dell'architettura verso 
+                    un futuro sostenibile e attento alle esigenze del pianeta.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Focus Section -->
+<section class="focus-section" aria-label="I nostri focus">
+    <div class="container">
+        <h2>I Nostri Focus</h2>
+        <div class="focus-content">
+            <p>
+                <strong>Ecosostenibilità</strong>, in sintonia con <strong>architettura</strong> 
+                e <strong>progettazione bioclimatica</strong> con focus alla <strong>biocompatibilità</strong>.
+            </p>
+            <div class="focus-keywords">
+                <span class="keyword">Sostenibilità</span>
+                <span class="keyword">Biocompatibilità</span>
+                <span class="keyword">Efficienza Energetica</span>
+                <span class="keyword">Materiali Naturali</span>
+                <span class="keyword">Progettazione Bioclimatica</span>
+                <span class="keyword">Certificazione Ambientale</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Latest Articles Section -->
+<section class="latest-articles" aria-label="Ultimi articoli">
+    <div class="container">
+        <h2 class="section-title">Ultimi Articoli</h2>
+        <div class="articles-grid">
+            {% for post in site.posts limit:3 %}
+            <article class="article-card">
+                {% if post.image %}
+                <div class="article-image">
+                    <img src="{{ post.image | relative_url }}" alt="{{ post.title | escape }}" loading="lazy">
+                </div>
+                {% else %}
+                <div class="article-image placeholder">
+                    📄
+                </div>
+                {% endif %}
+                
+                <div class="article-content">
+                    <div class="article-meta">
+                        <time datetime="{{ post.date | date_to_xmlschema }}">
+                            {{ post.date | date: "%d %B %Y" }}
+                        </time>
+                        {% if post.categories.size > 0 %}
+                            <span class="article-category">{{ post.categories | first }}</span>
+                        {% endif %}
+                    </div>
+                    
+                    <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
+                    
+                    {% if post.excerpt %}
+                    <p class="article-excerpt">{{ post.excerpt | strip_html | truncate: 120 }}</p>
+                    {% endif %}
+                    
+                    <a href="{{ post.url | relative_url }}" class="read-more">Leggi di più →</a>
+                </div>
+            </article>
+            {% else %}
+            <!-- Fallback content if no posts exist -->
+            <article class="article-card">
+                <div class="article-image placeholder">📄</div>
+                <div class="article-content">
+                    <div class="article-meta">
+                        <time datetime="{{ 'now' | date_to_xmlschema }}">Prossimamente</time>
+                        <span class="article-category">Bioarchitettura</span>
+                    </div>
+                    <h3><a href="#">Sostenibilità in Bioarchitettura</a></h3>
+                    <p class="article-excerpt">
+                        Scopri le ultime tendenze e innovazioni nel campo della bioarchitettura e dell'edilizia sostenibile.
+                    </p>
+                    <a href="{{ '/rivista' | relative_url }}" class="read-more">Scopri di più →</a>
+                </div>
+            </article>
+            
+            <article class="article-card">
+                <div class="article-image placeholder">🏗️</div>
+                <div class="article-content">
+                    <div class="article-meta">
+                        <time datetime="{{ 'now' | date_to_xmlschema }}">Prossimamente</time>
+                        <span class="article-category">Materiali</span>
+                    </div>
+                    <h3><a href="#">Guida ai Materiali Naturali</a></h3>
+                    <p class="article-excerpt">
+                        Una guida completa sui materiali naturali utilizzabili in edilizia sostenibile.
+                    </p>
+                    <a href="{{ '/libri-pubblicazioni' | relative_url }}" class="read-more">Scopri di più →</a>
+                </div>
+            </article>
+            
+            <article class="article-card">
+                <div class="article-image placeholder">⚡</div>
+                <div class="article-content">
+                    <div class="article-meta">
+                        <time datetime="{{ 'now' | date_to_xmlschema }}">Prossimamente</time>
+                        <span class="article-category">Efficienza</span>
+                    </div>
+                    <h3><a href="#">Efficienza Energetica degli Edifici</a></h3>
+                    <p class="article-excerpt">
+                        Tecnologie e strategie per massimizzare l'efficienza energetica negli edifici moderni.
+                    </p>
+                    <a href="{{ '/master' | relative_url }}" class="read-more">Scopri di più →</a>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        
+        <div class="articles-cta">
+            <a href="{{ '/rivista' | relative_url }}" class="btn-primary">Scopri tutti gli articoli</a>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section" aria-label="Chiamata all'azione">
+    <div class="container">
+        <div class="cta-content">
+            <h2>Unisciti alla Comunità della Bioarchitettura</h2>
+            <p>
+                Diventa socio della Fondazione e accedi a contenuti esclusivi, 
+                sconti sui corsi e molto altro ancora.
+            </p>
+            <div class="cta-actions">
+                <a href="{{ '/quota-iscrizione' | relative_url }}" class="btn-primary">Diventa Socio</a>
+                <a href="{{ '/shop' | relative_url }}" class="btn-secondary">Esplora lo Shop</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+// Counter animation for stats
+document.addEventListener('DOMContentLoaded', function() {
+    // Animate counters when they come into view
+    const counters = document.querySelectorAll('.stat .number');
+    
+    function animateCounter(counter) {
+        const target = parseInt(counter.getAttribute('data-target'));
+        const duration = 2000; // 2 seconds
+        const step = target / (duration / 16); // 60 FPS
+        let current = 0;
+        
+        const timer = setInterval(() => {
+            current += step;
+            if (current >= target) {
+                current = target;
+                clearInterval(timer);
+            }
+            counter.textContent = Math.floor(current);
+        }, 16);
+    }
+    
+    // Use Intersection Observer to trigger animation when visible
+    if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounter(entry.target);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.5
+        });
+        
+        counters.forEach(counter => observer.observe(counter));
+    } else {
+        // Fallback for browsers without IntersectionObserver
+        counters.forEach(counter => {
+            const target = parseInt(counter.getAttribute('data-target'));
+            counter.textContent = target;
+        });
+    }
+    
+    // Track homepage engagement
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'page_view', {
+            'page_title': 'Homepage',
+            'page_location': window.location.href
+        });
+        
+        // Track CTA clicks
+        document.querySelectorAll('.btn-primary, .btn-secondary').forEach(btn => {
+            btn.addEventListener('click', function() {
+                gtag('event', 'click', {
+                    'event_category': 'engagement',
+                    'event_label': this.textContent.trim(),
+                    'transport_type': 'beacon'
+                });
+            });
+        });
+    }
+});
+</script>
+
+<style>
+/* Homepage specific styles */
+.hero-actions {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 30px;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 50px;
+    color: var(--primary-color);
+    font-size: 2.2rem;
+}
+
+.service-card {
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.service-icon, .mission-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.service-features ul {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+.service-features li {
+    padding: 5px 0;
+    color: var(--text-light);
+    font-size: 14px;
+}
+
+.service-features li:before {
+    content: '✓';
+    color: var(--primary-color);
+    font-weight: bold;
+    margin-right: 8px;
+}
+
+.mission-card {
+    text-align: center;
+}
+
+.focus-section {
+    background: var(--primary-color);
+    color: white;
+    text-align: center;
+    padding: 60px 0;
+}
+
+.focus-content p {
+    font-size: 1.3rem;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+.focus-keywords {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+}
+
+.keyword {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    backdrop-filter: blur(10px);
+}
+
+.latest-articles {
+    padding: 80px 0;
+    background: var(--background-light);
+}
+
+.articles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-bottom: 50px;
+}
+
+.article-card {
+    background: white;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-light);
+    transition: var(--transition);
+}
+
+.article-card:hover {
+    box-shadow: var(--shadow-medium);
+    transform: translateY(-3px);
+}
+
+.article-image {
+    height: 180px;
+    overflow: hidden;
+}
+
+.article-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.article-image.placeholder {
+    background: var(--secondary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    color: var(--primary-color);
+}
+
+.article-content {
+    padding: 25px;
+}
+
+.article-meta {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin-bottom: 15px;
+    font-size: 14px;
+    color: var(--text-light);
+    flex-wrap: wrap;
+}
+
+.article-category {
+    background: var(--secondary-color);
+    color: var(--primary-color);
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.article-content h3 {
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+.article-content h3 a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.article-content h3 a:hover {
+    text-decoration: underline;
+}
+
+.article-excerpt {
+    color: var(--text-light);
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.articles-cta {
+    text-align: center;
+}
+
+.cta-section {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
+    color: white;
+    padding: 80px 0;
+    text-align: center;
+}
+
+.cta-content h2 {
+    color: white;
+    margin-bottom: 20px;
+    font-size: 2.2rem;
+}
+
+.cta-content p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin-bottom: 40px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cta-actions {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.cta-section .btn-primary {
+    background: white;
+    color: var(--primary-color);
+}
+
+.cta-section .btn-primary:hover {
+    background: var(--background-light);
+    color: var(--primary-color);
+}
+
+.cta-section .btn-secondary {
+    border-color: white;
+    color: white;
+}
+
+.cta-section .btn-secondary:hover {
+    background: white;
+    color: var(--primary-color);
+}
+
+.about-image {
+    background: var(--secondary-color);
+    padding: 40px;
+    border-radius: var(--border-radius);
+    text-align: center;
+    font-size: 6rem;
+    color: var(--primary-color);
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.about-image p {
+    font-size: 1rem;
+    margin-top: 20px;
+    color: var(--text-color);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .hero-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .hero-actions .btn-primary,
+    .hero-actions .btn-secondary {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+    }
+    
+    .section-title {
+        font-size: 1.8rem;
+    }
+    
+    .service-icon, .mission-icon {
+        font-size: 3rem;
+    }
+    
+    .focus-content p {
+        font-size: 1.1rem;
+    }
+    
+    .focus-keywords {
+        gap: 10px;
+    }
+    
+    .keyword {
+        padding: 6px 12px;
+        font-size: 13px;
+    }
+    
+    .articles-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .cta-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .cta-actions .btn-primary,
+    .cta-actions .btn-secondary {
+        width: 100%;
+        max-width: 300px;
+    }
+}
+
+@media (max-width: 480px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .about-image {
+        font-size: 4rem;
+        height: 200px;
+        padding: 20px;
+    }
+}
+</style>

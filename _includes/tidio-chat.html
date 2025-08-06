@@ -1,0 +1,266 @@
+<!-- Tidio Chat Integration -->
+{% if site.tidio_public_key %}
+<!-- Tidio Live Chat -->
+<script src="//code.tidio.co/{{ site.tidio_public_key }}.js" async></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Tidio customization
+    function onTidioWidgetLoaded() {
+        if (window.tidio) {
+            // Customize chat widget appearance
+            tidio.display.show();
+            
+            // Set visitor data if available
+            const userLang = localStorage.getItem('preferred-language') || 'it';
+            tidio.data.set('lang', userLang);
+            
+            // Custom welcome message based on page
+            const pagePath = window.location.pathname;
+            let welcomeMessage = 'Ciao! Come possiamo aiutarti con la bioarchitettura?';
+            
+            if (pagePath.includes('/shop')) {
+                welcomeMessage = 'Hai bisogno di aiuto con i nostri prodotti? Siamo qui per te!';
+            } else if (pagePath.includes('/master')) {
+                welcomeMessage = 'Interessato ai nostri master? Parliamone insieme!';
+            } else if (pagePath.includes('/rivista')) {
+                welcomeMessage = 'Vuoi saperne di più sulla nostra rivista? Chiedici tutto!';
+            }
+            
+            // Set custom welcome message
+            tidio.data.set('welcome_message', welcomeMessage);
+        }
+    }
+    
+    // Wait for Tidio to load
+    const checkTidio = setInterval(function() {
+        if (window.tidio) {
+            clearInterval(checkTidio);
+            onTidioWidgetLoaded();
+        }
+    }, 100);
+});
+</script>
+
+{% else %}
+<!-- Fallback Chat Button when Tidio is not configured -->
+<div class="fallback-chat" id="fallback-chat">
+    <button class="chat-button" id="fallback-chat-button" aria-label="Chat support">
+        <span class="chat-icon">💬</span>
+        <span class="chat-text">Chat</span>
+    </button>
+    
+    <div class="chat-popup" id="chat-popup" style="display: none;">
+        <div class="chat-header">
+            <h4>Assistenza</h4>
+            <button class="chat-close" onclick="closeFallbackChat()">×</button>
+        </div>
+        <div class="chat-content">
+            <p>Il servizio chat è temporaneamente non disponibile.</p>
+            <p>Contattaci direttamente:</p>
+            <div class="contact-options">
+                <a href="tel:+390471973097" class="contact-btn">
+                    <span>📞</span> +39 0471 973097
+                </a>
+                <a href="mailto:bioa@bioarchitettura.org" class="contact-btn">
+                    <span>✉️</span> bioa@bioarchitettura.org
+                </a>
+            </div>
+            
+            <!-- Quick Contact Form -->
+            <form class="quick-contact-form" onsubmit="submitQuickContact(event)">
+                <h5>Invia un messaggio rapido:</h5>
+                <input type="text" name="name" placeholder="Il tuo nome" required>
+                <input type="email" name="email" placeholder="La tua email" required>
+                <textarea name="message" placeholder="Il tuo messaggio" rows="3" required></textarea>
+                <button type="submit" class="btn-primary">Invia Messaggio</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const chatButton = document.getElementById('fallback-chat-button');
+    const chatPopup = document.getElementById('chat-popup');
+    
+    chatButton.addEventListener('click', function() {
+        chatPopup.style.display = chatPopup.style.display === 'none' ? 'block' : 'none';
+    });
+});
+
+function closeFallbackChat() {
+    document.getElementById('chat-popup').style.display = 'none';
+}
+
+function submitQuickContact(event) {
+    event.preventDefault();
+    const form = event.target;
+    const formData = new FormData(form);
+    
+    // Here you would typically send the form data to your backend
+    console.log('Quick contact form submitted:', {
+        name: formData.get('name'),
+        email: formData.get('email'),
+        message: formData.get('message')
+    });
+    
+    alert('Messaggio inviato! Ti risponderemo il prima possibile.');
+    form.reset();
+    closeFallbackChat();
+}
+</script>
+
+<style>
+.fallback-chat {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.chat-button {
+    background: #2c5530;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 15px 20px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.chat-button:hover {
+    background: #4a7c59;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+}
+
+.chat-popup {
+    position: absolute;
+    bottom: 70px;
+    right: 0;
+    width: 300px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.chat-header {
+    background: #2c5530;
+    color: white;
+    padding: 15px;
+    border-radius: 10px 10px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chat-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.chat-content {
+    padding: 20px;
+}
+
+.contact-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.contact-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background: #f8f9fa;
+    text-decoration: none;
+    color: #333;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.contact-btn:hover {
+    background: #e9ecef;
+}
+
+.quick-contact-form {
+    margin-top: 20px;
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+}
+
+.quick-contact-form input,
+.quick-contact-form textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.quick-contact-form button {
+    width: 100%;
+    padding: 10px;
+    background: #2c5530;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.quick-contact-form button:hover {
+    background: #4a7c59;
+}
+
+@media (max-width: 768px) {
+    .chat-popup {
+        width: 280px;
+        right: -10px;
+    }
+}
+</style>
+
+{% endif %}
+
+<!-- Custom Chat Analytics -->
+<script>
+// Track chat interactions for analytics
+document.addEventListener('DOMContentLoaded', function() {
+    // Track when chat is opened
+    function trackChatOpen() {
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'chat_opened', {
+                'event_category': 'engagement',
+                'event_label': 'support_chat'
+            });
+        }
+    }
+    
+    // Track fallback chat usage
+    const fallbackChatButton = document.getElementById('fallback-chat-button');
+    if (fallbackChatButton) {
+        fallbackChatButton.addEventListener('click', trackChatOpen);
+    }
+    
+    // Track Tidio chat open event
+    if (window.tidio) {
+        tidio.on('open', trackChatOpen);
+    }
+});
+</script>
