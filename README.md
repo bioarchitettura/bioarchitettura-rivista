@@ -63,3 +63,41 @@ Per accedere al CMS è necessario:
 - Avere un account GitHub
 - Essere collaboratori del repository `bioarchitettura/web`
 - Avere i permessi di scrittura sul repository
+
+## Deployment su GitHub Pages
+
+Questo repository è configurato per il deployment automatico su GitHub Pages da due branch diversi:
+
+### Branch Main
+Il branch `main` viene deployato automaticamente utilizzando il sistema GitHub Pages integrato.
+
+### Branch Rivista  
+Il branch `rivista` viene deployato automaticamente alla branch `gh-pages` tramite GitHub Actions ogni volta che viene effettuato un push.
+
+#### Abilitazione GitHub Pages nel Repository
+
+Per abilitare GitHub Pages nel repository:
+
+1. **Vai alle impostazioni del repository:**
+   - Naviga su GitHub al repository `bioarchitettura/web`
+   - Clicca su "Settings" nella barra superiore
+
+2. **Configura GitHub Pages:**
+   - Nella barra laterale sinistra, clicca su "Pages" sotto la sezione "Code and automation"
+   - Nella sezione "Source", seleziona "Deploy from a branch"
+   - Nel menu dropdown "Branch", seleziona `gh-pages`
+   - Lascia la cartella su `/ (root)`
+   - Clicca "Save"
+
+3. **Verifica il deployment:**
+   - Dopo alcuni minuti, il sito sarà disponibile all'indirizzo mostrato nella sezione Pages
+   - Il badge di stato GitHub Actions mostrerà lo stato del deployment
+
+#### Flusso di Lavoro Automatico
+
+1. **Push al branch rivista:** Ogni modifica pushata al branch `rivista` attiva automaticamente il workflow
+2. **Build:** Il sito Jekyll viene compilato nella cartella `_site`
+3. **Deploy:** Il contenuto viene pubblicato nella branch `gh-pages`
+4. **Pubblicazione:** GitHub Pages serve automaticamente il sito dalla branch `gh-pages`
+
+Il sito risultante sarà accessibile all'indirizzo configurato nelle impostazioni del repository.
