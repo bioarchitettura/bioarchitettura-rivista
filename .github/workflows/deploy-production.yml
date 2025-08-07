@@ -207,7 +207,19 @@ jobs:
           echo "Build completed successfully!"
           cat _site/build-report.txt
           
+      - name: Check if _site directory exists and has content
+        id: site_exists
+        run: |
+          if [ -d "_site" ] && [ "$(ls -A _site)" ]; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+            echo "✅ _site directory exists and contains files"
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+            echo "❌ _site directory is missing or empty"
+          fi
+          
       - name: Upload artifact
+        if: steps.site_exists.outputs.exists == 'true'
         uses: actions/upload-pages-artifact@v3
         with:
           path: _site/
