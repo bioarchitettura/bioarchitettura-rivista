@@ -62,18 +62,34 @@ const SHOP_STATE = {
 class ProductManager {
     constructor() {
         this.products = [];
+        this.rivistaProducts = [];
         this.loadProducts();
     }
 
     async loadProducts() {
         try {
-            // In production, this would load from a CMS or API
+            // Load core products
             this.products = this.getSampleProducts();
+            
+            // Load rivista products if available
+            if (window.rivistaManager && window.rivistaManager.rivistaProducts) {
+                this.addRivistaProducts(window.rivistaManager.rivistaProducts);
+            }
+            
             SHOP_STATE.products = this.products;
         } catch (error) {
             console.error('Failed to load products:', error);
             this.products = [];
         }
+    }
+
+    addRivistaProducts(rivistaProducts) {
+        this.rivistaProducts = rivistaProducts;
+        // Merge with existing products, ensuring no duplicates
+        const existingIds = new Set(this.products.map(p => p.id));
+        const newProducts = rivistaProducts.filter(p => !existingIds.has(p.id));
+        this.products = [...this.products, ...newProducts];
+        SHOP_STATE.products = this.products;
     }
 
     getSampleProducts() {
@@ -206,6 +222,28 @@ class ProductManager {
             return this.products;
         }
         return this.products.filter(product => product.category === category);
+    }
+
+    getProductsBySource(source) {
+        return this.products.filter(product => product.source === source);
+    }
+
+    getRivistaProducts() {
+        return this.getProductsBySource('rivista');
+    }
+
+    getFeaturedProducts(limit = 6) {
+        return this.products
+            .filter(product => product.featured || product.bestseller || product.popular)
+            .sort((a, b) => {
+                // Prioritize bestsellers, then featured, then popular
+                if (a.bestseller && !b.bestseller) return -1;
+                if (!a.bestseller && b.bestseller) return 1;
+                if (a.featured && !b.featured) return -1;
+                if (!a.featured && b.featured) return 1;
+                return 0;
+            })
+            .slice(0, limit);
     }
 
     searchProducts(query) {
@@ -660,6 +698,7 @@ class ShoppingCart {
 class ProductDisplay {
     constructor() {
         this.currentFilter = 'all';
+        this.currentRivistaFilter = false;
         this.setupFilters();
         this.setupProductGrid();
         this.setupSearch();
@@ -711,10 +750,16 @@ class ProductDisplay {
         const productGrid = document.querySelector('.shop-grid');
         if (!productGrid) return;
 
-        const products = window.productManager.getProductsByCategory(this.currentFilter);
+        let products = window.productManager.getProductsByCategory(this.currentFilter);
+        
+        // Apply rivista filter if active
+        if (this.currentRivistaFilter) {
+            products = products.filter(p => p.source === 'rivista');
+        }
         
         if (products.length === 0) {
-            productGrid.innerHTML = '<p class="text-center">Nessun prodotto trovato</p>';
+            const filterText = this.currentRivistaFilter ? 'prodotti rivista' : 'prodotti';
+            productGrid.innerHTML = `<p class="text-center">Nessun ${filterText} trovato</p>`;
             return;
         }
 
@@ -736,6 +781,7 @@ class ProductDisplay {
         if (product.newRelease) badges.push('<span class="badge badge-new">Nuovo</span>');
         if (product.limited) badges.push('<span class="badge badge-limited">Limitato</span>');
         if (product.popular) badges.push('<span class="badge badge-popular">Popolare</span>');
+        if (product.source === 'rivista') badges.push('<span class="badge badge-rivista">Rivista</span>');
 
         const priceHTML = product.originalPrice 
             ? `<span class="original-price">${formatCurrency(product.originalPrice)}</span> <span class="current-price">${formatCurrency(product.price)}</span>`
@@ -748,10 +794,20 @@ class ProductDisplay {
                </div>`
             : '';
 
+        // Enhanced image handling with lazy loading and responsive images
+        const imageHTML = this.generateResponsiveImage(product);
+
+        // Additional info for rivista products
+        const rivistaInfo = product.source === 'rivista' ? this.generateRivistaInfo(product) : '';
+
         return `
-            <div class="product-card" data-category="${product.category}">
+            <div class="product-card ${product.source === 'rivista' ? 'product-card--rivista' : ''}" 
+                 data-category="${product.category}" 
+                 data-source="${product.source || 'default'}"
+                 role="article"
+                 aria-label="${product.title}">
                 <div class="product-image-container">
-                    <img src="${product.image}" alt="${product.title}" class="product-image" loading="lazy">
+                    ${imageHTML}
                     <div class="product-badges">${badges.join('')}</div>
                     ${product.limited && product.spotsRemaining ? 
                         `<div class="spots-remaining">${product.spotsRemaining} posti rimasti</div>` : ''}
@@ -762,18 +818,20 @@ class ProductDisplay {
                     <p class="product-description">${product.description}</p>
                     
                     ${product.features ? `
-                        <ul class="product-features">
+                        <ul class="product-features" role="list">
                             ${product.features.slice(0, 3).map(feature => `<li>${feature}</li>`).join('')}
                         </ul>
                     ` : ''}
                     
+                    ${rivistaInfo}
                     ${ratingHTML}
                     
                     <div class="product-footer">
-                        <div class="product-price">${priceHTML}</div>
+                        <div class="product-price" aria-label="Prezzo: ${formatCurrency(product.price)}">${priceHTML}</div>
                         <button class="add-to-cart btn btn-primary" 
                                 data-id="${product.id}" 
-                                ${!product.inStock ? 'disabled' : ''}>
+                                ${!product.inStock ? 'disabled aria-disabled="true"' : ''}
+                                aria-label="Aggiungi ${product.title} al carrello">
                             ${product.inStock ? 'Aggiungi al Carrello' : 'Non Disponibile'}
                         </button>
                     </div>
@@ -782,17 +840,88 @@ class ProductDisplay {
         `;
     }
 
+    generateResponsiveImage(product) {
+        const imageAlt = product.source === 'rivista' 
+            ? `Copertina di ${product.title}`
+            : product.title;
+
+        return `
+            <img src="${product.image}" 
+                 alt="${imageAlt}" 
+                 class="product-image" 
+                 loading="lazy"
+                 decoding="async"
+                 role="img">
+        `;
+    }
+
+    generateRivistaInfo(product) {
+        if (!product.specifications) return '';
+
+        return `
+            <div class="rivista-info">
+                ${product.specifications.pages ? `<span class="spec">📄 ${product.specifications.pages} pagine</span>` : ''}
+                ${product.specifications.format ? `<span class="spec">📐 ${product.specifications.format}</span>` : ''}
+                ${product.publishDate ? `<span class="spec">📅 ${product.publishDate}</span>` : ''}
+            </div>
+        `;
+    }
+
     setupSearch() {
         const searchInput = document.getElementById('product-search');
+        const rivistaFilterBtn = document.getElementById('rivista-filter-toggle');
+        
         if (searchInput) {
             const debouncedSearch = debounce((query) => {
                 this.handleSearch(query);
-            }, CONFIG.DEBOUNCE_DELAY);
+            }, CONFIG.DEBOUNCE_DELAY || 300);
 
             searchInput.addEventListener('input', (e) => {
                 debouncedSearch(e.target.value);
             });
         }
+
+        if (rivistaFilterBtn) {
+            let isRivistaOnly = false;
+            
+            rivistaFilterBtn.addEventListener('click', () => {
+                isRivistaOnly = !isRivistaOnly;
+                rivistaFilterBtn.classList.toggle('active', isRivistaOnly);
+                rivistaFilterBtn.textContent = isRivistaOnly ? '📚 Tutti i Prodotti' : '📚 Solo Rivista';
+                
+                this.currentRivistaFilter = isRivistaOnly;
+                this.renderProducts();
+            });
+        }
+    }
+
+    renderProducts() {
+        const productGrid = document.querySelector('.shop-grid');
+        if (!productGrid) return;
+
+        let products = window.productManager.getProductsByCategory(this.currentFilter);
+        
+        // Apply rivista filter if active
+        if (this.currentRivistaFilter) {
+            products = products.filter(p => p.source === 'rivista');
+        }
+        
+        if (products.length === 0) {
+            const filterText = this.currentRivistaFilter ? 'prodotti rivista' : 'prodotti';
+            productGrid.innerHTML = `<p class="text-center">Nessun ${filterText} trovato</p>`;
+            return;
+        }
+
+        const productsHTML = products.map(product => this.renderProductCard(product)).join('');
+        productGrid.innerHTML = productsHTML;
+
+        // Setup add to cart buttons
+        productGrid.addEventListener('click', (e) => {
+            if (e.target.classList.contains('add-to-cart')) {
+                const productId = e.target.getAttribute('data-id');
+                window.cart.addItem(productId);
+            }
+        });
     }
 
     handleSearch(query) {

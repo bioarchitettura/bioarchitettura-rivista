@@ -1,0 +1,10 @@
+<svg width="400" height="300" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="300" fill="#2c5530"/>
+  <rect x="20" y="20" width="360" height="260" fill="#ffffff" stroke="#2c5530" stroke-width="2"/>
+  <text x="200" y="80" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#2c5530">BIOARCHITETTURA</text>
+  <text x="200" y="120" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#2c5530">Abbonamento Digitale</text>
+  <rect x="60" y="150" width="280" height="100" fill="#f4a261" rx="5"/>
+  <text x="200" y="180" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#2c5530">Accesso Completo</text>
+  <text x="200" y="200" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#2c5530">Archivio Digitale</text>
+  <text x="200" y="220" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#2c5530">1999-2024</text>
+</svg>

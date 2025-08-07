@@ -8,7 +8,6 @@ url: "https://bioarchitettura.github.io/web"
 # Build settings
 markdown: kramdown
 highlighter: rouge
-theme: minima
 kramdown:
   input: GFM
   syntax_highlighter: rouge

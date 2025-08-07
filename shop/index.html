@@ -15,6 +15,13 @@ permalink: /shop/
     <div class="filter-container">
         <!-- Filters will be populated by JavaScript -->
     </div>
+    <div class="search-container">
+        <input type="search" id="product-search" placeholder="Cerca prodotti..." aria-label="Cerca prodotti">
+        <button type="button" id="rivista-filter-toggle" class="rivista-filter-btn" 
+                aria-label="Filtra solo prodotti rivista">
+            📚 Solo Rivista
+        </button>
+    </div>
 </section>
 
 <section class="shop-content">
@@ -94,5 +101,52 @@ permalink: /shop/
 
 .loading-products .loading-spinner {
     margin: 0 auto var(--space-4);
+}
+
+/* Search Container */
+.search-container {
+    display: flex;
+    gap: var(--space-3);
+    align-items: center;
+    margin-top: var(--space-3);
+    flex-wrap: wrap;
+}
+
+#product-search {
+    flex: 1;
+    min-width: 200px;
+    padding: var(--space-2) var(--space-4);
+    border: 2px solid var(--gray-300);
+    border-radius: var(--radius-full);
+    font-size: var(--text-base);
+    transition: border-color var(--transition-normal);
+}
+
+#product-search:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(44, 85, 48, 0.1);
+}
+
+.rivista-filter-btn {
+    padding: var(--space-2) var(--space-4);
+    background-color: var(--white);
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+}
+
+.rivista-filter-btn:hover {
+    background-color: var(--primary-color);
+    color: var(--white);
+}
+
+.rivista-filter-btn.active {
+    background-color: var(--primary-color);
+    color: var(--white);
+    box-shadow: var(--shadow-md);
 }
 </style>

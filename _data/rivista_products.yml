@@ -1,0 +1,163 @@
+# Rivista Bioarchitettura Products
+# Data structure for products from https://www.bioarchitettura.org/rivista
+# This file contains product information that will be integrated into the shop
+
+- id: "rivista-bioarchitettura-70"
+  title: "Bioarchitettura Rivista N. 70"
+  description: "Numero speciale dedicato alle tecnologie innovative per l'edilizia sostenibile e la bioarchitettura del futuro."
+  price: 15.00
+  originalPrice: null
+  category: "magazines"
+  type: "physical"
+  source: "rivista"
+  image: "/Bioarchitettura_70_p.jpg"
+  features:
+    - "Tecnologie innovative"
+    - "Casi studio internazionali"
+    - "Interviste agli esperti"
+    - "Schede tecniche dettagliate"
+  specifications:
+    pages: 128
+    format: "A4"
+    language: "Italiano"
+  inStock: true
+  featured: true
+  tags: ["sostenibilità", "innovazione", "tecnologia"]
+  publishDate: "2024"
+
+- id: "rivista-bioarchitettura-71"
+  title: "Bioarchitettura Rivista N. 71"
+  description: "Focus su materiali naturali e tecniche costruttive tradizionali rivisitate in chiave moderna."
+  price: 15.00
+  originalPrice: null
+  category: "magazines"
+  type: "physical"
+  source: "rivista"
+  image: "/Bioarchitettura_71_p.jpg"
+  features:
+    - "Materiali naturali"
+    - "Tecniche costruttive"
+    - "Progetti realizzati"
+    - "Guide pratiche"
+  specifications:
+    pages: 120
+    format: "A4"
+    language: "Italiano"
+  inStock: true
+  featured: false
+  tags: ["materiali naturali", "tradizione", "innovazione"]
+  publishDate: "2024"
+
+- id: "rivista-collection-48-49"
+  title: "Collezione Bioarchitettura N. 48-49"
+  description: "Doppio numero speciale sulla progettazione bioclimatica e l'efficienza energetica negli edifici."
+  price: 25.00
+  originalPrice: 30.00
+  category: "magazines"
+  type: "physical"
+  source: "rivista"
+  image: "/48-49_n001.jpg"
+  features:
+    - "Progettazione bioclimatica"
+    - "Efficienza energetica"
+    - "Case studies europei"
+    - "Software di calcolo"
+  specifications:
+    pages: 240
+    format: "A4"
+    language: "Italiano"
+  inStock: true
+  featured: true
+  bestseller: true
+  tags: ["bioclimatica", "energia", "progettazione"]
+  publishDate: "2023"
+
+- id: "rivista-numero-53"
+  title: "Bioarchitettura Rivista N. 53"
+  description: "Numero dedicato alle certificazioni ambientali e agli standard di sostenibilità internazionali."
+  price: 15.00
+  originalPrice: null
+  category: "magazines"
+  type: "physical"
+  source: "rivista"
+  image: "/53n001.jpg"
+  features:
+    - "Certificazioni ambientali"
+    - "Standard internazionali"
+    - "Protocolli di valutazione"
+    - "Best practices"
+  specifications:
+    pages: 116
+    format: "A4"
+    language: "Italiano"
+  inStock: true
+  featured: false
+  tags: ["certificazioni", "standard", "valutazione"]
+  publishDate: "2023"
+
+- id: "rivista-numero-47"
+  title: "Bioarchitettura Rivista N. 47"
+  description: "Edizione speciale su architettura passiva e casa clima, con progetti innovativi e soluzioni tecniche avanzate."
+  price: 15.00
+  originalPrice: null
+  category: "magazines"
+  type: "physical"
+  source: "rivista"
+  image: "/bio_47_n002.jpg"
+  features:
+    - "Architettura passiva"
+    - "Casa clima"
+    - "Soluzioni tecniche"
+    - "Progetti innovativi"
+  specifications:
+    pages: 108
+    format: "A4"
+    language: "Italiano"
+  inStock: true
+  featured: false
+  tags: ["passivo", "clima", "innovazione"]
+  publishDate: "2022"
+
+# Digital subscription packages
+- id: "rivista-digital-subscription"
+  title: "Abbonamento Digitale Rivista Bioarchitettura"
+  description: "Accesso completo all'archivio digitale di tutti i numeri della rivista Bioarchitettura con contenuti esclusivi."
+  price: 49.99
+  originalPrice: 69.99
+  category: "subscriptions"
+  type: "digital"
+  source: "rivista"
+  image: "/images/products/digital-subscription.jpg"
+  features:
+    - "Accesso completo all'archivio"
+    - "Tutti i numeri dal 1999"
+    - "Contenuti esclusivi online"
+    - "Download PDF illimitati"
+    - "Aggiornamenti mensili"
+  duration: "12 mesi"
+  downloadable: true
+  inStock: true
+  popular: true
+  tags: ["digitale", "archivio", "abbonamento"]
+
+# Educational materials based on Rivista content
+- id: "rivista-educational-kit"
+  title: "Kit Didattico Bioarchitettura - Selezione Rivista"
+  description: "Raccolta di materiali didattici selezionati dai migliori articoli della rivista Bioarchitettura per la formazione professionale."
+  price: 89.99
+  originalPrice: null
+  category: "materials"
+  type: "digital"
+  source: "rivista"
+  image: "/images/products/educational-kit.jpg"
+  features:
+    - "Articoli selezionati"
+    - "Schede tecniche"
+    - "Video tutorial"
+    - "Esercitazioni pratiche"
+    - "Certificato di partecipazione"
+  format: "PDF + Video + Software"
+  language: "Italiano"
+  downloadable: true
+  inStock: true
+  tags: ["formazione", "didattico", "professionale"]

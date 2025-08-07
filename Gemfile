@@ -7,19 +7,11 @@ gem "jekyll", "~> 4.0"
 gem "minima", "~> 2.5"
 
 # Plugins
-gem "jekyll-sitemap"
-gem "jekyll-feed", "~> 0.12"
-gem "jekyll-seo-tag"
-gem "jekyll-paginate"
-
-# Performance and optimization
-gem "jekyll-compress-images"
-gem "jekyll-minifier"
-
-# Development
 group :jekyll_plugins do
   gem "jekyll-sitemap"
   gem "jekyll-feed", "~> 0.12"
   gem "jekyll-seo-tag"
   gem "jekyll-paginate"
+  gem "jekyll-compress-images"
+  gem "jekyll-minifier"
 end
