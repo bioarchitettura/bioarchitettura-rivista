@@ -1,0 +1,710 @@
+<!-- Auto-Summary Component -->
+{% if page.auto_summary != false %}
+<div class="auto-summary" id="auto-summary">
+    <div class="summary-header">
+        <h3 class="summary-title" data-translate="summary.title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 6h16M4 12h16M4 18h7"></path>
+            </svg>
+            Riassunto Automatico
+        </h3>
+        <div class="summary-controls">
+            <button class="summary-regenerate" id="summary-regenerate" title="Rigenera riassunto" data-translate="summary.regenerate">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="23 4 23 10 17 10"></polyline>
+                    <polyline points="1 20 1 14 7 14"></polyline>
+                    <path d="m3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                </svg>
+            </button>
+            <button class="summary-toggle" id="summary-toggle" title="Nascondi/Mostra riassunto" data-translate="summary.toggle">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chevron-up">
+                    <polyline points="18 15 12 9 6 15"></polyline>
+                </svg>
+            </button>
+        </div>
+    </div>
+    
+    <div class="summary-content" id="summary-content">
+        <div class="summary-loading" id="summary-loading">
+            <div class="loading-spinner"></div>
+            <span data-translate="summary.generating">Generando riassunto automatico...</span>
+        </div>
+        
+        <div class="summary-text" id="summary-text" style="display: none;">
+            <!-- Summary will be inserted here -->
+        </div>
+        
+        <div class="summary-error" id="summary-error" style="display: none;">
+            <p data-translate="summary.error">Impossibile generare il riassunto automatico.</p>
+            <button class="retry-btn" id="summary-retry" data-translate="summary.retry">Riprova</button>
+        </div>
+    </div>
+    
+    <div class="summary-footer" id="summary-footer" style="display: none;">
+        <div class="summary-meta">
+            <span class="summary-method" id="summary-method"></span>
+            <span class="summary-confidence" id="summary-confidence"></span>
+        </div>
+        <div class="summary-actions">
+            <button class="summary-feedback positive" data-feedback="positive" title="Riassunto utile" data-translate="summary.helpful">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M7 10v12l4-4 4 4V10a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2z"></path>
+                </svg>
+            </button>
+            <button class="summary-feedback negative" data-feedback="negative" title="Riassunto non utile" data-translate="summary.not_helpful">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M17 14V2l-4 4-4-4v12a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2z"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+/**
+ * Auto-Summary Component
+ * Intelligent summarization with OpenAI GPT backend and fallback JS extractive algorithm
+ */
+(function() {
+    'use strict';
+
+    const AutoSummary = {
+        // Configuration
+        config: {
+            openaiEnabled: {{ site.openai.api_key | default: false }},
+            maxSentences: 3,
+            minSentenceLength: 50,
+            summaryLength: 150,
+            confidenceThreshold: 0.7,
+            retryAttempts: 2,
+            apiEndpoint: '/api/summarize',  // Backend endpoint
+            fallbackToExtractiveAlgorithm: true
+        },
+
+        // Current page content
+        pageContent: {
+            title: '{{ page.title | escape }}',
+            content: null,
+            url: '{{ page.url }}',
+            wordCount: 0
+        },
+
+        // State
+        state: {
+            isVisible: true,
+            currentMethod: null,
+            currentSummary: null,
+            isGenerating: false,
+            attempts: 0
+        },
+
+        /**
+         * Initialize the auto-summary component
+         */
+        init: function() {
+            this.extractPageContent();
+            this.bindEvents();
+            this.generateSummary();
+        },
+
+        /**
+         * Extract page content for summarization
+         */
+        extractPageContent: function() {
+            // Get main content (excluding navigation, sidebar, etc.)
+            const contentSelectors = [
+                '.post-content .content-body',
+                '.content-body',
+                '.post-content',
+                'article .content',
+                'main .content',
+                '[role="main"]'
+            ];
+
+            let contentElement = null;
+            for (const selector of contentSelectors) {
+                contentElement = document.querySelector(selector);
+                if (contentElement) break;
+            }
+
+            if (!contentElement) {
+                console.warn('Could not find main content for summarization');
+                this.showError('Contenuto non trovato per la generazione del riassunto');
+                return;
+            }
+
+            // Extract text content, excluding certain elements
+            const excludeSelectors = [
+                '.summary', '.auto-summary', '.related-articles', 
+                '.share-buttons', '.navigation', '.comments',
+                'script', 'style', 'nav', 'aside'
+            ];
+
+            const tempElement = contentElement.cloneNode(true);
+            excludeSelectors.forEach(selector => {
+                tempElement.querySelectorAll(selector).forEach(el => el.remove());
+            });
+
+            this.pageContent.content = tempElement.textContent.trim();
+            this.pageContent.wordCount = this.pageContent.content.split(/\s+/).length;
+
+            // Minimum content check
+            if (this.pageContent.wordCount < 100) {
+                this.showError('Contenuto troppo breve per generare un riassunto');
+                return false;
+            }
+
+            return true;
+        },
+
+        /**
+         * Bind event handlers
+         */
+        bindEvents: function() {
+            const toggleBtn = document.getElementById('summary-toggle');
+            const regenerateBtn = document.getElementById('summary-regenerate');
+            const retryBtn = document.getElementById('summary-retry');
+            const feedbackBtns = document.querySelectorAll('.summary-feedback');
+
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', () => this.toggleVisibility());
+            }
+
+            if (regenerateBtn) {
+                regenerateBtn.addEventListener('click', () => this.regenerateSummary());
+            }
+
+            if (retryBtn) {
+                retryBtn.addEventListener('click', () => this.generateSummary());
+            }
+
+            feedbackBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const feedback = e.currentTarget.getAttribute('data-feedback');
+                    this.submitFeedback(feedback);
+                });
+            });
+        },
+
+        /**
+         * Generate summary using available methods
+         */
+        async generateSummary() {
+            if (this.state.isGenerating) return;
+            
+            this.state.isGenerating = true;
+            this.state.attempts++;
+            this.showLoading();
+
+            try {
+                let summary = null;
+                let method = 'unknown';
+
+                // Try OpenAI first if enabled
+                if (this.config.openaiEnabled) {
+                    const aiResult = await this.generateOpenAISummary();
+                    if (aiResult && aiResult.summary) {
+                        summary = aiResult.summary;
+                        method = 'openai';
+                    }
+                }
+
+                // Fallback to extractive algorithm
+                if (!summary && this.config.fallbackToExtractiveAlgorithm) {
+                    const extractiveResult = this.generateExtractiveSummary();
+                    if (extractiveResult && extractiveResult.summary) {
+                        summary = extractiveResult.summary;
+                        method = 'extractive';
+                    }
+                }
+
+                if (summary) {
+                    this.showSummary(summary, method);
+                } else {
+                    throw new Error('No summary method succeeded');
+                }
+
+            } catch (error) {
+                console.error('Summary generation failed:', error);
+                this.showError('Errore nella generazione del riassunto');
+            } finally {
+                this.state.isGenerating = false;
+            }
+        },
+
+        /**
+         * Generate summary using OpenAI API
+         */
+        async generateOpenAISummary() {
+            try {
+                const response = await fetch(this.config.apiEndpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        content: this.pageContent.content,
+                        title: this.pageContent.title,
+                        maxLength: this.config.summaryLength,
+                        language: 'it'
+                    })
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    return {
+                        summary: result.summary,
+                        confidence: result.confidence || 0.8
+                    };
+                } else {
+                    console.warn('OpenAI API request failed:', response.status);
+                    return null;
+                }
+            } catch (error) {
+                console.warn('OpenAI summarization failed:', error);
+                return null;
+            }
+        },
+
+        /**
+         * Generate summary using extractive algorithm (fallback)
+         */
+        generateExtractiveSummary() {
+            try {
+                const sentences = this.extractSentences(this.pageContent.content);
+                const scoredSentences = this.scoreSentences(sentences);
+                const topSentences = this.selectTopSentences(scoredSentences);
+                
+                if (topSentences.length === 0) {
+                    return null;
+                }
+
+                const summary = topSentences
+                    .sort((a, b) => a.position - b.position)
+                    .map(s => s.text)
+                    .join(' ');
+
+                return {
+                    summary: summary,
+                    confidence: 0.6,
+                    sentences: topSentences.length
+                };
+            } catch (error) {
+                console.error('Extractive summarization failed:', error);
+                return null;
+            }
+        },
+
+        /**
+         * Extract sentences from content
+         */
+        extractSentences(content) {
+            const sentences = content
+                .split(/[.!?]+/)
+                .map((s, index) => ({
+                    text: s.trim(),
+                    position: index,
+                    length: s.trim().length
+                }))
+                .filter(s => s.length >= this.config.minSentenceLength && s.length <= 500);
+
+            return sentences;
+        },
+
+        /**
+         * Score sentences for importance
+         */
+        scoreSentences(sentences) {
+            const titleWords = this.pageContent.title.toLowerCase().split(/\s+/);
+            const allWords = sentences.flatMap(s => s.text.toLowerCase().split(/\s+/));
+            const wordFreq = this.calculateWordFrequency(allWords);
+
+            return sentences.map(sentence => {
+                const words = sentence.text.toLowerCase().split(/\s+/);
+                let score = 0;
+
+                // Title word bonus
+                const titleMatches = words.filter(word => titleWords.includes(word)).length;
+                score += titleMatches * 2;
+
+                // Word frequency score
+                const freqScore = words.reduce((sum, word) => {
+                    return sum + (wordFreq[word] || 0);
+                }, 0) / words.length;
+                score += freqScore;
+
+                // Position bonus (early sentences get higher score)
+                const positionBonus = 1 - (sentence.position / sentences.length);
+                score += positionBonus * 0.5;
+
+                // Length penalty for very long sentences
+                if (sentence.length > 200) {
+                    score *= 0.8;
+                }
+
+                return {
+                    ...sentence,
+                    score: score
+                };
+            });
+        },
+
+        /**
+         * Calculate word frequency
+         */
+        calculateWordFrequency(words) {
+            const freq = {};
+            const stopWords = new Set([
+                'il', 'la', 'di', 'che', 'e', 'un', 'a', 'per', 'da', 'del', 'dei', 'della',
+                'in', 'con', 'su', 'come', 'non', 'si', 'lo', 'gli', 'le', 'una', 'nel',
+                'sono', 'essere', 'avere', 'questo', 'questa', 'quello', 'quella', 'molto',
+                'più', 'anche', 'altri', 'altre', 'tutto', 'tutti', 'ogni', 'sempre',
+                'ancora', 'quando', 'dove', 'come', 'perché', 'ma', 'però', 'quindi'
+            ]);
+
+            words.forEach(word => {
+                const cleanWord = word.replace(/[^\w]/g, '').toLowerCase();
+                if (cleanWord.length > 2 && !stopWords.has(cleanWord)) {
+                    freq[cleanWord] = (freq[cleanWord] || 0) + 1;
+                }
+            });
+
+            return freq;
+        },
+
+        /**
+         * Select top sentences for summary
+         */
+        selectTopSentences(scoredSentences) {
+            const sorted = scoredSentences
+                .sort((a, b) => b.score - a.score)
+                .slice(0, this.config.maxSentences);
+
+            return sorted;
+        },
+
+        /**
+         * Show loading state
+         */
+        showLoading() {
+            this.hideAllStates();
+            document.getElementById('summary-loading').style.display = 'flex';
+        },
+
+        /**
+         * Show generated summary
+         */
+        showSummary(summary, method) {
+            this.state.currentSummary = summary;
+            this.state.currentMethod = method;
+
+            this.hideAllStates();
+
+            const summaryText = document.getElementById('summary-text');
+            const summaryFooter = document.getElementById('summary-footer');
+            const summaryMethod = document.getElementById('summary-method');
+
+            if (summaryText) {
+                summaryText.innerHTML = `<p>${summary}</p>`;
+                summaryText.style.display = 'block';
+            }
+
+            if (summaryMethod) {
+                const methodLabels = {
+                    'openai': '🤖 Generato con AI',
+                    'extractive': '📝 Riassunto estrattivo'
+                };
+                summaryMethod.textContent = methodLabels[method] || 'Riassunto automatico';
+            }
+
+            if (summaryFooter) {
+                summaryFooter.style.display = 'flex';
+            }
+        },
+
+        /**
+         * Show error state
+         */
+        showError(message) {
+            this.hideAllStates();
+            
+            const errorDiv = document.getElementById('summary-error');
+            if (errorDiv) {
+                errorDiv.querySelector('p').textContent = message;
+                errorDiv.style.display = 'block';
+            }
+        },
+
+        /**
+         * Hide all state elements
+         */
+        hideAllStates() {
+            const states = ['summary-loading', 'summary-text', 'summary-error'];
+            states.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) element.style.display = 'none';
+            });
+            
+            const footer = document.getElementById('summary-footer');
+            if (footer) footer.style.display = 'none';
+        },
+
+        /**
+         * Toggle summary visibility
+         */
+        toggleVisibility() {
+            const content = document.getElementById('summary-content');
+            const toggleBtn = document.getElementById('summary-toggle');
+            
+            if (!content || !toggleBtn) return;
+
+            this.state.isVisible = !this.state.isVisible;
+            
+            if (this.state.isVisible) {
+                content.style.display = 'block';
+                toggleBtn.querySelector('svg').style.transform = 'rotate(0deg)';
+                toggleBtn.title = 'Nascondi riassunto';
+            } else {
+                content.style.display = 'none';
+                toggleBtn.querySelector('svg').style.transform = 'rotate(180deg)';
+                toggleBtn.title = 'Mostra riassunto';
+            }
+        },
+
+        /**
+         * Regenerate summary
+         */
+        regenerateSummary() {
+            this.state.attempts = 0;
+            this.generateSummary();
+        },
+
+        /**
+         * Submit user feedback
+         */
+        submitFeedback(feedback) {
+            // Send feedback to analytics/backend
+            if (window.gtag) {
+                gtag('event', 'summary_feedback', {
+                    'feedback_type': feedback,
+                    'summary_method': this.state.currentMethod,
+                    'page_url': this.pageContent.url
+                });
+            }
+
+            // Visual feedback
+            const btn = document.querySelector(`[data-feedback="${feedback}"]`);
+            if (btn) {
+                btn.style.background = feedback === 'positive' ? '#27ae60' : '#e74c3c';
+                btn.style.color = 'white';
+                
+                setTimeout(() => {
+                    btn.style.background = '';
+                    btn.style.color = '';
+                }, 1000);
+            }
+
+            console.log(`Summary feedback: ${feedback}`);
+        }
+    };
+
+    // Initialize when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => AutoSummary.init());
+    } else {
+        AutoSummary.init();
+    }
+
+    // Expose for debugging
+    window.AutoSummary = AutoSummary;
+})();
+</script>
+
+<style>
+.auto-summary {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border: 1px solid #dee2e6;
+    border-radius: 12px;
+    margin: 2rem 0;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.summary-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    background: white;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.summary-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0;
+    color: #495057;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.summary-controls {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.summary-regenerate,
+.summary-toggle {
+    background: none;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    padding: 0.5rem;
+    cursor: pointer;
+    color: #6c757d;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.summary-regenerate:hover,
+.summary-toggle:hover {
+    background: #f8f9fa;
+    border-color: #adb5bd;
+    color: #495057;
+}
+
+.summary-content {
+    padding: 1.5rem;
+}
+
+.summary-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    color: #6c757d;
+    font-style: italic;
+}
+
+.loading-spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #e9ecef;
+    border-top: 2px solid #007bff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.summary-text {
+    line-height: 1.6;
+    color: #495057;
+}
+
+.summary-text p {
+    margin: 0;
+    font-size: 1.05rem;
+}
+
+.summary-error {
+    text-align: center;
+    color: #dc3545;
+}
+
+.retry-btn {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.retry-btn:hover {
+    background: #c82333;
+}
+
+.summary-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    background: white;
+    border-top: 1px solid #dee2e6;
+    font-size: 0.9rem;
+}
+
+.summary-meta {
+    display: flex;
+    gap: 1rem;
+    color: #6c757d;
+}
+
+.summary-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.summary-feedback {
+    background: none;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 0.4rem;
+    cursor: pointer;
+    color: #6c757d;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.summary-feedback:hover {
+    border-color: #adb5bd;
+    color: #495057;
+}
+
+.summary-feedback.positive:hover {
+    border-color: #27ae60;
+    color: #27ae60;
+}
+
+.summary-feedback.negative:hover {
+    border-color: #e74c3c;
+    color: #e74c3c;
+}
+
+@media (max-width: 768px) {
+    .summary-header {
+        padding: 0.75rem 1rem;
+    }
+    
+    .summary-content {
+        padding: 1rem;
+    }
+    
+    .summary-footer {
+        flex-direction: column;
+        gap: 0.75rem;
+        align-items: stretch;
+        padding: 0.75rem 1rem;
+    }
+    
+    .summary-meta {
+        justify-content: center;
+    }
+    
+    .summary-actions {
+        justify-content: center;
+    }
+}
+</style>
+
+{% endif %}

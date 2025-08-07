@@ -1,0 +1,352 @@
+<!-- Article Recommender Engine -->
+<div class="article-recommender" id="article-recommender">
+    <h3 class="recommender-title" data-translate="recommender.title">Articoli Correlati</h3>
+    <div class="recommender-grid" id="recommender-articles">
+        <!-- Articles will be populated by JavaScript -->
+        <div class="recommender-loading">
+            <div class="loading-spinner"></div>
+            <span data-translate="recommender.loading">Caricamento articoli correlati...</span>
+        </div>
+    </div>
+</div>
+
+<script>
+/**
+ * Article Recommender Engine
+ * Suggests related articles by tag/category relevance
+ * Categories weight: 2, Tags: 1
+ * Fallback: Recent articles if no matches
+ */
+(function() {
+    'use strict';
+
+    const ArticleRecommender = {
+        // Configuration
+        config: {
+            maxRelatedArticles: {{ site.max_related_articles | default: 3 }},
+            categoryWeight: 2,
+            tagWeight: 1,
+            fallbackToRecent: {{ site.recommendation_fallback | default: true }},
+            // Future: Google Recommendations AI integration
+            useGoogleAI: false,
+            googleAIEndpoint: '/api/recommendations'
+        },
+
+        // Current page data
+        currentPage: {
+            category: {% if page.category %}'{{ page.category | downcase }}'{% else %}null{% endif %},
+            tags: [{% for tag in page.tags %}'{{ tag | downcase }}'{% if forloop.last == false %},{% endif %}{% endfor %}],
+            url: '{{ page.url }}',
+            date: '{{ page.date | date_to_xmlschema }}'
+        },
+
+        // All site posts data
+        allPosts: [
+            {% for post in site.posts %}
+            {
+                title: '{{ post.title | escape }}',
+                url: '{{ post.url | relative_url }}',
+                excerpt: '{{ post.excerpt | strip_html | truncate: 150 | escape }}',
+                category: {% if post.category %}'{{ post.category | downcase }}'{% else %}null{% endif %},
+                tags: [{% for tag in post.tags %}'{{ tag | downcase }}'{% if forloop.last == false %},{% endif %}{% endfor %}],
+                date: '{{ post.date | date_to_xmlschema }}',
+                image: {% if post.image %}'{{ post.image | relative_url }}'{% else %}null{% endif %},
+                author: '{{ post.author | default: site.author | escape }}',
+                reading_time: {{ post.reading_time | default: 5 }}
+            }{% if forloop.last == false %},{% endif %}
+            {% endfor %}
+        ],
+
+        /**
+         * Calculate relevance score for a post
+         */
+        calculateScore: function(post) {
+            let score = 0;
+            
+            // Skip current page
+            if (post.url === this.currentPage.url) {
+                return -1;
+            }
+
+            // Category match (weight: 2)
+            if (this.currentPage.category && post.category === this.currentPage.category) {
+                score += this.config.categoryWeight;
+            }
+
+            // Tag matches (weight: 1 per tag)
+            if (this.currentPage.tags && this.currentPage.tags.length > 0) {
+                const tagMatches = post.tags.filter(tag => 
+                    this.currentPage.tags.includes(tag)
+                ).length;
+                score += tagMatches * this.config.tagWeight;
+            }
+
+            return score;
+        },
+
+        /**
+         * Get recommended articles
+         */
+        getRecommendations: function() {
+            // Calculate scores for all posts
+            const scoredPosts = this.allPosts.map(post => ({
+                ...post,
+                score: this.calculateScore(post)
+            })).filter(post => post.score >= 0);
+
+            // Sort by score (descending) and date (recent first)
+            scoredPosts.sort((a, b) => {
+                if (a.score !== b.score) {
+                    return b.score - a.score;
+                }
+                return new Date(b.date) - new Date(a.date);
+            });
+
+            let recommendations = scoredPosts.slice(0, this.config.maxRelatedArticles);
+
+            // Fallback to recent articles if no relevant matches
+            if (recommendations.length === 0 && this.config.fallbackToRecent) {
+                recommendations = this.allPosts
+                    .filter(post => post.url !== this.currentPage.url)
+                    .sort((a, b) => new Date(b.date) - new Date(a.date))
+                    .slice(0, this.config.maxRelatedArticles);
+            }
+
+            return recommendations;
+        },
+
+        /**
+         * Render recommendations HTML
+         */
+        renderRecommendations: function(recommendations) {
+            if (recommendations.length === 0) {
+                return '<p class="no-recommendations" data-translate="recommender.no_articles">Nessun articolo correlato trovato.</p>';
+            }
+
+            return recommendations.map(post => `
+                <article class="recommended-article">
+                    ${post.image ? `
+                        <div class="article-image">
+                            <img src="${post.image}" alt="${post.title}" loading="lazy">
+                        </div>
+                    ` : ''}
+                    <div class="article-content">
+                        <h4 class="article-title">
+                            <a href="${post.url}">${post.title}</a>
+                        </h4>
+                        <p class="article-excerpt">${post.excerpt}</p>
+                        <div class="article-meta">
+                            <time class="article-date">${this.formatDate(post.date)}</time>
+                            ${post.category ? `<span class="article-category">${post.category}</span>` : ''}
+                            <span class="reading-time">${post.reading_time} min</span>
+                        </div>
+                    </div>
+                </article>
+            `).join('');
+        },
+
+        /**
+         * Format date for display
+         */
+        formatDate: function(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('it-IT', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        },
+
+        /**
+         * Future: Google Recommendations AI integration
+         */
+        async getGoogleRecommendations() {
+            if (!this.config.useGoogleAI) {
+                return null;
+            }
+
+            try {
+                const response = await fetch(this.config.googleAIEndpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        currentPage: this.currentPage,
+                        maxResults: this.config.maxRelatedArticles
+                    })
+                });
+
+                if (response.ok) {
+                    return await response.json();
+                }
+            } catch (error) {
+                console.warn('Google Recommendations AI not available, using fallback algorithm');
+            }
+
+            return null;
+        },
+
+        /**
+         * Initialize the recommender
+         */
+        async init() {
+            const container = document.getElementById('recommender-articles');
+            if (!container) return;
+
+            try {
+                // Try Google AI first (if enabled)
+                let recommendations = await this.getGoogleRecommendations();
+                
+                // Fallback to local algorithm
+                if (!recommendations) {
+                    recommendations = this.getRecommendations();
+                }
+
+                // Render recommendations
+                container.innerHTML = this.renderRecommendations(recommendations);
+
+                // Apply translations if translation system is available
+                if (window.applyTranslations) {
+                    window.applyTranslations();
+                }
+
+            } catch (error) {
+                console.error('Error loading recommendations:', error);
+                container.innerHTML = '<p class="error-message">Errore nel caricamento degli articoli correlati.</p>';
+            }
+        }
+    };
+
+    // Initialize when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => ArticleRecommender.init());
+    } else {
+        ArticleRecommender.init();
+    }
+
+    // Expose for debugging
+    window.ArticleRecommender = ArticleRecommender;
+})();
+</script>
+
+<style>
+.article-recommender {
+    margin: 2rem 0;
+    padding: 2rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.recommender-title {
+    margin-bottom: 1.5rem;
+    color: #2c3e50;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.recommender-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.recommended-article {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.recommended-article:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+.article-image {
+    height: 200px;
+    overflow: hidden;
+}
+
+.article-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.article-content {
+    padding: 1.5rem;
+}
+
+.article-title {
+    margin: 0 0 1rem 0;
+    font-size: 1.2rem;
+    line-height: 1.4;
+}
+
+.article-title a {
+    color: #2c3e50;
+    text-decoration: none;
+}
+
+.article-title a:hover {
+    color: #27ae60;
+}
+
+.article-excerpt {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.article-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.9rem;
+    color: #888;
+}
+
+.article-category {
+    background: #27ae60;
+    color: white;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+}
+
+.recommender-loading,
+.no-recommendations,
+.error-message {
+    text-align: center;
+    padding: 2rem;
+    color: #666;
+}
+
+.loading-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #27ae60;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-right: 0.5rem;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+    .recommender-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .article-recommender {
+        padding: 1rem;
+    }
+}
+</style>

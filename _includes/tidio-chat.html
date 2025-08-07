@@ -1,0 +1,545 @@
+<!-- Tidio Chatbot Integration -->
+{% if site.tidio_key and site.tidio_key != "" %}
+    <!-- Tidio Chat Widget -->
+    <script src="//code.tidio.co/{{ site.tidio_key }}.js" async></script>
+    
+    <script>
+    /**
+     * Tidio Chat Configuration
+     * Advanced chat features with fallback
+     */
+    (function() {
+        'use strict';
+
+        const TidioChat = {
+            config: {
+                tidioKey: '{{ site.tidio_key }}',
+                // Future extensions
+                enableDialogflow: false,
+                enableOpenAI: false,
+                autoGreeting: true,
+                greetingDelay: 3000
+            },
+
+            /**
+             * Initialize Tidio chat
+             */
+            init: function() {
+                // Wait for Tidio to load
+                const checkTidio = setInterval(() => {
+                    if (window.tidioChatApi) {
+                        clearInterval(checkTidio);
+                        this.setupTidio();
+                    }
+                }, 100);
+
+                // Fallback timeout
+                setTimeout(() => {
+                    clearInterval(checkTidio);
+                    if (!window.tidioChatApi) {
+                        console.warn('Tidio chat failed to load');
+                        this.showFallback();
+                    }
+                }, 10000);
+            },
+
+            /**
+             * Setup Tidio configuration
+             */
+            setupTidio: function() {
+                try {
+                    // Custom greeting based on page
+                    if (this.config.autoGreeting) {
+                        setTimeout(() => {
+                            this.sendCustomGreeting();
+                        }, this.config.greetingDelay);
+                    }
+
+                    // Track page visits
+                    window.tidioChatApi.method('track', 'page_visit', {
+                        page: window.location.pathname,
+                        title: document.title
+                    });
+
+                    console.log('Tidio chat initialized successfully');
+                } catch (error) {
+                    console.error('Error configuring Tidio:', error);
+                }
+            },
+
+            /**
+             * Send custom greeting based on current page
+             */
+            sendCustomGreeting: function() {
+                const greetings = {
+                    '/': 'Benvenuto nel sito della Fondazione Bioarchitettura! Come possiamo aiutarti?',
+                    '/rivista/': 'Interessato alla nostra rivista? Possiamo aiutarti con informazioni su abbonamenti e numeri arretrati.',
+                    '/shop/': 'Hai domande sui nostri prodotti? Siamo qui per aiutarti!',
+                    '/contatti/': 'Vuoi metterti in contatto con noi? Scrivici pure!',
+                    '/chi-siamo/': 'Vuoi saperne di più sulla Fondazione? Chiedi pure!'
+                };
+
+                const currentPath = window.location.pathname;
+                let greeting = greetings[currentPath];
+
+                // Fallback greeting for other pages
+                if (!greeting) {
+                    if (currentPath.includes('/shop/')) {
+                        greeting = greetings['/shop/'];
+                    } else if (currentPath.includes('/rivista/')) {
+                        greeting = greetings['/rivista/'];
+                    } else {
+                        greeting = greetings['/'];
+                    }
+                }
+
+                // Send greeting via Tidio API
+                try {
+                    window.tidioChatApi.method('messageFromOperator', greeting);
+                } catch (error) {
+                    console.warn('Could not send custom greeting:', error);
+                }
+            },
+
+            /**
+             * Show fallback chat if Tidio fails
+             */
+            showFallback: function() {
+                const fallbackChat = document.getElementById('chat-fallback');
+                if (fallbackChat) {
+                    fallbackChat.style.display = 'block';
+                }
+            }
+        };
+
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => TidioChat.init());
+        } else {
+            TidioChat.init();
+        }
+
+        // Expose for debugging
+        window.TidioChat = TidioChat;
+    })();
+    </script>
+
+{% else %}
+    <!-- Fallback Chat Widget -->
+    <div class="chat-fallback" id="chat-fallback" style="display: block;">
+        <button class="chat-btn" id="fallback-chat-btn" title="Chat Support" data-translate="chat.support">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z"></path>
+            </svg>
+            <span class="chat-pulse"></span>
+        </button>
+        
+        <!-- Fallback Chat Modal -->
+        <div class="chat-modal" id="fallback-chat-modal">
+            <div class="chat-modal-content">
+                <div class="chat-header">
+                    <h3 data-translate="chat.title">Supporto Clienti</h3>
+                    <button class="chat-close" id="chat-close-btn">&times;</button>
+                </div>
+                <div class="chat-body">
+                    <div class="chat-message bot-message">
+                        <p data-translate="chat.welcome">Ciao! Come possiamo aiutarti oggi?</p>
+                    </div>
+                    <div class="chat-options">
+                        <button class="chat-option" data-action="contact" data-translate="chat.contact">
+                            Informazioni di Contatto
+                        </button>
+                        <button class="chat-option" data-action="magazine" data-translate="chat.magazine">
+                            Abbonamento Rivista
+                        </button>
+                        <button class="chat-option" data-action="shop" data-translate="chat.shop">
+                            Prodotti e Acquisti
+                        </button>
+                        <button class="chat-option" data-action="courses" data-translate="chat.courses">
+                            Corsi e Formazione
+                        </button>
+                    </div>
+                </div>
+                <div class="chat-footer">
+                    <div class="chat-input-group">
+                        <input type="text" id="chat-input" placeholder="Scrivi un messaggio..." data-translate-placeholder="chat.input_placeholder">
+                        <button id="chat-send" data-translate="chat.send">Invia</button>
+                    </div>
+                    <p class="chat-disclaimer" data-translate="chat.disclaimer">
+                        Per assistenza immediata, contattaci al {{ site.contact.phone }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    /**
+     * Fallback Chat Implementation
+     */
+    (function() {
+        'use strict';
+
+        const FallbackChat = {
+            isOpen: false,
+            
+            responses: {
+                contact: {
+                    message: "Ecco i nostri contatti:\n\n📞 Telefono: {{ site.contact.phone }}\n📧 Email: {{ site.contact.email }}\n📍 Indirizzo: {{ site.contact.address }}",
+                    action: () => window.location.href = '/contatti/'
+                },
+                magazine: {
+                    message: "La nostra rivista è il punto di riferimento per la bioarchitettura in Italia. Vuoi saperne di più sugli abbonamenti?",
+                    action: () => window.location.href = '/rivista/abbonamenti/'
+                },
+                shop: {
+                    message: "Nel nostro shop trovi e-book, corsi, webinar e materiali di formazione. Cosa ti interessa?",
+                    action: () => window.location.href = '/shop/'
+                },
+                courses: {
+                    message: "Offriamo corsi di formazione professionale in bioarchitettura. Vuoi vedere la nostra offerta formativa?",
+                    action: () => window.location.href = '/shop/corsi/'
+                }
+            },
+
+            init: function() {
+                this.bindEvents();
+            },
+
+            bindEvents: function() {
+                const chatBtn = document.getElementById('fallback-chat-btn');
+                const chatModal = document.getElementById('fallback-chat-modal');
+                const closeBtn = document.getElementById('chat-close-btn');
+                const sendBtn = document.getElementById('chat-send');
+                const chatInput = document.getElementById('chat-input');
+                const chatOptions = document.querySelectorAll('.chat-option');
+
+                if (chatBtn) {
+                    chatBtn.addEventListener('click', () => this.openChat());
+                }
+
+                if (closeBtn) {
+                    closeBtn.addEventListener('click', () => this.closeChat());
+                }
+
+                if (sendBtn) {
+                    sendBtn.addEventListener('click', () => this.sendMessage());
+                }
+
+                if (chatInput) {
+                    chatInput.addEventListener('keypress', (e) => {
+                        if (e.key === 'Enter') {
+                            this.sendMessage();
+                        }
+                    });
+                }
+
+                chatOptions.forEach(option => {
+                    option.addEventListener('click', (e) => {
+                        const action = e.target.getAttribute('data-action');
+                        this.handleQuickAction(action);
+                    });
+                });
+
+                // Close modal when clicking outside
+                if (chatModal) {
+                    chatModal.addEventListener('click', (e) => {
+                        if (e.target === chatModal) {
+                            this.closeChat();
+                        }
+                    });
+                }
+            },
+
+            openChat: function() {
+                const modal = document.getElementById('fallback-chat-modal');
+                if (modal) {
+                    modal.style.display = 'flex';
+                    this.isOpen = true;
+                    
+                    // Focus input
+                    setTimeout(() => {
+                        const input = document.getElementById('chat-input');
+                        if (input) input.focus();
+                    }, 100);
+                }
+            },
+
+            closeChat: function() {
+                const modal = document.getElementById('fallback-chat-modal');
+                if (modal) {
+                    modal.style.display = 'none';
+                    this.isOpen = false;
+                }
+            },
+
+            sendMessage: function() {
+                const input = document.getElementById('chat-input');
+                if (!input || !input.value.trim()) return;
+
+                const message = input.value.trim();
+                this.addMessage(message, 'user');
+                input.value = '';
+
+                // Simulate bot response
+                setTimeout(() => {
+                    this.addMessage('Grazie per il tuo messaggio. Ti contatteremo presto!', 'bot');
+                }, 1000);
+            },
+
+            handleQuickAction: function(action) {
+                if (this.responses[action]) {
+                    this.addMessage(this.responses[action].message, 'bot');
+                    
+                    // Optional: redirect after delay
+                    setTimeout(() => {
+                        if (this.responses[action].action) {
+                            this.responses[action].action();
+                        }
+                    }, 2000);
+                }
+            },
+
+            addMessage: function(text, sender) {
+                const chatBody = document.querySelector('.chat-body');
+                if (!chatBody) return;
+
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `chat-message ${sender}-message`;
+                messageDiv.innerHTML = `<p>${text.replace(/\n/g, '<br>')}</p>`;
+
+                chatBody.appendChild(messageDiv);
+                chatBody.scrollTop = chatBody.scrollHeight;
+            }
+        };
+
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => FallbackChat.init());
+        } else {
+            FallbackChat.init();
+        }
+
+        // Expose for debugging
+        window.FallbackChat = FallbackChat;
+    })();
+    </script>
+
+    <style>
+    .chat-fallback {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+    }
+
+    .chat-btn {
+        position: relative;
+        width: 60px;
+        height: 60px;
+        background: #27ae60;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .chat-btn:hover {
+        background: #219a52;
+        transform: scale(1.1);
+    }
+
+    .chat-pulse {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background: #27ae60;
+        opacity: 0.6;
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0% {
+            transform: scale(1);
+            opacity: 0.6;
+        }
+        70% {
+            transform: scale(1.4);
+            opacity: 0;
+        }
+        100% {
+            transform: scale(1);
+            opacity: 0;
+        }
+    }
+
+    .chat-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 1001;
+    }
+
+    .chat-modal-content {
+        background: white;
+        border-radius: 12px;
+        width: 90%;
+        max-width: 400px;
+        max-height: 600px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .chat-header {
+        background: #27ae60;
+        color: white;
+        padding: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .chat-header h3 {
+        margin: 0;
+        font-size: 1.1rem;
+    }
+
+    .chat-close {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 1.5rem;
+        cursor: pointer;
+        padding: 0;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .chat-body {
+        flex: 1;
+        padding: 1rem;
+        overflow-y: auto;
+        max-height: 400px;
+    }
+
+    .chat-message {
+        margin-bottom: 1rem;
+    }
+
+    .chat-message p {
+        margin: 0;
+        padding: 0.75rem;
+        border-radius: 8px;
+        line-height: 1.4;
+    }
+
+    .bot-message p {
+        background: #f1f1f1;
+        color: #333;
+    }
+
+    .user-message p {
+        background: #27ae60;
+        color: white;
+        margin-left: 20%;
+    }
+
+    .chat-options {
+        display: grid;
+        gap: 0.5rem;
+        margin-top: 1rem;
+    }
+
+    .chat-option {
+        background: #f8f9fa;
+        border: 1px solid #e9ecef;
+        padding: 0.75rem;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-align: left;
+    }
+
+    .chat-option:hover {
+        background: #e9ecef;
+        border-color: #27ae60;
+    }
+
+    .chat-footer {
+        padding: 1rem;
+        border-top: 1px solid #e9ecef;
+    }
+
+    .chat-input-group {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    #chat-input {
+        flex: 1;
+        padding: 0.75rem;
+        border: 1px solid #e9ecef;
+        border-radius: 6px;
+        font-size: 0.9rem;
+    }
+
+    #chat-send {
+        background: #27ae60;
+        color: white;
+        border: none;
+        padding: 0.75rem 1rem;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.9rem;
+    }
+
+    #chat-send:hover {
+        background: #219a52;
+    }
+
+    .chat-disclaimer {
+        font-size: 0.8rem;
+        color: #666;
+        text-align: center;
+        margin: 0;
+    }
+
+    @media (max-width: 768px) {
+        .chat-modal-content {
+            width: 95%;
+            height: 90%;
+        }
+        
+        .chat-fallback {
+            bottom: 15px;
+            right: 15px;
+        }
+        
+        .chat-btn {
+            width: 50px;
+            height: 50px;
+        }
+    }
+    </style>
+
+{% endif %}

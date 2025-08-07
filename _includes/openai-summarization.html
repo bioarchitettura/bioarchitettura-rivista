@@ -1,0 +1,529 @@
+<!-- OpenAI Summarization Backend Integration -->
+<script>
+/**
+ * OpenAI Summarization Service
+ * Server-side integration examples and client-side utilities
+ */
+window.OpenAISummarization = {
+    config: {
+        apiKey: '{{ site.openai.api_key }}',
+        model: '{{ site.openai.model | default: "gpt-3.5-turbo" }}',
+        maxTokens: {{ site.openai.max_tokens | default: 150 }},
+        temperature: {{ site.openai.temperature | default: 0.7 }},
+        endpoint: '/api/openai/summarize'
+    },
+
+    /**
+     * Generate summary using OpenAI API
+     */
+    async generateSummary(content, options = {}) {
+        const payload = {
+            content: content,
+            title: options.title || '',
+            language: options.language || 'it',
+            maxTokens: options.maxTokens || this.config.maxTokens,
+            style: options.style || 'informative', // informative, bullet-points, executive
+            ...options
+        };
+
+        try {
+            const response = await fetch(this.config.endpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${this.config.apiKey}`
+                },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
+
+            const result = await response.json();
+            return {
+                success: true,
+                summary: result.summary,
+                confidence: result.confidence || 0.8,
+                usage: result.usage,
+                method: 'openai'
+            };
+
+        } catch (error) {
+            console.error('OpenAI summarization failed:', error);
+            return {
+                success: false,
+                error: error.message,
+                method: 'openai'
+            };
+        }
+    },
+
+    /**
+     * Create optimized prompt for Italian bioarchitecture content
+     */
+    createPrompt(content, title, style = 'informative') {
+        const prompts = {
+            informative: `
+Scrivi un riassunto informativo e coinvolgente di massimo 150 parole per questo articolo di bioarchitettura.
+Il riassunto deve catturare i punti chiave, i benefici principali e le informazioni pratiche.
+Usa un linguaggio chiaro e professionale, adatto a professionisti del settore e appassionati.
+
+Titolo: ${title}
+
+Contenuto:
+${content}
+
+Riassunto:`,
+
+            'bullet-points': `
+Crea un riassunto a punti elenco (massimo 5 punti) per questo articolo di bioarchitettura.
+Ogni punto deve essere conciso e evidenziare un aspetto chiave del contenuto.
+Usa un linguaggio tecnico ma accessibile.
+
+Titolo: ${title}
+
+Contenuto:
+${content}
+
+Punti chiave:`,
+
+            executive: `
+Scrivi un riassunto esecutivo di massimo 100 parole per questo articolo di bioarchitettura.
+Concentrati sui benefici principali, le applicazioni pratiche e le conclusioni chiave.
+Il tono deve essere professionale e orientato all'azione.
+
+Titolo: ${title}
+
+Contenuto:
+${content}
+
+Riassunto esecutivo:`
+        };
+
+        return prompts[style] || prompts.informative;
+    },
+
+    /**
+     * Validate content before sending to API
+     */
+    validateContent(content) {
+        if (!content || typeof content !== 'string') {
+            return { valid: false, error: 'Contenuto non valido' };
+        }
+
+        const wordCount = content.trim().split(/\s+/).length;
+        
+        if (wordCount < 50) {
+            return { valid: false, error: 'Contenuto troppo breve (minimo 50 parole)' };
+        }
+
+        if (wordCount > 4000) {
+            return { valid: false, error: 'Contenuto troppo lungo (massimo 4000 parole)' };
+        }
+
+        return { valid: true, wordCount: wordCount };
+    },
+
+    /**
+     * Estimate cost for API call
+     */
+    estimateCost(content) {
+        const wordCount = content.trim().split(/\s+/).length;
+        const estimatedTokens = Math.ceil(wordCount * 1.3); // rough estimate
+        
+        // GPT-3.5-turbo pricing (approximate)
+        const inputCostPer1K = 0.0015; // USD
+        const outputCostPer1K = 0.002; // USD
+        
+        const inputCost = (estimatedTokens / 1000) * inputCostPer1K;
+        const outputCost = (this.config.maxTokens / 1000) * outputCostPer1K;
+        
+        return {
+            estimatedTokens: estimatedTokens,
+            estimatedCost: inputCost + outputCost,
+            currency: 'USD'
+        };
+    }
+};
+
+// Backend Integration Examples (for server-side implementation)
+window.OpenAISummarization.backendExamples = {
+    
+    /**
+     * Node.js Express endpoint example
+     */
+    nodeJsExample: `
+// Backend endpoint: /api/openai/summarize
+const express = require('express');
+const OpenAI = require('openai');
+const rateLimit = require('express-rate-limit');
+
+const app = express();
+const openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY
+});
+
+// Rate limiting: 10 requests per minute per IP
+const limiter = rateLimit({
+    windowMs: 60 * 1000, // 1 minute
+    max: 10,
+    message: 'Troppi tentativi di summarizzazione, riprova tra un minuto'
+});
+
+app.use('/api/openai', limiter);
+app.use(express.json({ limit: '1mb' }));
+
+app.post('/api/openai/summarize', async (req, res) => {
+    try {
+        const { content, title, language = 'it', maxTokens = 150, style = 'informative' } = req.body;
+        
+        // Validation
+        if (!content || content.length < 100) {
+            return res.status(400).json({ error: 'Contenuto troppo breve' });
+        }
+        
+        // Create prompt
+        const prompt = createSummarizationPrompt(content, title, style, language);
+        
+        // Call OpenAI API
+        const completion = await openai.chat.completions.create({
+            model: 'gpt-3.5-turbo',
+            messages: [
+                {
+                    role: 'system',
+                    content: 'Sei un esperto di bioarchitettura e sostenibilità. Crea riassunti chiari, informativi e coinvolgenti.'
+                },
+                {
+                    role: 'user',
+                    content: prompt
+                }
+            ],
+            max_tokens: maxTokens,
+            temperature: 0.7,
+            top_p: 1,
+            frequency_penalty: 0,
+            presence_penalty: 0
+        });
+        
+        const summary = completion.choices[0].message.content.trim();
+        
+        res.json({
+            summary: summary,
+            confidence: 0.85,
+            usage: completion.usage,
+            model: 'gpt-3.5-turbo'
+        });
+        
+    } catch (error) {
+        console.error('OpenAI API Error:', error);
+        res.status(500).json({ 
+            error: 'Errore nella generazione del riassunto',
+            details: process.env.NODE_ENV === 'development' ? error.message : undefined
+        });
+    }
+});
+
+function createSummarizationPrompt(content, title, style, language) {
+    const prompts = {
+        it: {
+            informative: \`Scrivi un riassunto informativo di massimo 150 parole per questo articolo di bioarchitettura.
+Il riassunto deve essere chiaro, coinvolgente e catturare i punti chiave.
+
+Titolo: \${title}
+Contenuto: \${content}
+
+Riassunto:\`,
+            'bullet-points': \`Crea un riassunto a punti elenco (massimo 5 punti) per questo articolo di bioarchitettura.
+
+Titolo: \${title}
+Contenuto: \${content}
+
+Punti chiave:\`
+        }
+    };
+    
+    return prompts[language]?.[style] || prompts.it.informative;
+}
+`,
+
+    /**
+     * Python Flask endpoint example
+     */
+    pythonExample: `
+# Backend endpoint: /api/openai/summarize
+from flask import Flask, request, jsonify
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+import openai
+import os
+import re
+
+app = Flask(__name__)
+limiter = Limiter(
+    app,
+    key_func=get_remote_address,
+    default_limits=["10 per minute"]
+)
+
+openai.api_key = os.getenv('OPENAI_API_KEY')
+
+@app.route('/api/openai/summarize', methods=['POST'])
+@limiter.limit("10 per minute")
+def summarize_content():
+    try:
+        data = request.get_json()
+        content = data.get('content', '')
+        title = data.get('title', '')
+        language = data.get('language', 'it')
+        max_tokens = data.get('maxTokens', 150)
+        style = data.get('style', 'informative')
+        
+        # Validation
+        if not content or len(content) < 100:
+            return jsonify({'error': 'Contenuto troppo breve'}), 400
+            
+        # Clean content
+        content = clean_content(content)
+        
+        # Create prompt
+        prompt = create_prompt(content, title, style, language)
+        
+        # Call OpenAI API
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {
+                    "role": "system",
+                    "content": "Sei un esperto di bioarchitettura. Crea riassunti chiari e informativi."
+                },
+                {
+                    "role": "user", 
+                    "content": prompt
+                }
+            ],
+            max_tokens=max_tokens,
+            temperature=0.7
+        )
+        
+        summary = response.choices[0].message.content.strip()
+        
+        return jsonify({
+            'summary': summary,
+            'confidence': 0.85,
+            'usage': response.usage,
+            'model': 'gpt-3.5-turbo'
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'error': 'Errore nella generazione del riassunto',
+            'details': str(e) if app.debug else None
+        }), 500
+
+def clean_content(content):
+    # Remove HTML tags
+    content = re.sub(r'<[^>]+>', '', content)
+    # Remove extra whitespace
+    content = re.sub(r'\\s+', ' ', content)
+    return content.strip()
+
+def create_prompt(content, title, style, language):
+    if language == 'it':
+        if style == 'informative':
+            return f"""Scrivi un riassunto informativo di massimo 150 parole per questo articolo di bioarchitettura.
+
+Titolo: {title}
+Contenuto: {content}
+
+Riassunto:"""
+    return f"Summarize this bioarchitecture article in {language}:\\n\\nTitle: {title}\\nContent: {content}"
+`,
+
+    /**
+     * PHP endpoint example
+     */
+    phpExample: `
+<?php
+// Backend endpoint: /api/openai/summarize
+require_once 'vendor/autoload.php';
+
+header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: POST');
+header('Access-Control-Allow-Headers: Content-Type');
+
+// Rate limiting (basic implementation)
+session_start();
+$current_time = time();
+$rate_limit_window = 60; // 1 minute
+$max_requests = 10;
+
+if (!isset($_SESSION['requests'])) {
+    $_SESSION['requests'] = [];
+}
+
+// Clean old requests
+$_SESSION['requests'] = array_filter($_SESSION['requests'], function($timestamp) use ($current_time, $rate_limit_window) {
+    return $current_time - $timestamp < $rate_limit_window;
+});
+
+if (count($_SESSION['requests']) >= $max_requests) {
+    http_response_code(429);
+    echo json_encode(['error' => 'Troppi tentativi, riprova tra un minuto']);
+    exit;
+}
+
+$_SESSION['requests'][] = $current_time;
+
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    http_response_code(405);
+    echo json_encode(['error' => 'Metodo non consentito']);
+    exit;
+}
+
+$input = json_decode(file_get_contents('php://input'), true);
+$content = $input['content'] ?? '';
+$title = $input['title'] ?? '';
+$language = $input['language'] ?? 'it';
+$max_tokens = $input['maxTokens'] ?? 150;
+$style = $input['style'] ?? 'informative';
+
+// Validation
+if (empty($content) || strlen($content) < 100) {
+    http_response_code(400);
+    echo json_encode(['error' => 'Contenuto troppo breve']);
+    exit;
+}
+
+// OpenAI API call
+$client = OpenAI::client($_ENV['OPENAI_API_KEY']);
+
+try {
+    $prompt = createPrompt($content, $title, $style, $language);
+    
+    $response = $client->chat()->create([
+        'model' => 'gpt-3.5-turbo',
+        'messages' => [
+            [
+                'role' => 'system',
+                'content' => 'Sei un esperto di bioarchitettura. Crea riassunti chiari e informativi.'
+            ],
+            [
+                'role' => 'user',
+                'content' => $prompt
+            ]
+        ],
+        'max_tokens' => $max_tokens,
+        'temperature' => 0.7
+    ]);
+    
+    $summary = trim($response->choices[0]->message->content);
+    
+    echo json_encode([
+        'summary' => $summary,
+        'confidence' => 0.85,
+        'usage' => $response->usage,
+        'model' => 'gpt-3.5-turbo'
+    ]);
+    
+} catch (Exception $e) {
+    http_response_code(500);
+    echo json_encode([
+        'error' => 'Errore nella generazione del riassunto',
+        'details' => $_ENV['APP_DEBUG'] ? $e->getMessage() : null
+    ]);
+}
+
+function createPrompt($content, $title, $style, $language) {
+    if ($language === 'it') {
+        if ($style === 'informative') {
+            return "Scrivi un riassunto informativo di massimo 150 parole per questo articolo di bioarchitettura.\\n\\nTitolo: $title\\nContenuto: $content\\n\\nRiassunto:";
+        }
+    }
+    return "Summarize this bioarchitecture article in $language:\\n\\nTitle: $title\\nContent: $content";
+}
+?>`
+};
+
+// Usage tracking and analytics
+window.OpenAISummarization.analytics = {
+    track: function(event, data) {
+        // Google Analytics 4
+        if (window.gtag) {
+            gtag('event', event, {
+                event_category: 'AI_Summarization',
+                event_label: data.method || 'unknown',
+                custom_parameters: data
+            });
+        }
+        
+        // Custom analytics
+        if (window.customAnalytics) {
+            window.customAnalytics.track('ai_summarization', {
+                event: event,
+                ...data
+            });
+        }
+        
+        console.log('AI Summarization Event:', event, data);
+    }
+};
+
+console.log('OpenAI Summarization module loaded');
+</script>
+
+<!-- Debug Panel (only in development) -->
+{% if site.environment == 'development' %}
+<div id="openai-debug-panel" style="position: fixed; top: 10px; right: 10px; background: white; border: 1px solid #ccc; padding: 10px; border-radius: 5px; font-family: monospace; font-size: 12px; z-index: 9999; max-width: 300px; display: none;">
+    <h4>OpenAI Debug</h4>
+    <div id="debug-content"></div>
+    <button onclick="document.getElementById('openai-debug-panel').style.display='none'">Chiudi</button>
+</div>
+
+<script>
+// Debug utilities for development
+window.OpenAISummarization.debug = {
+    showPanel: function() {
+        document.getElementById('openai-debug-panel').style.display = 'block';
+    },
+    
+    log: function(message, data) {
+        const debugContent = document.getElementById('debug-content');
+        if (debugContent) {
+            const timestamp = new Date().toLocaleTimeString();
+            debugContent.innerHTML += `<div>[${timestamp}] ${message}</div>`;
+            if (data) {
+                debugContent.innerHTML += `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+            }
+        }
+        console.log('[OpenAI Debug]', message, data);
+    },
+    
+    testSummarization: async function() {
+        const testContent = "La bioarchitettura è un approccio alla progettazione che considera l'impatto ambientale degli edifici. Utilizza materiali naturali e tecniche sostenibili per creare spazi salubri e a basso impatto. I principi includono l'efficienza energetica, l'uso di materiali locali e la riduzione dei rifiuti.";
+        
+        this.log('Testing summarization with sample content...');
+        
+        const result = await window.OpenAISummarization.generateSummary(testContent, {
+            title: 'Test Bioarchitettura',
+            style: 'informative'
+        });
+        
+        this.log('Test result:', result);
+        return result;
+    }
+};
+
+// Show debug panel button in development
+document.addEventListener('DOMContentLoaded', function() {
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        const debugBtn = document.createElement('button');
+        debugBtn.textContent = 'OpenAI Debug';
+        debugBtn.style.cssText = 'position: fixed; top: 10px; left: 10px; z-index: 9998; background: #007bff; color: white; border: none; padding: 5px 10px; border-radius: 3px; font-size: 12px;';
+        debugBtn.onclick = () => window.OpenAISummarization.debug.showPanel();
+        document.body.appendChild(debugBtn);
+    }
+});
+</script>
+{% endif %}

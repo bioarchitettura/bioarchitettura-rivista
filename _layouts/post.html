@@ -57,19 +57,7 @@ layout: default
 
         <!-- Article Content -->
         <div class="post-content">
-            {% if page.auto_summary != false %}
-            <!-- AI Generated Summary -->
-            <div class="post-summary" id="post-summary">
-                <h3 data-translate="post.summary">Riassunto</h3>
-                <div class="summary-content" id="summary-content">
-                    <div class="summary-loading">
-                        <div class="loading-spinner"></div>
-                        <span data-translate="post.generating_summary">Generando riassunto...</span>
-                    </div>
-                </div>
-                <button class="summary-toggle" id="summary-toggle" data-translate="post.hide_summary">Nascondi riassunto</button>
-            </div>
-            {% endif %}
+            {% include auto-summary.html %}
 
             <!-- Main Content -->
             <div class="content-body">
@@ -119,18 +107,7 @@ layout: default
     </div>
 
     <!-- Related Articles -->
-    <aside class="related-articles">
-        <div class="related-container">
-            <h3 data-translate="post.related">Articoli Correlati</h3>
-            <div class="related-grid" id="related-articles">
-                <!-- Related articles will be populated by JavaScript -->
-                <div class="related-loading">
-                    <div class="loading-spinner"></div>
-                    <span data-translate="post.loading_related">Caricamento articoli correlati...</span>
-                </div>
-            </div>
-        </div>
-    </aside>
+    {% include article-recommender.html %}
 </article>
 
 <!-- Article Schema Markup -->
