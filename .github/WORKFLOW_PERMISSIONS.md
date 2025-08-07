@@ -12,6 +12,7 @@ This document outlines the comprehensive permissions configuration implemented a
 - **Limited Permissions**: Expanded from minimal permissions to comprehensive coverage
 - **Missing Permissions**: Added explicit permission declarations to all workflows
 - **Artifact Upload Failures**: Resolved upload/download issues with proper permissions
+- **Missing Artifact Files**: Added graceful handling for missing runtime log files (blocked.jsonl, blocked.*)
 
 ### 📋 Comprehensive Permissions Applied
 
@@ -39,12 +40,13 @@ permissions:
 
 ### 1. Deploy Production (`deploy-production.yml`)
 
-**Purpose**: Production deployment to GitHub Pages with asset optimization
+**Purpose**: Production deployment to GitHub Pages with asset optimization and runtime log collection
 **Key Features**:
 - Full artifact management capabilities
 - GitHub Pages deployment
 - Performance optimization
 - Security header injection
+- Conditional upload of runtime logs (blocked.jsonl, blocked.*)
 
 **Critical Permissions**:
 - `pages: write` - Deploy to GitHub Pages
@@ -54,11 +56,12 @@ permissions:
 
 ### 2. Jekyll with GitHub Pages (`jekyll-gh-pages.yml`)
 
-**Purpose**: Standard Jekyll site deployment using GitHub's built-in Jekyll action
+**Purpose**: Standard Jekyll site deployment using GitHub's built-in Jekyll action with runtime log collection
 **Key Features**:
 - Native GitHub Pages integration
 - Automated Jekyll builds
 - Artifact generation
+- Conditional upload of runtime logs (blocked.jsonl, blocked.*)
 
 **Critical Permissions**:
 - `pages: write` - Deploy to GitHub Pages
@@ -131,6 +134,7 @@ All workflows have been updated to use the latest stable versions:
 | Pages deployment fails | `Error: Deploy to Pages` | Check `pages: write` and `id-token: write` |
 | Status checks missing | No build status reported | Ensure `checks: write` permission |
 | Security scan fails | CodeQL upload error | Confirm `security-events: write` |
+| Missing runtime logs | Workflow fails on missing files | Files are checked conditionally and uploaded only if present |
 
 ### Debugging Permission Issues
 
@@ -161,6 +165,7 @@ All workflows have been updated to use the latest stable versions:
 | 2025-08-07 | Initial comprehensive permissions implementation | Resolved all workflow permission issues |
 | 2025-08-07 | Updated deprecated action versions | Fixed artifact upload failures |
 | 2025-08-07 | Added permission documentation | Improved maintainability |
+| 2025-08-07 | Added conditional runtime log artifact uploads | Prevents workflow failures when blocked.* files are missing |
 
 ## Support
 
