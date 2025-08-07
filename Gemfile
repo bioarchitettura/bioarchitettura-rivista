@@ -6,12 +6,6 @@ gem "jekyll", "~> 4.0"
 # Themes
 gem "minima", "~> 2.5"
 
-# Plugins
-gem "jekyll-sitemap"
-gem "jekyll-feed", "~> 0.12"
-gem "jekyll-seo-tag"
-gem "jekyll-paginate"
-
 # Performance and optimization
 gem "jekyll-compress-images"
 gem "jekyll-minifier"
