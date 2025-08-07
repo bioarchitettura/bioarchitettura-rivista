@@ -71,14 +71,19 @@
                         <span data-translate="nav.home">Home</span>
                     </a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a href="{{ '/rivista/' | relative_url }}" class="nav-link dropdown-toggle">
+                <li class="nav-item">
+                    <a href="https://www.cnba.it/periodici/" 
+                       class="nav-link external-link" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       aria-label="Rivista Bioarchitettura - Archivio (opens in new tab)">
                         <span data-translate="nav.magazine">Rivista</span>
+                        <svg class="external-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                            <polyline points="15,3 21,3 21,9"></polyline>
+                            <line x1="10" y1="14" x2="21" y2="3"></line>
+                        </svg>
                     </a>
-                    <div class="dropdown-menu">
-                        <a href="{{ '/rivista/archivio/' | relative_url }}" class="dropdown-item" data-translate="nav.archive">Archivio</a>
-                        <a href="{{ '/rivista/abbonamenti/' | relative_url }}" class="dropdown-item" data-translate="nav.subscription">Abbonamenti</a>
-                    </div>
                 </li>
                 <li class="nav-item dropdown">
                     <a href="{{ '/shop/' | relative_url }}" class="nav-link dropdown-toggle">
@@ -155,7 +160,7 @@
                 <div class="footer-section">
                     <h3 data-translate="footer.quick_links">Link Rapidi</h3>
                     <ul>
-                        <li><a href="{{ '/rivista/' | relative_url }}" data-translate="footer.magazine">Rivista</a></li>
+                        <li><a href="https://www.cnba.it/periodici/" target="_blank" rel="noopener noreferrer" data-translate="footer.magazine">Rivista</a></li>
                         <li><a href="{{ '/shop/' | relative_url }}" data-translate="footer.shop">Shop</a></li>
                         <li><a href="{{ '/privacy/' | relative_url }}" data-translate="footer.privacy">Privacy</a></li>
                         <li><a href="{{ '/terms/' | relative_url }}" data-translate="footer.terms">Termini</a></li>

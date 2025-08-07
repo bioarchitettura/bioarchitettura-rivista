@@ -398,6 +398,22 @@ li {
   background-color: var(--gray-100);
 }
 
+/* External Link Styling */
+.nav-link.external-link {
+  gap: var(--space-2);
+}
+
+.nav-link.external-link .external-icon {
+  opacity: 0.6;
+  transition: all var(--transition-fast);
+  margin-left: var(--space-1);
+}
+
+.nav-link.external-link:hover .external-icon {
+  opacity: 1;
+  transform: translateX(2px) translateY(-2px);
+}
+
 /* Dropdown Menu */
 .dropdown {
   position: relative;
@@ -563,6 +579,11 @@ li {
 
   .nav-toggle {
     display: flex;
+  }
+  
+  /* External link icon handling for mobile */
+  .nav-link.external-link .external-icon {
+    margin-left: auto;
   }
 }
 

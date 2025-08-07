@@ -186,12 +186,8 @@ navigation:
     - title: "Home"
       url: "/"
     - title: "Rivista"
-      url: "/rivista/"
-      submenu:
-        - title: "Archivio"
-          url: "/rivista/archivio/"
-        - title: "Abbonamenti"
-          url: "/rivista/abbonamenti/"
+      url: "https://www.cnba.it/periodici/"
+      external: true
     - title: "Shop"
       url: "/shop/"
       submenu:
