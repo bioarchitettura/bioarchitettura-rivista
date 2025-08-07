@@ -1,0 +1,21 @@
+{
+  "name": "bioarchitettura-rivista",
+  "version": "1.0.0",
+  "description": "Asset optimization tools for Bioarchitettura Magazine Jekyll site",
+  "private": true,
+  "scripts": {
+    "build": "echo 'Jekyll build handled by workflow'",
+    "postinstall": "echo 'Dependencies installed for asset optimization'"
+  },
+  "devDependencies": {
+    "terser": "^5.22.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bioarchitettura/bioarchitettura-rivista.git"
+  },
+  "license": "UNLICENSED"
+}
