@@ -1,0 +1,849 @@
+---
+layout: default
+title: "Abbonamenti Rivista"
+description: "Abbonati alla Rivista di Bioarchitettura - piani di abbonamento digitale e cartaceo con vantaggi esclusivi"
+permalink: /rivista/abbonamenti/
+---
+
+<div class="page-header">
+    <div class="container">
+        <div class="header-content">
+            <h1>Abbonamenti Rivista</h1>
+            <p>Scegli il piano di abbonamento più adatto alle tue esigenze</p>
+        </div>
+    </div>
+</div>
+
+<div class="main-content">
+    <div class="container">
+        <!-- Subscription Plans -->
+        <section class="subscription-plans">
+            <div class="plans-grid">
+                <!-- Digital Plan -->
+                <div class="plan-card">
+                    <div class="plan-header">
+                        <h3>Abbonamento Digitale</h3>
+                        <div class="plan-price">
+                            <span class="price">€24</span>
+                            <span class="period">/anno</span>
+                        </div>
+                    </div>
+                    <div class="plan-features">
+                        <ul>
+                            <li>✓ Accesso completo ai numeri digitali</li>
+                            <li>✓ Archivio storico completo</li>
+                            <li>✓ Download PDF illimitato</li>
+                            <li>✓ Lettura offline</li>
+                            <li>✓ Ricerca avanzata nell'archivio</li>
+                            <li>✓ Newsletter esclusiva</li>
+                            <li>✓ Notifiche nuovi numeri</li>
+                        </ul>
+                    </div>
+                    <div class="plan-action">
+                        <button class="btn btn-primary" onclick="selectPlan('digital')">
+                            Scegli Digitale
+                        </button>
+                    </div>
+                    <div class="plan-note">
+                        <small>Risparmia €12 all'anno rispetto all'acquisto singolo</small>
+                    </div>
+                </div>
+
+                <!-- Print Plan -->
+                <div class="plan-card featured">
+                    <div class="plan-badge">Più Popolare</div>
+                    <div class="plan-header">
+                        <h3>Abbonamento Cartaceo + Digitale</h3>
+                        <div class="plan-price">
+                            <span class="price">€48</span>
+                            <span class="period">/anno</span>
+                        </div>
+                    </div>
+                    <div class="plan-features">
+                        <ul>
+                            <li>✓ Rivista cartacea a casa</li>
+                            <li>✓ Tutto dell'abbonamento digitale</li>
+                            <li>✓ Spedizione gratuita in Italia</li>
+                            <li>✓ Edizioni speciali esclusive</li>
+                            <li>✓ Accesso prioritario agli eventi</li>
+                            <li>✓ Sconti su corsi e webinar (10%)</li>
+                            <li>✓ Consultazione gratuita annuale</li>
+                        </ul>
+                    </div>
+                    <div class="plan-action">
+                        <button class="btn btn-primary" onclick="selectPlan('print')">
+                            Scegli Cartaceo + Digitale
+                        </button>
+                    </div>
+                    <div class="plan-note">
+                        <small>Risparmia €24 all'anno e ricevi vantaggi esclusivi</small>
+                    </div>
+                </div>
+
+                <!-- Premium Plan -->
+                <div class="plan-card">
+                    <div class="plan-header">
+                        <h3>Abbonamento Premium</h3>
+                        <div class="plan-price">
+                            <span class="price">€96</span>
+                            <span class="period">/anno</span>
+                        </div>
+                    </div>
+                    <div class="plan-features">
+                        <ul>
+                            <li>✓ Tutto dell'abbonamento cartaceo</li>
+                            <li>✓ Accesso anticipato ai nuovi numeri</li>
+                            <li>✓ Webinar esclusivi mensili</li>
+                            <li>✓ Biblioteca digitale completa</li>
+                            <li>✓ Sconti su corsi e consulenze (20%)</li>
+                            <li>✓ Materiali didattici esclusivi</li>
+                            <li>✓ Supporto tecnico prioritario</li>
+                        </ul>
+                    </div>
+                    <div class="plan-action">
+                        <button class="btn btn-primary" onclick="selectPlan('premium')">
+                            Scegli Premium
+                        </button>
+                    </div>
+                    <div class="plan-note">
+                        <small>Per professionisti e aziende del settore</small>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Subscription Form -->
+        <section class="subscription-form" id="subscription-form" style="display: none;">
+            <div class="form-container">
+                <h2>Completa il tuo abbonamento</h2>
+                <form id="subscription-checkout-form">
+                    <div class="selected-plan" id="selected-plan-info">
+                        <!-- Plan info will be inserted here -->
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="firstName">Nome *</label>
+                            <input type="text" id="firstName" name="firstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Cognome *</label>
+                            <input type="text" id="lastName" name="lastName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Telefono</label>
+                            <input type="tel" id="phone" name="phone">
+                        </div>
+                    </div>
+
+                    <!-- Address for print subscriptions -->
+                    <div class="address-section" id="address-section" style="display: none;">
+                        <h3>Indirizzo di spedizione</h3>
+                        <div class="form-grid">
+                            <div class="form-group full-width">
+                                <label for="address">Indirizzo *</label>
+                                <input type="text" id="address" name="address">
+                            </div>
+                            <div class="form-group">
+                                <label for="city">Città *</label>
+                                <input type="text" id="city" name="city">
+                            </div>
+                            <div class="form-group">
+                                <label for="postalCode">CAP *</label>
+                                <input type="text" id="postalCode" name="postalCode">
+                            </div>
+                            <div class="form-group">
+                                <label for="province">Provincia *</label>
+                                <input type="text" id="province" name="province">
+                            </div>
+                            <div class="form-group">
+                                <label for="country">Paese *</label>
+                                <select id="country" name="country">
+                                    <option value="IT">Italia</option>
+                                    <option value="CH">Svizzera</option>
+                                    <option value="AT">Austria</option>
+                                    <option value="DE">Germania</option>
+                                    <option value="FR">Francia</option>
+                                    <option value="ES">Spagna</option>
+                                    <option value="OTHER">Altro</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Professional Info -->
+                    <div class="professional-section">
+                        <h3>Informazioni professionali (opzionale)</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="profession">Professione</label>
+                                <select id="profession" name="profession">
+                                    <option value="">Seleziona...</option>
+                                    <option value="architect">Architetto</option>
+                                    <option value="engineer">Ingegnere</option>
+                                    <option value="builder">Costruttore</option>
+                                    <option value="consultant">Consulente</option>
+                                    <option value="researcher">Ricercatore</option>
+                                    <option value="student">Studente</option>
+                                    <option value="other">Altro</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="company">Azienda/Studio</label>
+                                <input type="text" id="company" name="company">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment Method -->
+                    <div class="payment-section">
+                        <h3>Metodo di pagamento</h3>
+                        <div class="payment-methods">
+                            <label class="payment-option">
+                                <input type="radio" name="paymentMethod" value="paypal" checked>
+                                <div class="payment-info">
+                                    <strong>PayPal</strong>
+                                    <span>Paga in modo sicuro con PayPal</span>
+                                </div>
+                            </label>
+                            <label class="payment-option">
+                                <input type="radio" name="paymentMethod" value="card">
+                                <div class="payment-info">
+                                    <strong>Carta di Credito</strong>
+                                    <span>Visa, Mastercard, American Express</span>
+                                </div>
+                            </label>
+                            <label class="payment-option">
+                                <input type="radio" name="paymentMethod" value="bank">
+                                <div class="payment-info">
+                                    <strong>Bonifico Bancario</strong>
+                                    <span>Riceverai le istruzioni via email</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Terms -->
+                    <div class="terms-section">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="terms" name="terms" required>
+                            <span class="checkmark"></span>
+                            Accetto i <a href="/terms/" target="_blank">termini di servizio</a> e la <a href="/privacy/" target="_blank">privacy policy</a>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="newsletter" name="newsletter" checked>
+                            <span class="checkmark"></span>
+                            Desidero ricevere la newsletter e aggiornamenti sui nuovi contenuti
+                        </label>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="resetForm()">
+                            Indietro
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            Procedi al Pagamento
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Benefits Section -->
+        <section class="benefits-section">
+            <h2>Perché abbonarsi?</h2>
+            <div class="benefits-grid">
+                <div class="benefit-item">
+                    <div class="benefit-icon">💰</div>
+                    <h3>Risparmia</h3>
+                    <p>Gli abbonamenti offrono un risparmio significativo rispetto all'acquisto di numeri singoli.</p>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">🎯</div>
+                    <h3>Contenuti Esclusivi</h3>
+                    <p>Accesso anticipato ai nuovi numeri e contenuti riservati agli abbonati.</p>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">📱</div>
+                    <h3>Accesso Digitale</h3>
+                    <p>Leggi ovunque con la nostra piattaforma digitale ottimizzata per tutti i dispositivi.</p>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">🎓</div>
+                    <h3>Formazione Continua</h3>
+                    <p>Webinar esclusivi e materiali didattici per la tua crescita professionale.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faq-section">
+            <h2>Domande Frequenti</h2>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <h4>Posso cambiare il mio piano di abbonamento?</h4>
+                    <p>Sì, puoi passare a un piano superiore in qualsiasi momento. Contattaci per maggiori informazioni.</p>
+                </div>
+                <div class="faq-item">
+                    <h4>Come posso disdire l'abbonamento?</h4>
+                    <p>Puoi disdire l'abbonamento in qualsiasi momento contattandoci via email. Non ci sono penali.</p>
+                </div>
+                <div class="faq-item">
+                    <h4>L'abbonamento si rinnova automaticamente?</h4>
+                    <p>Gli abbonamenti annuali si rinnovano automaticamente. Riceverai un promemoria 30 giorni prima.</p>
+                </div>
+                <div class="faq-item">
+                    <h4>Posso accedere all'archivio storico?</h4>
+                    <p>Sì, tutti gli abbonamenti includono l'accesso completo all'archivio storico della rivista.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<style>
+.page-header {
+    background: linear-gradient(135deg, #2c5530 0%, #4a7c59 100%);
+    color: white;
+    padding: 60px 0;
+    text-align: center;
+}
+
+.plans-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    margin: 3rem 0;
+}
+
+.plan-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    padding: 2rem;
+    position: relative;
+    transition: transform 0.3s;
+}
+
+.plan-card:hover {
+    transform: translateY(-4px);
+}
+
+.plan-card.featured {
+    border: 3px solid #4a7c59;
+    transform: scale(1.05);
+}
+
+.plan-badge {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #4a7c59;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.plan-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.plan-header h3 {
+    color: #2c5530;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.plan-price {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.25rem;
+}
+
+.price {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #4a7c59;
+}
+
+.period {
+    color: #666;
+    font-size: 1rem;
+}
+
+.plan-features ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 2rem;
+}
+
+.plan-features li {
+    padding: 0.5rem 0;
+    color: #333;
+}
+
+.plan-action {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.plan-note {
+    text-align: center;
+    color: #666;
+}
+
+.form-container {
+    max-width: 800px;
+    margin: 3rem auto;
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.selected-plan {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    border-left: 4px solid #4a7c59;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.form-group label {
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #333;
+}
+
+.form-group input,
+.form-group select {
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.payment-methods {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.payment-option {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.payment-option:hover {
+    border-color: #4a7c59;
+}
+
+.payment-option input[type="radio"] {
+    margin-right: 1rem;
+}
+
+.payment-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.payment-info span {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"] {
+    margin-right: 0.5rem;
+}
+
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+}
+
+.benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.benefit-item {
+    text-align: center;
+    padding: 2rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.benefit-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.faq-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.faq-item {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.faq-item h4 {
+    color: #2c5530;
+    margin-bottom: 1rem;
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.btn-primary {
+    background: #4a7c59;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #2c5530;
+}
+
+.btn-secondary {
+    background: transparent;
+    color: #4a7c59;
+    border: 1px solid #4a7c59;
+}
+
+.btn-secondary:hover {
+    background: #4a7c59;
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .plans-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .plan-card.featured {
+        transform: none;
+    }
+    
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('subscription-checkout-form');
+    
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        processSubscription();
+    });
+
+    // Handle country change for shipping
+    document.getElementById('country').addEventListener('change', function() {
+        if (this.value !== 'IT') {
+            alert('Nota: Per spedizioni fuori dall\'Italia potrebbero applicarsi costi aggiuntivi. Ti contatteremo per confermare.');
+        }
+    });
+});
+
+const subscriptionPlans = {
+    digital: {
+        name: 'Abbonamento Digitale',
+        price: 24,
+        features: ['Accesso digitale completo', 'Archivio storico', 'Download PDF', 'Newsletter'],
+        requiresAddress: false
+    },
+    print: {
+        name: 'Abbonamento Cartaceo + Digitale',
+        price: 48,
+        features: ['Rivista cartacea', 'Accesso digitale completo', 'Spedizione gratuita', 'Sconti 10%'],
+        requiresAddress: true
+    },
+    premium: {
+        name: 'Abbonamento Premium',
+        price: 96,
+        features: ['Tutto incluso', 'Webinar esclusivi', 'Sconti 20%', 'Supporto prioritario'],
+        requiresAddress: true
+    }
+};
+
+function selectPlan(planType) {
+    const plan = subscriptionPlans[planType];
+    const plansSection = document.querySelector('.subscription-plans');
+    const formSection = document.getElementById('subscription-form');
+    const planInfo = document.getElementById('selected-plan-info');
+    const addressSection = document.getElementById('address-section');
+
+    // Hide plans and show form
+    plansSection.style.display = 'none';
+    formSection.style.display = 'block';
+
+    // Populate plan info
+    planInfo.innerHTML = `
+        <h3>${plan.name}</h3>
+        <div class="plan-summary">
+            <div class="plan-price-summary">
+                <span class="price">€${plan.price}</span>
+                <span class="period">/anno</span>
+            </div>
+            <ul class="plan-features-summary">
+                ${plan.features.map(feature => `<li>✓ ${feature}</li>`).join('')}
+            </ul>
+        </div>
+    `;
+
+    // Show/hide address section
+    if (plan.requiresAddress) {
+        addressSection.style.display = 'block';
+        // Make address fields required
+        document.getElementById('address').required = true;
+        document.getElementById('city').required = true;
+        document.getElementById('postalCode').required = true;
+        document.getElementById('province').required = true;
+    } else {
+        addressSection.style.display = 'none';
+        // Remove required attribute
+        document.getElementById('address').required = false;
+        document.getElementById('city').required = false;
+        document.getElementById('postalCode').required = false;
+        document.getElementById('province').required = false;
+    }
+
+    // Store selected plan
+    document.getElementById('subscription-checkout-form').dataset.selectedPlan = planType;
+
+    // Smooth scroll to form
+    formSection.scrollIntoView({ behavior: 'smooth' });
+}
+
+function resetForm() {
+    const plansSection = document.querySelector('.subscription-plans');
+    const formSection = document.getElementById('subscription-form');
+    
+    plansSection.style.display = 'block';
+    formSection.style.display = 'none';
+    
+    // Smooth scroll to plans
+    plansSection.scrollIntoView({ behavior: 'smooth' });
+}
+
+function processSubscription() {
+    const form = document.getElementById('subscription-checkout-form');
+    const formData = new FormData(form);
+    const selectedPlan = form.dataset.selectedPlan;
+    const plan = subscriptionPlans[selectedPlan];
+
+    // Validate form
+    if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+    }
+
+    // Create subscription data
+    const subscriptionData = {
+        plan: selectedPlan,
+        customer: {
+            firstName: formData.get('firstName'),
+            lastName: formData.get('lastName'),
+            email: formData.get('email'),
+            phone: formData.get('phone'),
+            profession: formData.get('profession'),
+            company: formData.get('company')
+        },
+        address: plan.requiresAddress ? {
+            street: formData.get('address'),
+            city: formData.get('city'),
+            postalCode: formData.get('postalCode'),
+            province: formData.get('province'),
+            country: formData.get('country')
+        } : null,
+        paymentMethod: formData.get('paymentMethod'),
+        newsletter: formData.get('newsletter') === 'on',
+        amount: plan.price
+    };
+
+    // Show loading state
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalText = submitBtn.textContent;
+    submitBtn.textContent = 'Elaborazione...';
+    submitBtn.disabled = true;
+
+    // Simulate processing (in real app, this would be an API call)
+    setTimeout(() => {
+        // Process payment based on method
+        if (subscriptionData.paymentMethod === 'paypal') {
+            processPayPalPayment(subscriptionData);
+        } else if (subscriptionData.paymentMethod === 'card') {
+            processCreditCardPayment(subscriptionData);
+        } else if (subscriptionData.paymentMethod === 'bank') {
+            processBankTransfer(subscriptionData);
+        }
+
+        // Reset button
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+    }, 2000);
+}
+
+function processPayPalPayment(subscriptionData) {
+    // In a real implementation, this would integrate with PayPal SDK
+    if (window.bioarchitetturaApp && window.bioarchitetturaApp.notificationManager) {
+        window.bioarchitetturaApp.notificationManager.show(
+            'Reindirizzamento a PayPal in corso...',
+            'info'
+        );
+    }
+    
+    // Simulate PayPal redirect
+    setTimeout(() => {
+        alert('Demo: Saresti reindirizzato a PayPal per completare il pagamento.');
+        showSubscriptionConfirmation(subscriptionData);
+    }, 1500);
+}
+
+function processCreditCardPayment(subscriptionData) {
+    // In a real implementation, this would integrate with a payment processor
+    alert('Demo: Saresti reindirizzato al form sicuro per il pagamento con carta.');
+    showSubscriptionConfirmation(subscriptionData);
+}
+
+function processBankTransfer(subscriptionData) {
+    // Show bank transfer instructions
+    alert(`Demo: Riceverai via email le istruzioni per il bonifico bancario di €${subscriptionData.amount}.`);
+    showSubscriptionConfirmation(subscriptionData);
+}
+
+function showSubscriptionConfirmation(subscriptionData) {
+    const confirmationHtml = `
+        <div class="confirmation-container">
+            <h2>✓ Abbonamento Confermato!</h2>
+            <p>Grazie ${subscriptionData.customer.firstName} per aver scelto di abbonarti alla Rivista di Bioarchitettura!</p>
+            <div class="confirmation-details">
+                <h3>Dettagli abbonamento:</h3>
+                <ul>
+                    <li><strong>Piano:</strong> ${subscriptionPlans[subscriptionData.plan || 'digital'].name}</li>
+                    <li><strong>Email:</strong> ${subscriptionData.customer.email}</li>
+                    <li><strong>Importo:</strong> €${subscriptionData.amount}</li>
+                </ul>
+            </div>
+            <p>Riceverai a breve una email di conferma con tutti i dettagli del tuo abbonamento.</p>
+            <div class="confirmation-actions">
+                <a href="/" class="btn btn-primary">Torna alla Home</a>
+                <a href="/rivista/" class="btn btn-secondary">Vai alla Rivista</a>
+            </div>
+        </div>
+    `;
+
+    document.querySelector('.main-content .container').innerHTML = confirmationHtml;
+}
+</script>
+
+<style>
+.confirmation-container {
+    text-align: center;
+    padding: 3rem 2rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    margin: 2rem auto;
+    max-width: 600px;
+}
+
+.confirmation-container h2 {
+    color: #4a7c59;
+    margin-bottom: 1rem;
+    font-size: 2rem;
+}
+
+.confirmation-details {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin: 2rem 0;
+    text-align: left;
+}
+
+.confirmation-details ul {
+    list-style: none;
+    padding: 0;
+}
+
+.confirmation-details li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #eee;
+}
+
+.confirmation-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+    .confirmation-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+</style>

@@ -1,0 +1,361 @@
+---
+layout: default
+title: "Rivista di Bioarchitettura"
+description: "La rivista ufficiale della Fondazione Italiana per la Bioarchitettura - articoli, ricerche e approfondimenti sull'architettura sostenibile"
+permalink: /rivista/
+---
+
+<div class="hero-section">
+    <div class="container">
+        <div class="hero-content">
+            <h1 class="hero-title">Rivista di Bioarchitettura</h1>
+            <p class="hero-subtitle">La pubblicazione ufficiale della Fondazione Italiana per la Bioarchitettura</p>
+            <p class="hero-description">
+                Approfondimenti, ricerche e case study sull'architettura sostenibile, 
+                costruzione ecologica e innovazione nel settore edilizio.
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="main-content">
+    <div class="container">
+        <div class="content-grid">
+            <!-- Latest Issue -->
+            <section class="latest-issue">
+                <div class="section-header">
+                    <h2>Ultimo Numero</h2>
+                    <p>Scopri l'ultimo numero della nostra rivista</p>
+                </div>
+                <div class="issue-card">
+                    <div class="issue-image">
+                        <img src="/Bioarchitettura_71_p.jpg" alt="Bioarchitettura N. 71" loading="lazy">
+                    </div>
+                    <div class="issue-content">
+                        <h3>Bioarchitettura N. 71</h3>
+                        <p class="issue-theme">Innovazioni nella Costruzione Sostenibile</p>
+                        <p class="issue-description">
+                            In questo numero esploriamo le ultime innovazioni nel campo della bioarchitettura, 
+                            con focus particolare sui materiali naturali e le tecnologie a basso impatto ambientale.
+                        </p>
+                        <div class="issue-meta">
+                            <span class="issue-date">Gennaio 2024</span>
+                            <span class="issue-pages">64 pagine</span>
+                        </div>
+                        <div class="issue-actions">
+                            <a href="/shop/" class="btn btn-primary">Acquista</a>
+                            <a href="/rivista/archivio/" class="btn btn-secondary">Archivio</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Magazine Features -->
+            <section class="magazine-features">
+                <div class="section-header">
+                    <h2>Cosa Trovi nella Rivista</h2>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <div class="feature-icon">🏗️</div>
+                        <h3>Case Study</h3>
+                        <p>Progetti reali di bioarchitettura con analisi dettagliate e risultati misurabili.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🔬</div>
+                        <h3>Ricerca Scientifica</h3>
+                        <p>Studi approfonditi su materiali, tecnologie e metodologie innovative.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🌱</div>
+                        <h3>Sostenibilità</h3>
+                        <p>Approfondimenti su certificazioni energetiche e impatto ambientale.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">💡</div>
+                        <h3>Innovazione</h3>
+                        <p>Le ultime tendenze e tecnologie nel settore dell'edilizia sostenibile.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recent Articles -->
+            <section class="recent-articles">
+                <div class="section-header">
+                    <h2>Articoli Recenti</h2>
+                    <a href="/posts/" class="view-all-link">Vedi tutti</a>
+                </div>
+                <div class="articles-grid">
+                    {% for post in site.posts limit:3 %}
+                    <article class="article-card">
+                        {% if post.image %}
+                        <div class="article-image">
+                            <img src="{{ post.image }}" alt="{{ post.title }}" loading="lazy">
+                        </div>
+                        {% endif %}
+                        <div class="article-content">
+                            <div class="article-meta">
+                                <time datetime="{{ post.date | date_to_xmlschema }}">
+                                    {{ post.date | date: "%d %B %Y" }}
+                                </time>
+                                {% if post.categories.first %}
+                                <span class="article-category">{{ post.categories.first | capitalize }}</span>
+                                {% endif %}
+                            </div>
+                            <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
+                            <p>{{ post.excerpt | strip_html | truncate: 120 }}</p>
+                            <a href="{{ post.url }}" class="read-more">Leggi di più</a>
+                        </div>
+                    </article>
+                    {% endfor %}
+                </div>
+            </section>
+        </div>
+
+        <!-- Call to Action -->
+        <section class="cta-section">
+            <div class="cta-content">
+                <h2>Resta Aggiornato</h2>
+                <p>Iscriviti per ricevere le ultime novità dal mondo della bioarchitettura</p>
+                <div class="cta-actions">
+                    <a href="/rivista/abbonamenti/" class="btn btn-primary">Abbonati</a>
+                    <a href="/shop/" class="btn btn-secondary">Acquista Singoli Numeri</a>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<style>
+.hero-section {
+    background: linear-gradient(135deg, #2c5530 0%, #4a7c59 100%);
+    color: white;
+    padding: 80px 0;
+    text-align: center;
+}
+
+.hero-title {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.hero-subtitle {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    opacity: 0.9;
+}
+
+.hero-description {
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto;
+    opacity: 0.8;
+}
+
+.content-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 20px;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.section-header h2 {
+    font-size: 2.5rem;
+    color: #2c5530;
+    margin-bottom: 0.5rem;
+}
+
+.latest-issue {
+    margin-bottom: 4rem;
+}
+
+.issue-card {
+    display: flex;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    overflow: hidden;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.issue-image {
+    flex: 0 0 300px;
+}
+
+.issue-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.issue-content {
+    padding: 2rem;
+    flex: 1;
+}
+
+.issue-content h3 {
+    font-size: 1.5rem;
+    color: #2c5530;
+    margin-bottom: 0.5rem;
+}
+
+.issue-theme {
+    font-weight: 600;
+    color: #4a7c59;
+    margin-bottom: 1rem;
+}
+
+.issue-meta {
+    display: flex;
+    gap: 2rem;
+    margin: 1rem 0;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.issue-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+.feature-item {
+    text-align: center;
+    padding: 2rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.feature-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.feature-item h3 {
+    color: #2c5530;
+    margin-bottom: 1rem;
+}
+
+.articles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+.article-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transition: transform 0.2s;
+}
+
+.article-card:hover {
+    transform: translateY(-2px);
+}
+
+.article-image img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.article-content {
+    padding: 1.5rem;
+}
+
+.article-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.article-category {
+    background: #e8f5e8;
+    color: #2c5530;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+}
+
+.cta-section {
+    background: #2c5530;
+    color: white;
+    padding: 3rem 2rem;
+    text-align: center;
+    border-radius: 12px;
+    margin-top: 2rem;
+}
+
+.cta-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.btn-primary {
+    background: #4a7c59;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #2c5530;
+}
+
+.btn-secondary {
+    background: transparent;
+    color: #4a7c59;
+    border: 2px solid #4a7c59;
+}
+
+.btn-secondary:hover {
+    background: #4a7c59;
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .issue-card {
+        flex-direction: column;
+    }
+    
+    .issue-image {
+        flex: none;
+        height: 200px;
+    }
+    
+    .cta-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+</style>

@@ -1,0 +1,600 @@
+---
+layout: default
+title: "Archivio Rivista"
+description: "Archivio completo di tutti i numeri della Rivista di Bioarchitettura - accesso ai contenuti storici e ricerca avanzata"
+permalink: /rivista/archivio/
+---
+
+<div class="page-header">
+    <div class="container">
+        <div class="header-content">
+            <h1>Archivio Rivista</h1>
+            <p>Esplora tutti i numeri pubblicati della Rivista di Bioarchitettura</p>
+        </div>
+    </div>
+</div>
+
+<div class="main-content">
+    <div class="container">
+        <!-- Search and Filters -->
+        <div class="search-section">
+            <div class="search-container">
+                <div class="search-input-wrapper">
+                    <input type="text" id="archive-search" placeholder="Cerca per titolo, tema o parola chiave..." class="search-input">
+                    <button id="search-btn" class="search-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="filters">
+                    <select id="year-filter" class="filter-select">
+                        <option value="">Tutti gli anni</option>
+                        <option value="2024">2024</option>
+                        <option value="2023">2023</option>
+                        <option value="2022">2022</option>
+                        <option value="2021">2021</option>
+                        <option value="2020">2020</option>
+                    </select>
+                    <select id="theme-filter" class="filter-select">
+                        <option value="">Tutti i temi</option>
+                        <option value="materiali">Materiali Naturali</option>
+                        <option value="energia">Efficienza Energetica</option>
+                        <option value="certificazioni">Certificazioni</option>
+                        <option value="innovazione">Innovazione</option>
+                        <option value="case-study">Case Study</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Archive Grid -->
+        <div class="archive-grid" id="archive-grid">
+            <!-- Issue 71 - Latest -->
+            <div class="issue-item" data-year="2024" data-theme="innovazione">
+                <div class="issue-cover">
+                    <img src="/Bioarchitettura_71_p.jpg" alt="Bioarchitettura N. 71" loading="lazy">
+                    <div class="issue-overlay">
+                        <button class="preview-btn" data-issue="71">Anteprima</button>
+                    </div>
+                </div>
+                <div class="issue-info">
+                    <h3>Numero 71</h3>
+                    <p class="issue-date">Gennaio 2024</p>
+                    <p class="issue-theme">Innovazioni nella Costruzione Sostenibile</p>
+                    <p class="issue-description">
+                        Esploriamo le ultime innovazioni nel campo della bioarchitettura, 
+                        con focus sui materiali naturali e le tecnologie a basso impatto.
+                    </p>
+                    <div class="issue-actions">
+                        <a href="/shop/" class="btn btn-primary">Acquista</a>
+                        <button class="btn btn-secondary" onclick="addToWishlist(71)">Wishlist</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Issue 70 -->
+            <div class="issue-item" data-year="2023" data-theme="energia">
+                <div class="issue-cover">
+                    <img src="/Bioarchitettura_70_p.jpg" alt="Bioarchitettura N. 70" loading="lazy">
+                    <div class="issue-overlay">
+                        <button class="preview-btn" data-issue="70">Anteprima</button>
+                    </div>
+                </div>
+                <div class="issue-info">
+                    <h3>Numero 70</h3>
+                    <p class="issue-date">Novembre 2023</p>
+                    <p class="issue-theme">Casa Passiva e Efficienza Energetica</p>
+                    <p class="issue-description">
+                        Approfondiamo i principi della casa passiva e le strategie 
+                        per l'ottimizzazione energetica negli edifici residenziali.
+                    </p>
+                    <div class="issue-actions">
+                        <a href="/shop/" class="btn btn-primary">Acquista</a>
+                        <button class="btn btn-secondary" onclick="addToWishlist(70)">Wishlist</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Issue 69 -->
+            <div class="issue-item" data-year="2023" data-theme="materiali">
+                <div class="issue-cover">
+                    <img src="/53n001.jpg" alt="Bioarchitettura N. 69" loading="lazy">
+                    <div class="issue-overlay">
+                        <button class="preview-btn" data-issue="69">Anteprima</button>
+                    </div>
+                </div>
+                <div class="issue-info">
+                    <h3>Numero 69</h3>
+                    <p class="issue-date">Settembre 2023</p>
+                    <p class="issue-theme">Materiali Naturali e Tradizioni Costruttive</p>
+                    <p class="issue-description">
+                        Un viaggio tra i materiali tradizionali e le loro applicazioni 
+                        moderne nella bioarchitettura contemporanea.
+                    </p>
+                    <div class="issue-actions">
+                        <a href="/shop/" class="btn btn-primary">Acquista</a>
+                        <button class="btn btn-secondary" onclick="addToWishlist(69)">Wishlist</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Issue 68 -->
+            <div class="issue-item" data-year="2023" data-theme="case-study">
+                <div class="issue-cover">
+                    <img src="/48-49_n001.jpg" alt="Bioarchitettura N. 68" loading="lazy">
+                    <div class="issue-overlay">
+                        <button class="preview-btn" data-issue="68">Anteprima</button>
+                    </div>
+                </div>
+                <div class="issue-info">
+                    <h3>Numero 68</h3>
+                    <p class="issue-date">Luglio 2023</p>
+                    <p class="issue-theme">Case Study: Progetti Europei</p>
+                    <p class="issue-description">
+                        Analisi dettagliate di progetti di bioarchitettura realizzati 
+                        in Europa con focus su sostenibilità e innovazione.
+                    </p>
+                    <div class="issue-actions">
+                        <a href="/shop/" class="btn btn-primary">Acquista</a>
+                        <button class="btn btn-secondary" onclick="addToWishlist(68)">Wishlist</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Issue 67 -->
+            <div class="issue-item" data-year="2023" data-theme="certificazioni">
+                <div class="issue-cover">
+                    <img src="/37p02f01.jpg" alt="Bioarchitettura N. 67" loading="lazy">
+                    <div class="issue-overlay">
+                        <button class="preview-btn" data-issue="67">Anteprima</button>
+                    </div>
+                </div>
+                <div class="issue-info">
+                    <h3>Numero 67</h3>
+                    <p class="issue-date">Maggio 2023</p>
+                    <p class="issue-theme">Certificazioni Ambientali</p>
+                    <p class="issue-description">
+                        Guida completa alle certificazioni ambientali per l'edilizia: 
+                        LEED, BREEAM, Passivhaus e standard italiani.
+                    </p>
+                    <div class="issue-actions">
+                        <a href="/shop/" class="btn btn-primary">Acquista</a>
+                        <button class="btn btn-secondary" onclick="addToWishlist(67)">Wishlist</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Issue 66 -->
+            <div class="issue-item" data-year="2023" data-theme="innovazione">
+                <div class="issue-cover">
+                    <img src="/35p016f01.jpg" alt="Bioarchitettura N. 66" loading="lazy">
+                    <div class="issue-overlay">
+                        <button class="preview-btn" data-issue="66">Anteprima</button>
+                    </div>
+                </div>
+                <div class="issue-info">
+                    <h3>Numero 66</h3>
+                    <p class="issue-date">Marzo 2023</p>
+                    <p class="issue-theme">Tecnologie Emergenti</p>
+                    <p class="issue-description">
+                        Le tecnologie più innovative per la costruzione sostenibile: 
+                        IoT, AI e sensori per il building management.
+                    </p>
+                    <div class="issue-actions">
+                        <a href="/shop/" class="btn btn-primary">Acquista</a>
+                        <button class="btn btn-secondary" onclick="addToWishlist(66)">Wishlist</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- No Results Message -->
+        <div id="no-results" class="no-results" style="display: none;">
+            <h3>Nessun risultato trovato</h3>
+            <p>Prova a modificare i filtri o la ricerca per trovare ciò che cerchi.</p>
+        </div>
+
+        <!-- Load More -->
+        <div class="load-more-section" id="load-more-section">
+            <button id="load-more-btn" class="btn btn-secondary">Carica Altri Numeri</button>
+        </div>
+    </div>
+</div>
+
+<!-- Preview Modal -->
+<div id="preview-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="modal-title">Anteprima Numero</h2>
+            <button class="modal-close" id="modal-close">&times;</button>
+        </div>
+        <div class="modal-body" id="modal-body">
+            <!-- Content will be dynamically loaded -->
+        </div>
+    </div>
+</div>
+
+<style>
+.page-header {
+    background: linear-gradient(135deg, #2c5530 0%, #4a7c59 100%);
+    color: white;
+    padding: 60px 0;
+    text-align: center;
+}
+
+.header-content h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.search-section {
+    margin: 3rem 0;
+    background: #f8f9fa;
+    padding: 2rem;
+    border-radius: 12px;
+}
+
+.search-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.search-input-wrapper {
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.search-input {
+    width: 100%;
+    padding: 0.75rem 3rem 0.75rem 1rem;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.search-btn {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #4a7c59;
+    color: white;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.filters {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.filter-select {
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: white;
+}
+
+.archive-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.issue-item {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transition: transform 0.3s;
+}
+
+.issue-item:hover {
+    transform: translateY(-4px);
+}
+
+.issue-cover {
+    position: relative;
+    height: 250px;
+    overflow: hidden;
+}
+
+.issue-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.issue-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(44, 85, 48, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.issue-cover:hover .issue-overlay {
+    opacity: 1;
+}
+
+.preview-btn {
+    background: white;
+    color: #2c5530;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.issue-info {
+    padding: 1.5rem;
+}
+
+.issue-info h3 {
+    color: #2c5530;
+    margin-bottom: 0.5rem;
+}
+
+.issue-date {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.issue-theme {
+    color: #4a7c59;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.issue-description {
+    color: #555;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+}
+
+.issue-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.load-more-section {
+    text-align: center;
+    margin: 2rem 0;
+}
+
+.no-results {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: #666;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+    background-color: white;
+    margin: 5% auto;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    background: #f8f9fa;
+    border-bottom: 1px solid #ddd;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+
+.btn {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.btn-primary {
+    background: #4a7c59;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #2c5530;
+}
+
+.btn-secondary {
+    background: transparent;
+    color: #4a7c59;
+    border: 1px solid #4a7c59;
+}
+
+.btn-secondary:hover {
+    background: #4a7c59;
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .archive-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .filters {
+        flex-direction: column;
+    }
+    
+    .issue-actions {
+        flex-direction: column;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('archive-search');
+    const yearFilter = document.getElementById('year-filter');
+    const themeFilter = document.getElementById('theme-filter');
+    const archiveGrid = document.getElementById('archive-grid');
+    const noResults = document.getElementById('no-results');
+    const loadMoreBtn = document.getElementById('load-more-btn');
+    const modal = document.getElementById('preview-modal');
+    const modalClose = document.getElementById('modal-close');
+
+    // Search and filter functionality
+    function filterIssues() {
+        const searchTerm = searchInput.value.toLowerCase();
+        const selectedYear = yearFilter.value;
+        const selectedTheme = themeFilter.value;
+        const issues = archiveGrid.querySelectorAll('.issue-item');
+        let visibleCount = 0;
+
+        issues.forEach(issue => {
+            const title = issue.querySelector('h3').textContent.toLowerCase();
+            const description = issue.querySelector('.issue-description').textContent.toLowerCase();
+            const theme = issue.querySelector('.issue-theme').textContent.toLowerCase();
+            const year = issue.dataset.year;
+            const themeKey = issue.dataset.theme;
+
+            const matchesSearch = !searchTerm || 
+                title.includes(searchTerm) || 
+                description.includes(searchTerm) || 
+                theme.includes(searchTerm);
+            
+            const matchesYear = !selectedYear || year === selectedYear;
+            const matchesTheme = !selectedTheme || themeKey === selectedTheme;
+
+            if (matchesSearch && matchesYear && matchesTheme) {
+                issue.style.display = 'block';
+                visibleCount++;
+            } else {
+                issue.style.display = 'none';
+            }
+        });
+
+        noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+    }
+
+    // Event listeners
+    searchInput.addEventListener('input', filterIssues);
+    yearFilter.addEventListener('change', filterIssues);
+    themeFilter.addEventListener('change', filterIssues);
+
+    // Preview modal functionality
+    document.querySelectorAll('.preview-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const issueNumber = this.dataset.issue;
+            openPreview(issueNumber);
+        });
+    });
+
+    modalClose.addEventListener('click', () => {
+        modal.style.display = 'none';
+    });
+
+    window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
+
+    function openPreview(issueNumber) {
+        const modalTitle = document.getElementById('modal-title');
+        const modalBody = document.getElementById('modal-body');
+        
+        modalTitle.textContent = `Anteprima Numero ${issueNumber}`;
+        modalBody.innerHTML = `
+            <h3>Bioarchitettura N. ${issueNumber}</h3>
+            <p><strong>Sommario:</strong></p>
+            <ul>
+                <li>Editoriale - Le sfide della bioarchitettura moderna</li>
+                <li>Articolo di copertina - Innovazioni nel settore</li>
+                <li>Case Study - Progetti realizzati</li>
+                <li>Materiali - Approfondimenti tecnici</li>
+                <li>Normative - Aggiornamenti legislativi</li>
+                <li>Ricerca - Studi universitari</li>
+            </ul>
+            <p><strong>Numero di pagine:</strong> 64</p>
+            <p><strong>Formato:</strong> Digitale e cartaceo</p>
+            <div style="margin-top: 1rem;">
+                <a href="/shop/" class="btn btn-primary">Acquista Ora</a>
+            </div>
+        `;
+        
+        modal.style.display = 'block';
+    }
+
+    // Load more functionality (simulation)
+    loadMoreBtn.addEventListener('click', function() {
+        // In a real implementation, this would load more issues via AJAX
+        this.textContent = 'Tutti i numeri caricati';
+        this.disabled = true;
+    });
+});
+
+// Wishlist functionality
+function addToWishlist(issueNumber) {
+    // Get existing wishlist or create new one
+    let wishlist = JSON.parse(localStorage.getItem('bioarchitettura_wishlist') || '[]');
+    
+    if (!wishlist.includes(issueNumber)) {
+        wishlist.push(issueNumber);
+        localStorage.setItem('bioarchitettura_wishlist', JSON.stringify(wishlist));
+        
+        // Show notification if available
+        if (window.bioarchitetturaApp && window.bioarchitetturaApp.notificationManager) {
+            window.bioarchitetturaApp.notificationManager.show(
+                `Numero ${issueNumber} aggiunto alla wishlist`,
+                'success'
+            );
+        } else {
+            alert(`Numero ${issueNumber} aggiunto alla wishlist`);
+        }
+    } else {
+        if (window.bioarchitetturaApp && window.bioarchitetturaApp.notificationManager) {
+            window.bioarchitetturaApp.notificationManager.show(
+                `Numero ${issueNumber} già presente nella wishlist`,
+                'info'
+            );
+        }
+    }
+}
+</script>

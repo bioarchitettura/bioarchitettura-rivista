@@ -1,0 +1,613 @@
+---
+layout: default
+title: "E-books di Bioarchitettura"
+description: "Scopri la nostra collezione di e-books sulla bioarchitettura, costruzione sostenibile e materiali naturali"
+permalink: /shop/ebooks/
+---
+
+<div class="page-header">
+    <div class="container">
+        <div class="header-content">
+            <h1>E-books di Bioarchitettura</h1>
+            <p>Guide complete e manuali specializzati per professionisti e appassionati</p>
+        </div>
+    </div>
+</div>
+
+<div class="main-content">
+    <div class="container">
+        <!-- Filters and Search -->
+        <div class="shop-filters">
+            <div class="filter-row">
+                <div class="search-wrapper">
+                    <input type="text" id="ebook-search" placeholder="Cerca e-books..." class="search-input">
+                    <button class="search-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="filter-controls">
+                    <select id="category-filter" class="filter-select">
+                        <option value="">Tutte le categorie</option>
+                        <option value="materiali">Materiali Naturali</option>
+                        <option value="energia">Efficienza Energetica</option>
+                        <option value="progettazione">Progettazione Sostenibile</option>
+                        <option value="certificazioni">Certificazioni</option>
+                        <option value="case-study">Case Study</option>
+                    </select>
+                    <select id="price-filter" class="filter-select">
+                        <option value="">Tutte le fasce di prezzo</option>
+                        <option value="0-15">€0 - €15</option>
+                        <option value="15-30">€15 - €30</option>
+                        <option value="30-50">€30 - €50</option>
+                        <option value="50+">€50+</option>
+                    </select>
+                    <select id="sort-filter" class="filter-select">
+                        <option value="newest">Più recenti</option>
+                        <option value="price-low">Prezzo crescente</option>
+                        <option value="price-high">Prezzo decrescente</option>
+                        <option value="popular">Più popolari</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="products-grid" id="ebooks-grid">
+            <!-- E-book 1 -->
+            <div class="product-card" data-category="materiali" data-price="29.99">
+                <div class="product-image">
+                    <img src="/37p04f01.jpg" alt="Guida ai Materiali Naturali" loading="lazy">
+                    <div class="product-badge">Bestseller</div>
+                </div>
+                <div class="product-info">
+                    <h3><a href="#" onclick="viewProduct('materiali-naturali')">Guida Completa ai Materiali Naturali</a></h3>
+                    <p class="product-category">Materiali Naturali</p>
+                    <p class="product-description">
+                        Manuale completo sui materiali naturali per la bioarchitettura: 
+                        legno, pietra, terra cruda, fibre vegetali e molto altro.
+                    </p>
+                    <div class="product-details">
+                        <span class="pages">📄 280 pagine</span>
+                        <span class="format">📱 PDF + ePub</span>
+                        <span class="language">🇮🇹 Italiano</span>
+                    </div>
+                    <div class="product-footer">
+                        <div class="price">€29.99</div>
+                        <button class="btn btn-primary" onclick="addToCart('ebook-materiali', '29.99')">
+                            Aggiungi al Carrello
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- E-book 2 -->
+            <div class="product-card" data-category="energia" data-price="24.99">
+                <div class="product-image">
+                    <img src="/35p022f01.jpg" alt="Casa Passiva" loading="lazy">
+                    <div class="product-badge new">Nuovo</div>
+                </div>
+                <div class="product-info">
+                    <h3><a href="#" onclick="viewProduct('casa-passiva')">Casa Passiva: Principi e Pratica</a></h3>
+                    <p class="product-category">Efficienza Energetica</p>
+                    <p class="product-description">
+                        Tutto quello che devi sapere per progettare e costruire 
+                        una casa passiva secondo gli standard più rigorosi.
+                    </p>
+                    <div class="product-details">
+                        <span class="pages">📄 195 pagine</span>
+                        <span class="format">📱 PDF + ePub</span>
+                        <span class="language">🇮🇹 Italiano</span>
+                    </div>
+                    <div class="product-footer">
+                        <div class="price">€24.99</div>
+                        <button class="btn btn-primary" onclick="addToCart('ebook-casa-passiva', '24.99')">
+                            Aggiungi al Carrello
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- E-book 3 -->
+            <div class="product-card" data-category="progettazione" data-price="34.99">
+                <div class="product-image">
+                    <img src="/53n008.jpg" alt="Progettazione Sostenibile" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <h3><a href="#" onclick="viewProduct('progettazione-sostenibile')">Progettazione Sostenibile: Metodi e Strumenti</a></h3>
+                    <p class="product-category">Progettazione Sostenibile</p>
+                    <p class="product-description">
+                        Metodologie avanzate per la progettazione sostenibile, 
+                        dall'analisi del sito alla scelta dei materiali.
+                    </p>
+                    <div class="product-details">
+                        <span class="pages">📄 320 pagine</span>
+                        <span class="format">📱 PDF + ePub</span>
+                        <span class="language">🇮🇹 Italiano</span>
+                    </div>
+                    <div class="product-footer">
+                        <div class="price">€34.99</div>
+                        <button class="btn btn-primary" onclick="addToCart('ebook-progettazione', '34.99')">
+                            Aggiungi al Carrello
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- E-book 4 -->
+            <div class="product-card" data-category="certificazioni" data-price="19.99">
+                <div class="product-image">
+                    <img src="/36p040f01.jpg" alt="Certificazioni Energetiche" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <h3><a href="#" onclick="viewProduct('certificazioni')">Certificazioni Energetiche: Guida Pratica</a></h3>
+                    <p class="product-category">Certificazioni</p>
+                    <p class="product-description">
+                        Guida completa alle certificazioni energetiche: 
+                        LEED, BREEAM, Passivhaus e standard italiani.
+                    </p>
+                    <div class="product-details">
+                        <span class="pages">📄 150 pagine</span>
+                        <span class="format">📱 PDF + ePub</span>
+                        <span class="language">🇮🇹 Italiano</span>
+                    </div>
+                    <div class="product-footer">
+                        <div class="price">€19.99</div>
+                        <button class="btn btn-primary" onclick="addToCart('ebook-certificazioni', '19.99')">
+                            Aggiungi al Carrello
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- E-book 5 -->
+            <div class="product-card" data-category="case-study" data-price="39.99">
+                <div class="product-image">
+                    <img src="/48-49_n002.jpg" alt="Case Study Bioarchitettura" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <h3><a href="#" onclick="viewProduct('case-study')">Case Study di Bioarchitettura Europea</a></h3>
+                    <p class="product-category">Case Study</p>
+                    <p class="product-description">
+                        Analisi dettagliate di 25 progetti di bioarchitettura 
+                        realizzati in Europa con foto, planimetrie e dati tecnici.
+                    </p>
+                    <div class="product-details">
+                        <span class="pages">📄 400 pagine</span>
+                        <span class="format">📱 PDF + ePub</span>
+                        <span class="language">🇮🇹 Italiano</span>
+                    </div>
+                    <div class="product-footer">
+                        <div class="price">€39.99</div>
+                        <button class="btn btn-primary" onclick="addToCart('ebook-case-study', '39.99')">
+                            Aggiungi al Carrello
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- E-book 6 -->
+            <div class="product-card" data-category="materiali" data-price="22.99">
+                <div class="product-image">
+                    <img src="/bio_47_n019.jpg" alt="Terra Cruda" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <h3><a href="#" onclick="viewProduct('terra-cruda')">Costruire con la Terra Cruda</a></h3>
+                    <p class="product-category">Materiali Naturali</p>
+                    <p class="product-description">
+                        Tecniche tradizionali e moderne per la costruzione 
+                        con terra cruda: adobe, pisé, torchis.
+                    </p>
+                    <div class="product-details">
+                        <span class="pages">📄 220 pagine</span>
+                        <span class="format">📱 PDF + ePub</span>
+                        <span class="language">🇮🇹 Italiano</span>
+                    </div>
+                    <div class="product-footer">
+                        <div class="price">€22.99</div>
+                        <button class="btn btn-primary" onclick="addToCart('ebook-terra-cruda', '22.99')">
+                            Aggiungi al Carrello
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- No Results -->
+        <div id="no-results" class="no-results" style="display: none;">
+            <h3>Nessun e-book trovato</h3>
+            <p>Prova a modificare i filtri o la ricerca.</p>
+        </div>
+
+        <!-- Featured Collections -->
+        <section class="featured-collections">
+            <h2>Collezioni in Evidenza</h2>
+            <div class="collections-grid">
+                <div class="collection-card">
+                    <h3>Collezione Materiali</h3>
+                    <p>5 e-books sui materiali naturali</p>
+                    <div class="collection-price">
+                        <span class="original-price">€149.95</span>
+                        <span class="sale-price">€99.99</span>
+                    </div>
+                    <button class="btn btn-primary">Acquista Collezione</button>
+                </div>
+                <div class="collection-card">
+                    <h3>Collezione Professionale</h3>
+                    <p>Tutti gli e-books + aggiornamenti</p>
+                    <div class="collection-price">
+                        <span class="original-price">€199.95</span>
+                        <span class="sale-price">€149.99</span>
+                    </div>
+                    <button class="btn btn-primary">Acquista Collezione</button>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<style>
+.page-header {
+    background: linear-gradient(135deg, #2c5530 0%, #4a7c59 100%);
+    color: white;
+    padding: 60px 0;
+    text-align: center;
+}
+
+.shop-filters {
+    background: #f8f9fa;
+    padding: 2rem;
+    border-radius: 12px;
+    margin: 2rem 0;
+}
+
+.filter-row {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.search-wrapper {
+    position: relative;
+    flex: 1;
+    min-width: 250px;
+}
+
+.search-input {
+    width: 100%;
+    padding: 0.75rem 3rem 0.75rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.search-btn {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #4a7c59;
+    color: white;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.filter-controls {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.filter-select {
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: white;
+    min-width: 150px;
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.product-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transition: transform 0.3s;
+}
+
+.product-card:hover {
+    transform: translateY(-4px);
+}
+
+.product-image {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.product-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: white;
+}
+
+.product-badge:not(.new) {
+    background: #e74c3c;
+}
+
+.product-badge.new {
+    background: #27ae60;
+}
+
+.product-info {
+    padding: 1.5rem;
+}
+
+.product-info h3 {
+    margin-bottom: 0.5rem;
+    color: #2c5530;
+}
+
+.product-info h3 a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.product-category {
+    color: #4a7c59;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+
+.product-description {
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+.product-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.product-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #4a7c59;
+}
+
+.featured-collections {
+    margin: 4rem 0;
+}
+
+.collections-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.collection-card {
+    background: #f8f9fa;
+    padding: 2rem;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.collection-price {
+    margin: 1rem 0;
+}
+
+.original-price {
+    text-decoration: line-through;
+    color: #999;
+    margin-right: 0.5rem;
+}
+
+.sale-price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #e74c3c;
+}
+
+.no-results {
+    text-align: center;
+    padding: 3rem;
+    color: #666;
+}
+
+.btn {
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.btn-primary {
+    background: #4a7c59;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #2c5530;
+}
+
+@media (max-width: 768px) {
+    .filter-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .filter-controls {
+        justify-content: center;
+    }
+    
+    .products-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .product-details {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .product-footer {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('ebook-search');
+    const categoryFilter = document.getElementById('category-filter');
+    const priceFilter = document.getElementById('price-filter');
+    const sortFilter = document.getElementById('sort-filter');
+    const productsGrid = document.getElementById('ebooks-grid');
+    const noResults = document.getElementById('no-results');
+
+    function filterProducts() {
+        const searchTerm = searchInput.value.toLowerCase();
+        const selectedCategory = categoryFilter.value;
+        const selectedPriceRange = priceFilter.value;
+        const sortBy = sortFilter.value;
+        
+        const products = Array.from(productsGrid.querySelectorAll('.product-card'));
+        let visibleProducts = [];
+
+        products.forEach(product => {
+            const title = product.querySelector('h3').textContent.toLowerCase();
+            const description = product.querySelector('.product-description').textContent.toLowerCase();
+            const category = product.dataset.category;
+            const price = parseFloat(product.dataset.price);
+
+            // Search filter
+            const matchesSearch = !searchTerm || 
+                title.includes(searchTerm) || 
+                description.includes(searchTerm);
+
+            // Category filter
+            const matchesCategory = !selectedCategory || category === selectedCategory;
+
+            // Price filter
+            let matchesPrice = true;
+            if (selectedPriceRange) {
+                if (selectedPriceRange === '0-15') {
+                    matchesPrice = price <= 15;
+                } else if (selectedPriceRange === '15-30') {
+                    matchesPrice = price > 15 && price <= 30;
+                } else if (selectedPriceRange === '30-50') {
+                    matchesPrice = price > 30 && price <= 50;
+                } else if (selectedPriceRange === '50+') {
+                    matchesPrice = price > 50;
+                }
+            }
+
+            if (matchesSearch && matchesCategory && matchesPrice) {
+                product.style.display = 'block';
+                visibleProducts.push(product);
+            } else {
+                product.style.display = 'none';
+            }
+        });
+
+        // Sort products
+        if (visibleProducts.length > 0) {
+            sortProducts(visibleProducts, sortBy);
+        }
+
+        // Show/hide no results message
+        noResults.style.display = visibleProducts.length === 0 ? 'block' : 'none';
+    }
+
+    function sortProducts(products, sortBy) {
+        products.sort((a, b) => {
+            const priceA = parseFloat(a.dataset.price);
+            const priceB = parseFloat(b.dataset.price);
+
+            switch (sortBy) {
+                case 'price-low':
+                    return priceA - priceB;
+                case 'price-high':
+                    return priceB - priceA;
+                case 'popular':
+                    // Simulate popularity (in real app, this would be based on sales data)
+                    return Math.random() - 0.5;
+                case 'newest':
+                default:
+                    return 0; // Keep original order for newest
+            }
+        });
+
+        // Reorder DOM elements
+        products.forEach(product => {
+            productsGrid.appendChild(product);
+        });
+    }
+
+    // Event listeners
+    searchInput.addEventListener('input', filterProducts);
+    categoryFilter.addEventListener('change', filterProducts);
+    priceFilter.addEventListener('change', filterProducts);
+    sortFilter.addEventListener('change', filterProducts);
+});
+
+function viewProduct(productId) {
+    // In a real application, this would navigate to the product detail page
+    alert(`Vista dettagliata del prodotto: ${productId}`);
+}
+
+function addToCart(productId, price) {
+    // Use the existing cart functionality from main.js
+    if (window.bioarchitetturaApp && window.bioarchitetturaApp.notificationManager) {
+        window.bioarchitetturaApp.notificationManager.show(
+            'E-book aggiunto al carrello!',
+            'success'
+        );
+    } else {
+        alert('E-book aggiunto al carrello!');
+    }
+
+    // Simulate adding to cart (in real app, this would use the shop.js cart system)
+    console.log(`Added to cart: ${productId} - €${price}`);
+}
+</script>
