@@ -32,7 +32,6 @@ permissions:
   repository-projects: write # Manage repository projects
   security-events: write  # Write security events (CodeQL, etc.)
   statuses: write         # Create commit statuses
-  metadata: read          # Read repository metadata
 ```
 
 ## Workflow-Specific Configurations
