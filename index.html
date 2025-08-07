@@ -21,6 +21,30 @@ title: "Home"
     </div>
 </section>
 
+<!-- Featured Slideshow Section -->
+<section class="featured-slideshow-section">
+    <div class="container">
+        <div class="section-header text-center">
+            <h2 data-translate="home.featured_projects">Progetti in Evidenza</h2>
+            <p data-translate="home.featured_projects_desc">Scopri i migliori esempi di bioarchitettura e architettura sostenibile</p>
+        </div>
+        
+        <div class="bioarchitettura-slideshow" 
+             data-autoplay="true" 
+             data-interval="6000" 
+             data-controls="true" 
+             data-indicators="true" 
+             data-playpause="true" 
+             data-loop="true" 
+             data-keyboard="true" 
+             data-touch="true" 
+             data-lazy="true" 
+             data-pauseonhover="true">
+            <!-- Slideshow will be initialized by JavaScript -->
+        </div>
+    </div>
+</section>
+
 <!-- Featured Articles Section -->
 <section class="featured-articles">
     <div class="container">
@@ -289,6 +313,21 @@ title: "Home"
 /* Featured Articles */
 .featured-articles {
     padding: var(--space-20) 0;
+}
+
+/* Featured Slideshow Section */
+.featured-slideshow-section {
+    padding: var(--space-20) 0;
+    background-color: var(--gray-50);
+}
+
+.featured-slideshow-section .section-header {
+    margin-bottom: var(--space-12);
+}
+
+.featured-slideshow-section .bioarchitettura-slideshow {
+    max-width: 1000px;
+    margin: 0 auto;
 }
 
 .articles-grid {

@@ -1,0 +1,420 @@
+/* ==========================================================================
+   Bioarchitettura Slideshow Component
+   Responsive, accessible slideshow with smooth transitions
+   ========================================================================== */
+
+.bioarchitettura-slideshow {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xl);
+  background-color: var(--gray-900);
+}
+
+/* Slideshow Container */
+.slideshow-container {
+  position: relative;
+  width: 100%;
+  height: 500px;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .slideshow-container {
+    height: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  .slideshow-container {
+    height: 250px;
+  }
+}
+
+/* Slides */
+.slideshow-slides {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform var(--transition-slow) cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.slideshow-slide {
+  min-width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Image styling */
+.slideshow-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-slow);
+}
+
+/* Hover effect for images */
+.bioarchitettura-slideshow:hover .slideshow-slide img {
+  transform: scale(1.02);
+}
+
+/* Slide overlay for better text readability */
+.slideshow-slide::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    45deg,
+    rgba(44, 85, 48, 0.3) 0%,
+    rgba(44, 85, 48, 0.1) 50%,
+    rgba(0, 0, 0, 0.4) 100%
+  );
+  z-index: 1;
+}
+
+/* Caption styling */
+.slideshow-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.8) 0%,
+    rgba(0, 0, 0, 0.4) 70%,
+    transparent 100%
+  );
+  color: var(--white);
+  padding: var(--space-8) var(--space-6) var(--space-6);
+  z-index: 2;
+  transform: translateY(0);
+  transition: all var(--transition-normal);
+}
+
+.slideshow-caption h3 {
+  font-family: var(--font-heading);
+  font-size: clamp(1.25rem, 4vw, 2rem);
+  font-weight: 600;
+  margin-bottom: var(--space-2);
+  line-height: 1.2;
+  color: var(--white);
+}
+
+.slideshow-caption p {
+  font-size: clamp(0.875rem, 2.5vw, 1.125rem);
+  line-height: 1.4;
+  opacity: 0.9;
+  margin: 0;
+  max-width: 600px;
+}
+
+/* Navigation Controls */
+.slideshow-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: var(--radius-full);
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  z-index: 3;
+  color: var(--primary-color);
+  font-size: 20px;
+  font-weight: bold;
+  opacity: 0.8;
+}
+
+.slideshow-nav:hover {
+  background-color: var(--white);
+  opacity: 1;
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: var(--shadow-lg);
+}
+
+.slideshow-nav:focus {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
+}
+
+.slideshow-nav.prev {
+  left: var(--space-4);
+}
+
+.slideshow-nav.next {
+  right: var(--space-4);
+}
+
+@media (max-width: 768px) {
+  .slideshow-nav {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+  
+  .slideshow-nav.prev {
+    left: var(--space-2);
+  }
+  
+  .slideshow-nav.next {
+    right: var(--space-2);
+  }
+}
+
+/* Navigation arrows */
+.slideshow-nav::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  display: inline-block;
+}
+
+.slideshow-nav.prev::before {
+  transform: rotate(135deg);
+  margin-left: 3px;
+}
+
+.slideshow-nav.next::before {
+  transform: rotate(-45deg);
+  margin-right: 3px;
+}
+
+/* Slide Indicators */
+.slideshow-indicators {
+  position: absolute;
+  bottom: var(--space-4);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: var(--space-2);
+  z-index: 3;
+}
+
+.slideshow-indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: var(--radius-full);
+  background-color: rgba(255, 255, 255, 0.5);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.slideshow-indicator:hover {
+  background-color: rgba(255, 255, 255, 0.8);
+  transform: scale(1.2);
+}
+
+.slideshow-indicator.active {
+  background-color: var(--accent-color);
+  box-shadow: 0 0 0 2px rgba(244, 162, 97, 0.3);
+}
+
+.slideshow-indicator:focus {
+  outline: 2px solid var(--white);
+  outline-offset: 2px;
+}
+
+/* Auto-play controls */
+.slideshow-play-pause {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+  background-color: rgba(0, 0, 0, 0.7);
+  border: none;
+  border-radius: var(--radius);
+  color: var(--white);
+  padding: var(--space-2);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  z-index: 3;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slideshow-play-pause:hover {
+  background-color: rgba(0, 0, 0, 0.9);
+  transform: scale(1.1);
+}
+
+.slideshow-play-pause:focus {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
+}
+
+/* Progress bar for auto-play */
+.slideshow-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background-color: var(--accent-color);
+  transition: width linear;
+  z-index: 3;
+}
+
+/* Loading state */
+.slideshow-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--white);
+  z-index: 4;
+}
+
+.slideshow-loading::after {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top: 3px solid var(--white);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: var(--space-2) auto 0;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Accessibility enhancements */
+@media (prefers-reduced-motion: reduce) {
+  .slideshow-slides {
+    transition: none;
+  }
+  
+  .slideshow-slide img {
+    transition: none;
+  }
+  
+  .slideshow-caption {
+    transition: none;
+  }
+  
+  .slideshow-nav {
+    transition: none;
+  }
+  
+  .slideshow-indicator {
+    transition: none;
+  }
+  
+  .slideshow-play-pause {
+    transition: none;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(0deg); }
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .slideshow-nav {
+    background-color: var(--white);
+    border: 2px solid var(--gray-900);
+  }
+  
+  .slideshow-indicator {
+    border: 2px solid var(--white);
+  }
+  
+  .slideshow-indicator.active {
+    background-color: var(--white);
+    border-color: var(--gray-900);
+  }
+}
+
+/* Touch/swipe visual feedback */
+.slideshow-container.swiping .slideshow-slides {
+  transition: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .slideshow-caption {
+    padding: var(--space-4) var(--space-4) var(--space-3);
+  }
+  
+  .slideshow-caption h3 {
+    font-size: 1.125rem;
+    margin-bottom: var(--space-1);
+  }
+  
+  .slideshow-caption p {
+    font-size: 0.875rem;
+  }
+  
+  .slideshow-indicators {
+    bottom: var(--space-2);
+  }
+  
+  .slideshow-indicator {
+    width: 10px;
+    height: 10px;
+  }
+  
+  .slideshow-play-pause {
+    top: var(--space-2);
+    right: var(--space-2);
+    width: 35px;
+    height: 35px;
+  }
+}
+
+/* Enhanced focus styles for better accessibility */
+.slideshow-slide:focus-within .slideshow-caption {
+  outline: 2px solid var(--accent-color);
+  outline-offset: -2px;
+}
+
+/* Print styles */
+@media print {
+  .bioarchitettura-slideshow {
+    position: static;
+    box-shadow: none;
+  }
+  
+  .slideshow-nav,
+  .slideshow-indicators,
+  .slideshow-play-pause,
+  .slideshow-progress {
+    display: none;
+  }
+  
+  .slideshow-slides {
+    display: block;
+  }
+  
+  .slideshow-slide {
+    min-width: 100%;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}

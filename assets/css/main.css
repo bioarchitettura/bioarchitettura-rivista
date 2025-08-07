@@ -99,6 +99,7 @@
   --transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
 }
+}
 
 /* ==========================================================================
    Reset & Base Styles
@@ -1988,4 +1989,10 @@ li {
   .newsletter-form {
     flex-direction: column;
   }
+}
+
+/* ==========================================================================
+   Import Slideshow Component Styles
+   ========================================================================== */
+@import url('./slideshow.css');
 }
