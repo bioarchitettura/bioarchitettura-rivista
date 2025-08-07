@@ -1,0 +1,543 @@
+<!-- AI-Powered Article Recommender -->
+<section class="article-recommender" id="article-recommender">
+    <div class="container">
+        <div class="section-header">
+            <h3 data-translate="recommender.title">Articoli Consigliati per Te</h3>
+            <p class="section-subtitle" data-translate="recommender.subtitle">
+                Basato sui tuoi interessi e intelligenza artificiale
+            </p>
+        </div>
+        
+        <div class="recommender-controls">
+            <div class="category-filters" id="category-filters">
+                <button class="filter-btn active" data-category="all" data-translate="recommender.all">
+                    Tutti
+                </button>
+                {% for category in site.blog_categories %}
+                <button class="filter-btn" data-category="{{ category }}">
+                    {{ category | replace: '-', ' ' | capitalize }}
+                </button>
+                {% endfor %}
+            </div>
+            
+            <div class="sort-controls">
+                <select id="sort-recommendations" class="sort-select">
+                    <option value="relevance" data-translate="recommender.sort_relevance">Rilevanza</option>
+                    <option value="date" data-translate="recommender.sort_date">Data</option>
+                    <option value="popularity" data-translate="recommender.sort_popularity">Popolarità</option>
+                    <option value="reading_time" data-translate="recommender.sort_reading_time">Tempo di Lettura</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="recommendations-container">
+            <!-- AI-powered recommendations will be loaded here -->
+            <div class="recommendations-loading" id="recommendations-loading">
+                <div class="loading-spinner"></div>
+                <p data-translate="recommender.loading">Caricamento raccomandazioni AI...</p>
+            </div>
+            
+            <div class="recommendations-grid" id="recommendations-grid">
+                <!-- Dynamic content populated by JavaScript -->
+            </div>
+            
+            <!-- Fallback recommendations for when AI is unavailable -->
+            <div class="fallback-recommendations" id="fallback-recommendations" style="display: none;">
+                <h4 data-translate="recommender.fallback_title">Articoli Popolari</h4>
+                <div class="fallback-grid">
+                    {% assign featured_posts = site.posts | where: 'featured', true | limit: 3 %}
+                    {% for post in featured_posts %}
+                    <article class="recommendation-card fallback-card">
+                        <div class="card-image">
+                            {% if post.image %}
+                            <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" loading="lazy">
+                            {% else %}
+                            <div class="placeholder-image">
+                                <svg width="100%" height="200" viewBox="0 0 400 200">
+                                    <rect width="100%" height="100%" fill="#f0f0f0"/>
+                                    <text x="50%" y="50%" text-anchor="middle" fill="#999">{{ post.category }}</text>
+                                </svg>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="card-content">
+                            <div class="card-meta">
+                                <span class="category">{{ post.category }}</span>
+                                <span class="reading-time">{{ post.reading_time | default: 5 }} min</span>
+                            </div>
+                            <h4><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h4>
+                            <p class="excerpt">{{ post.excerpt | strip_html | truncate: 120 }}</p>
+                            <div class="card-tags">
+                                {% for tag in post.tags limit: 3 %}
+                                <span class="tag">{{ tag }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </article>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Recommendation Analytics (for AI training) -->
+        <div class="recommendation-feedback" id="recommendation-feedback" style="display: none;">
+            <div class="feedback-prompt">
+                <p data-translate="recommender.feedback_prompt">Quanto sono utili questi suggerimenti?</p>
+                <div class="feedback-buttons">
+                    <button class="feedback-btn" data-rating="1">😞</button>
+                    <button class="feedback-btn" data-rating="2">😐</button>
+                    <button class="feedback-btn" data-rating="3">😊</button>
+                    <button class="feedback-btn" data-rating="4">😍</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+/**
+ * AI-Powered Article Recommender System
+ * Uses machine learning algorithms and fallback strategies
+ */
+class ArticleRecommender {
+    constructor() {
+        this.recommendations = [];
+        this.userPreferences = this.loadUserPreferences();
+        this.readingHistory = this.loadReadingHistory();
+        this.categoryWeights = this.initializeCategoryWeights();
+        this.tagFrequency = {};
+        this.fallbackEnabled = {{ site.recommendation_fallback | default: true }};
+        this.maxRecommendations = {{ site.max_related_articles | default: 3 }};
+        this.apiEndpoint = '{{ site.api_base_url | default: "" }}/recommendations';
+        
+        this.init();
+    }
+    
+    init() {
+        this.setupEventListeners();
+        this.analyzeCurrentPage();
+        this.loadRecommendations();
+    }
+    
+    setupEventListeners() {
+        // Category filter buttons
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                this.filterByCategory(e.target.dataset.category);
+                this.updateActiveFilter(e.target);
+            });
+        });
+        
+        // Sort dropdown
+        const sortSelect = document.getElementById('sort-recommendations');
+        if (sortSelect) {
+            sortSelect.addEventListener('change', (e) => {
+                this.sortRecommendations(e.target.value);
+            });
+        }
+        
+        // Feedback buttons
+        document.querySelectorAll('.feedback-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                this.submitFeedback(e.target.dataset.rating);
+            });
+        });
+        
+        // Track article clicks for ML training
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.recommendation-card a')) {
+                this.trackRecommendationClick(e.target.closest('.recommendation-card'));
+            }
+        });
+    }
+    
+    analyzeCurrentPage() {
+        // Extract context from current page
+        const pageContext = {
+            title: document.title,
+            category: document.querySelector('meta[name="category"]')?.content,
+            tags: document.querySelector('meta[name="keywords"]')?.content?.split(','),
+            content: document.querySelector('article')?.textContent,
+            timestamp: Date.now()
+        };
+        
+        this.updateUserPreferences(pageContext);
+        this.addToReadingHistory(pageContext);
+    }
+    
+    async loadRecommendations() {
+        const loadingEl = document.getElementById('recommendations-loading');
+        const gridEl = document.getElementById('recommendations-grid');
+        const fallbackEl = document.getElementById('fallback-recommendations');
+        
+        try {
+            // Show loading state
+            if (loadingEl) loadingEl.style.display = 'block';
+            
+            // Try AI-powered recommendations first
+            const recommendations = await this.fetchAIRecommendations();
+            
+            if (recommendations && recommendations.length > 0) {
+                this.displayRecommendations(recommendations);
+                this.showFeedbackPrompt();
+            } else {
+                throw new Error('No AI recommendations available');
+            }
+            
+        } catch (error) {
+            console.warn('AI recommendations failed, using fallback:', error);
+            
+            // Use rule-based fallback system
+            const fallbackRecommendations = this.generateFallbackRecommendations();
+            
+            if (fallbackRecommendations.length > 0) {
+                this.displayRecommendations(fallbackRecommendations);
+            } else if (fallbackEl) {
+                // Show static fallback
+                fallbackEl.style.display = 'block';
+            }
+        } finally {
+            if (loadingEl) loadingEl.style.display = 'none';
+        }
+    }
+    
+    async fetchAIRecommendations() {
+        const payload = {
+            userPreferences: this.userPreferences,
+            readingHistory: this.readingHistory,
+            currentContext: this.getCurrentContext(),
+            maxResults: this.maxRecommendations
+        };
+        
+        const response = await fetch(this.apiEndpoint, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: JSON.stringify(payload)
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        
+        const data = await response.json();
+        return data.recommendations || [];
+    }
+    
+    generateFallbackRecommendations() {
+        // Rule-based recommendation system
+        const allPosts = this.getAllPosts();
+        const scoredPosts = allPosts.map(post => ({
+            ...post,
+            score: this.calculateRecommendationScore(post)
+        }));
+        
+        // Sort by score and return top results
+        return scoredPosts
+            .sort((a, b) => b.score - a.score)
+            .slice(0, this.maxRecommendations);
+    }
+    
+    calculateRecommendationScore(post) {
+        let score = 0;
+        
+        // Category preference scoring
+        const categoryWeight = this.categoryWeights[post.category] || 0;
+        score += categoryWeight * 10;
+        
+        // Tag relevance scoring
+        if (post.tags) {
+            post.tags.forEach(tag => {
+                const tagWeight = this.userPreferences.tags[tag] || 0;
+                score += tagWeight * 5;
+            });
+        }
+        
+        // Recency scoring (newer posts get slight boost)
+        const daysSincePublished = (Date.now() - new Date(post.date)) / (1000 * 60 * 60 * 24);
+        score += Math.max(0, 30 - daysSincePublished) * 0.1;
+        
+        // Reading time preference
+        const preferredReadingTime = this.userPreferences.averageReadingTime || 10;
+        const readingTimeDiff = Math.abs(post.reading_time - preferredReadingTime);
+        score += Math.max(0, 10 - readingTimeDiff) * 0.5;
+        
+        // Featured posts get boost
+        if (post.featured) {
+            score += 5;
+        }
+        
+        return score;
+    }
+    
+    displayRecommendations(recommendations) {
+        const gridEl = document.getElementById('recommendations-grid');
+        if (!gridEl) return;
+        
+        gridEl.innerHTML = recommendations.map(rec => this.createRecommendationCard(rec)).join('');
+        this.recommendations = recommendations;
+    }
+    
+    createRecommendationCard(recommendation) {
+        const {
+            title,
+            url,
+            excerpt,
+            category,
+            tags = [],
+            image,
+            reading_time,
+            score,
+            confidence
+        } = recommendation;
+        
+        const tagsHtml = tags.slice(0, 3).map(tag => 
+            `<span class="tag">${tag}</span>`
+        ).join('');
+        
+        const imageHtml = image ? 
+            `<img src="${image}" alt="${title}" loading="lazy">` :
+            `<div class="placeholder-image">
+                <svg width="100%" height="200" viewBox="0 0 400 200">
+                    <rect width="100%" height="100%" fill="#f0f0f0"/>
+                    <text x="50%" y="50%" text-anchor="middle" fill="#999">${category}</text>
+                </svg>
+            </div>`;
+        
+        return `
+            <article class="recommendation-card" data-score="${score}" data-confidence="${confidence}">
+                <div class="card-image">${imageHtml}</div>
+                <div class="card-content">
+                    <div class="card-meta">
+                        <span class="category">${category}</span>
+                        <span class="reading-time">${reading_time || 5} min</span>
+                        ${confidence ? `<span class="ai-confidence" title="AI Confidence: ${Math.round(confidence * 100)}%">🤖</span>` : ''}
+                    </div>
+                    <h4><a href="${url}">${title}</a></h4>
+                    <p class="excerpt">${excerpt}</p>
+                    <div class="card-tags">${tagsHtml}</div>
+                </div>
+            </article>
+        `;
+    }
+    
+    filterByCategory(category) {
+        const cards = document.querySelectorAll('.recommendation-card');
+        
+        cards.forEach(card => {
+            const cardCategory = card.querySelector('.category').textContent.toLowerCase();
+            const shouldShow = category === 'all' || 
+                              cardCategory.includes(category.replace('-', ' '));
+            
+            card.style.display = shouldShow ? 'block' : 'none';
+        });
+    }
+    
+    updateActiveFilter(activeBtn) {
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        activeBtn.classList.add('active');
+    }
+    
+    sortRecommendations(sortBy) {
+        const grid = document.getElementById('recommendations-grid');
+        const cards = Array.from(grid.querySelectorAll('.recommendation-card'));
+        
+        cards.sort((a, b) => {
+            switch (sortBy) {
+                case 'relevance':
+                    return parseFloat(b.dataset.score) - parseFloat(a.dataset.score);
+                case 'date':
+                    // Assumes newer posts appear first in DOM
+                    return 0;
+                case 'reading_time':
+                    const timeA = parseInt(a.querySelector('.reading-time').textContent);
+                    const timeB = parseInt(b.querySelector('.reading-time').textContent);
+                    return timeA - timeB;
+                default:
+                    return 0;
+            }
+        });
+        
+        cards.forEach(card => grid.appendChild(card));
+    }
+    
+    showFeedbackPrompt() {
+        setTimeout(() => {
+            const feedbackEl = document.getElementById('recommendation-feedback');
+            if (feedbackEl) {
+                feedbackEl.style.display = 'block';
+            }
+        }, 5000); // Show after 5 seconds
+    }
+    
+    submitFeedback(rating) {
+        const feedbackData = {
+            rating: parseInt(rating),
+            recommendations: this.recommendations.map(r => r.url),
+            userPreferences: this.userPreferences,
+            timestamp: Date.now()
+        };
+        
+        // Send to analytics endpoint
+        fetch('/api/feedback', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(feedbackData)
+        }).catch(console.warn);
+        
+        // Hide feedback prompt
+        const feedbackEl = document.getElementById('recommendation-feedback');
+        if (feedbackEl) {
+            feedbackEl.style.display = 'none';
+        }
+        
+        // Show thank you message
+        this.showNotification('Grazie per il feedback! 🙏');
+    }
+    
+    trackRecommendationClick(card) {
+        const url = card.querySelector('a').href;
+        const score = card.dataset.score;
+        const confidence = card.dataset.confidence;
+        
+        const clickData = {
+            url,
+            score: parseFloat(score),
+            confidence: parseFloat(confidence),
+            position: Array.from(card.parentNode.children).indexOf(card),
+            timestamp: Date.now()
+        };
+        
+        // Store for ML training
+        this.storeClickData(clickData);
+        
+        // Update user preferences based on click
+        this.learnFromClick(clickData);
+    }
+    
+    // Utility methods
+    loadUserPreferences() {
+        const stored = localStorage.getItem('bioarchitettura_preferences');
+        return stored ? JSON.parse(stored) : {
+            categories: {},
+            tags: {},
+            averageReadingTime: 10,
+            lastUpdated: Date.now()
+        };
+    }
+    
+    loadReadingHistory() {
+        const stored = localStorage.getItem('bioarchitettura_history');
+        return stored ? JSON.parse(stored) : [];
+    }
+    
+    initializeCategoryWeights() {
+        const categories = {{ site.blog_categories | jsonify }};
+        const weights = {};
+        categories.forEach(cat => {
+            weights[cat] = this.userPreferences.categories[cat] || 0;
+        });
+        return weights;
+    }
+    
+    getCurrentContext() {
+        return {
+            url: window.location.pathname,
+            title: document.title,
+            category: document.querySelector('meta[name="category"]')?.content,
+            tags: document.querySelector('meta[name="keywords"]')?.content?.split(','),
+            timestamp: Date.now()
+        };
+    }
+    
+    getAllPosts() {
+        // This would typically come from Jekyll data or API
+        // For now, return empty array - will be populated by Jekyll liquid
+        return [
+            {% for post in site.posts %}
+            {
+                title: {{ post.title | jsonify }},
+                url: {{ post.url | jsonify }},
+                excerpt: {{ post.excerpt | strip_html | truncate: 120 | jsonify }},
+                category: {{ post.category | jsonify }},
+                tags: {{ post.tags | jsonify }},
+                image: {{ post.image | jsonify }},
+                reading_time: {{ post.reading_time | default: 5 }},
+                date: {{ post.date | jsonify }},
+                featured: {{ post.featured | default: false }}
+            }{% unless forloop.last %},{% endunless %}
+            {% endfor %}
+        ];
+    }
+    
+    updateUserPreferences(context) {
+        if (context.category) {
+            this.userPreferences.categories[context.category] = 
+                (this.userPreferences.categories[context.category] || 0) + 1;
+        }
+        
+        if (context.tags) {
+            context.tags.forEach(tag => {
+                tag = tag.trim();
+                this.userPreferences.tags[tag] = 
+                    (this.userPreferences.tags[tag] || 0) + 1;
+            });
+        }
+        
+        this.saveUserPreferences();
+    }
+    
+    addToReadingHistory(context) {
+        this.readingHistory.unshift(context);
+        this.readingHistory = this.readingHistory.slice(0, 50); // Keep last 50
+        localStorage.setItem('bioarchitettura_history', JSON.stringify(this.readingHistory));
+    }
+    
+    saveUserPreferences() {
+        this.userPreferences.lastUpdated = Date.now();
+        localStorage.setItem('bioarchitettura_preferences', JSON.stringify(this.userPreferences));
+    }
+    
+    storeClickData(data) {
+        const clicks = JSON.parse(localStorage.getItem('bioarchitettura_clicks') || '[]');
+        clicks.unshift(data);
+        localStorage.setItem('bioarchitettura_clicks', JSON.stringify(clicks.slice(0, 100)));
+    }
+    
+    learnFromClick(clickData) {
+        // Simple learning: increase weight of clicked article's category and tags
+        const article = this.recommendations.find(r => r.url === clickData.url);
+        if (article) {
+            this.categoryWeights[article.category] = 
+                (this.categoryWeights[article.category] || 0) + 0.1;
+            
+            if (article.tags) {
+                article.tags.forEach(tag => {
+                    this.userPreferences.tags[tag] = 
+                        (this.userPreferences.tags[tag] || 0) + 0.1;
+                });
+            }
+            
+            this.saveUserPreferences();
+        }
+    }
+    
+    showNotification(message) {
+        // Reuse notification system from main.js
+        if (window.NotificationManager) {
+            window.NotificationManager.show(message, 'success');
+        }
+    }
+}
+
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById('article-recommender')) {
+        window.articleRecommender = new ArticleRecommender();
+    }
+});
+</script>

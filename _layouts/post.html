@@ -55,22 +55,13 @@ layout: default
         </div>
         {% endif %}
 
+        <!-- AI-Powered Auto-Summary -->
+        {% if page.auto_summary %}
+        {% include auto-summary.html %}
+        {% endif %}
+
         <!-- Article Content -->
         <div class="post-content">
-            {% if page.auto_summary != false %}
-            <!-- AI Generated Summary -->
-            <div class="post-summary" id="post-summary">
-                <h3 data-translate="post.summary">Riassunto</h3>
-                <div class="summary-content" id="summary-content">
-                    <div class="summary-loading">
-                        <div class="loading-spinner"></div>
-                        <span data-translate="post.generating_summary">Generando riassunto...</span>
-                    </div>
-                </div>
-                <button class="summary-toggle" id="summary-toggle" data-translate="post.hide_summary">Nascondi riassunto</button>
-            </div>
-            {% endif %}
-
             <!-- Main Content -->
             <div class="content-body">
                 {{ content }}
@@ -117,6 +108,9 @@ layout: default
             </div>
         </div>
     </div>
+
+    <!-- AI-Powered Article Recommender -->
+    {% include article-recommender.html %}
 
     <!-- Related Articles -->
     <aside class="related-articles">

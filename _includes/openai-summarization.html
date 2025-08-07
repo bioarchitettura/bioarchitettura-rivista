@@ -1,0 +1,902 @@
+<!-- OpenAI GPT-based Summarization Component -->
+<div class="openai-summarization" id="openai-summarization">
+    <div class="openai-config">
+        <div class="api-status" id="api-status">
+            <span class="status-indicator" id="status-indicator">🔴</span>
+            <span class="status-text" id="status-text">API non configurata</span>
+        </div>
+        
+        {% if jekyll.environment == "development" %}
+        <div class="config-panel" id="config-panel">
+            <h4>Configurazione OpenAI (Solo Sviluppo)</h4>
+            <div class="config-field">
+                <label for="openai-api-key">API Key:</label>
+                <input type="password" id="openai-api-key" placeholder="sk-..." autocomplete="off">
+                <button type="button" id="test-api-key">Test</button>
+            </div>
+            <div class="config-field">
+                <label for="openai-model">Modello:</label>
+                <select id="openai-model">
+                    <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
+                    <option value="gpt-3.5-turbo-16k">GPT-3.5 Turbo 16K</option>
+                    <option value="gpt-4">GPT-4</option>
+                    <option value="gpt-4-turbo-preview">GPT-4 Turbo</option>
+                </select>
+            </div>
+            <div class="config-field">
+                <label for="max-tokens">Max Tokens:</label>
+                <input type="number" id="max-tokens" value="200" min="50" max="1000">
+            </div>
+            <div class="config-field">
+                <label for="temperature">Temperature:</label>
+                <input type="range" id="temperature" min="0" max="1" step="0.1" value="0.7">
+                <span id="temperature-value">0.7</span>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    
+    <div class="summarization-interface" id="summarization-interface" style="display: none;">
+        <div class="prompt-builder">
+            <h4>Personalizza il Prompt</h4>
+            <div class="prompt-templates">
+                <label>Template:</label>
+                <select id="prompt-template">
+                    <option value="general">Generale</option>
+                    <option value="technical">Tecnico</option>
+                    <option value="beginner">Per principianti</option>
+                    <option value="executive">Executive Summary</option>
+                    <option value="bullets">Punti chiave</option>
+                </select>
+            </div>
+            
+            <div class="prompt-customization">
+                <label for="custom-prompt">Prompt personalizzato:</label>
+                <textarea id="custom-prompt" rows="4" placeholder="Inserisci istruzioni specifiche per il riassunto..."></textarea>
+            </div>
+            
+            <div class="summary-options">
+                <div class="option">
+                    <label for="summary-length">Lunghezza:</label>
+                    <select id="summary-length">
+                        <option value="brief">Breve (50-100 parole)</option>
+                        <option value="medium" selected>Medio (100-200 parole)</option>
+                        <option value="detailed">Dettagliato (200-300 parole)</option>
+                    </select>
+                </div>
+                
+                <div class="option">
+                    <label for="summary-style">Stile:</label>
+                    <select id="summary-style">
+                        <option value="professional">Professionale</option>
+                        <option value="conversational">Conversazionale</option>
+                        <option value="academic">Accademico</option>
+                        <option value="simplified">Semplificato</option>
+                    </select>
+                </div>
+                
+                <div class="option">
+                    <label>
+                        <input type="checkbox" id="include-keywords"> Include parole chiave
+                    </label>
+                </div>
+                
+                <div class="option">
+                    <label>
+                        <input type="checkbox" id="include-calltoaction"> Include call-to-action
+                    </label>
+                </div>
+            </div>
+            
+            <button class="generate-btn" id="generate-summary">
+                🤖 Genera Riassunto AI
+            </button>
+        </div>
+        
+        <div class="generation-progress" id="generation-progress" style="display: none;">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <p class="progress-text" id="progress-text">Inizializzando richiesta AI...</p>
+            <button class="cancel-btn" id="cancel-generation">Annulla</button>
+        </div>
+        
+        <div class="summary-results" id="summary-results" style="display: none;">
+            <div class="result-header">
+                <h4>Risultato AI</h4>
+                <div class="result-meta">
+                    <span class="tokens-used" id="tokens-used">Tokens: -</span>
+                    <span class="cost-estimate" id="cost-estimate">Costo: ~$0.00</span>
+                    <span class="generation-time" id="generation-time">Tempo: -s</span>
+                </div>
+            </div>
+            
+            <div class="summary-output" id="summary-output">
+                <!-- AI-generated summary will appear here -->
+            </div>
+            
+            <div class="result-actions">
+                <button class="action-btn copy-btn" id="copy-ai-summary">
+                    📋 Copia
+                </button>
+                <button class="action-btn edit-btn" id="edit-summary">
+                    ✏️ Modifica
+                </button>
+                <button class="action-btn regenerate-btn" id="regenerate-ai-summary">
+                    🔄 Rigenera
+                </button>
+                <button class="action-btn save-btn" id="save-summary">
+                    💾 Salva
+                </button>
+            </div>
+            
+            <div class="quality-metrics" id="quality-metrics">
+                <h5>Metriche di Qualità</h5>
+                <div class="metrics-grid">
+                    <div class="metric">
+                        <span class="metric-label">Coerenza:</span>
+                        <div class="metric-bar">
+                            <div class="metric-fill" id="coherence-score"></div>
+                        </div>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Completezza:</span>
+                        <div class="metric-bar">
+                            <div class="metric-fill" id="completeness-score"></div>
+                        </div>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Leggibilità:</span>
+                        <div class="metric-bar">
+                            <div class="metric-fill" id="readability-score"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="summary-feedback" id="openai-feedback">
+                <h5>Valutazione</h5>
+                <div class="feedback-options">
+                    <button class="feedback-btn" data-rating="excellent">Eccellente</button>
+                    <button class="feedback-btn" data-rating="good">Buono</button>
+                    <button class="feedback-btn" data-rating="average">Sufficiente</button>
+                    <button class="feedback-btn" data-rating="poor">Scarso</button>
+                </div>
+                <textarea id="feedback-comment" placeholder="Commenti aggiuntivi (opzionale)..."></textarea>
+                <button class="submit-feedback-btn" id="submit-openai-feedback">Invia Feedback</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+/**
+ * OpenAI GPT-based Summarization System
+ * Advanced AI integration with quality metrics and feedback
+ */
+class OpenAISummarization {
+    constructor() {
+        this.config = {
+            apiKey: '{{ site.openai.api_key }}' || localStorage.getItem('openai_api_key'),
+            model: '{{ site.openai.model | default: "gpt-3.5-turbo" }}',
+            maxTokens: {{ site.openai.max_tokens | default: 200 }},
+            temperature: {{ site.openai.temperature | default: 0.7 }},
+            apiUrl: 'https://api.openai.com/v1/chat/completions',
+            isDevelopment: {{ jekyll.environment == "development" }}
+        };
+        
+        this.currentRequest = null;
+        this.generationStartTime = null;
+        this.lastSummary = null;
+        this.qualityMetrics = null;
+        
+        this.promptTemplates = {
+            general: "Riassumi questo articolo di bioarchitettura in modo chiaro e coinvolgente, evidenziando i punti chiave e i benefici pratici.",
+            technical: "Crea un riassunto tecnico dettagliato di questo articolo, includendo specifiche tecniche, materiali e metodologie costruttive.",
+            beginner: "Spiega i concetti di questo articolo in modo semplice e accessibile, perfetto per chi si avvicina alla bioarchitettura per la prima volta.",
+            executive: "Fornisci un executive summary conciso che evidenzi i punti salienti, i benefici economici e le opportunità di business.",
+            bullets: "Riassumi questo articolo sotto forma di punti elenco chiari e organizzati, uno per ogni concetto importante."
+        };
+        
+        this.tokenCosts = {
+            'gpt-3.5-turbo': { input: 0.0015, output: 0.002 },
+            'gpt-3.5-turbo-16k': { input: 0.003, output: 0.004 },
+            'gpt-4': { input: 0.03, output: 0.06 },
+            'gpt-4-turbo-preview': { input: 0.01, output: 0.03 }
+        };
+        
+        this.init();
+    }
+    
+    init() {
+        this.checkApiStatus();
+        this.setupEventListeners();
+        this.initializeUI();
+    }
+    
+    checkApiStatus() {
+        const statusIndicator = document.getElementById('status-indicator');
+        const statusText = document.getElementById('status-text');
+        const interfaceEl = document.getElementById('summarization-interface');
+        
+        if (this.config.apiKey && this.config.apiKey.startsWith('sk-')) {
+            if (statusIndicator) statusIndicator.textContent = '🟢';
+            if (statusText) statusText.textContent = 'API configurata';
+            if (interfaceEl) interfaceEl.style.display = 'block';
+        } else {
+            if (statusIndicator) statusIndicator.textContent = '🔴';
+            if (statusText) statusText.textContent = 'API non configurata';
+            if (interfaceEl) interfaceEl.style.display = 'none';
+        }
+    }
+    
+    setupEventListeners() {
+        // API configuration (development only)
+        if (this.config.isDevelopment) {
+            this.setupDevelopmentControls();
+        }
+        
+        // Prompt template selection
+        const templateSelect = document.getElementById('prompt-template');
+        if (templateSelect) {
+            templateSelect.addEventListener('change', (e) => {
+                this.updatePromptTemplate(e.target.value);
+            });
+        }
+        
+        // Temperature slider
+        const tempSlider = document.getElementById('temperature');
+        const tempValue = document.getElementById('temperature-value');
+        if (tempSlider && tempValue) {
+            tempSlider.addEventListener('input', (e) => {
+                tempValue.textContent = e.target.value;
+                this.config.temperature = parseFloat(e.target.value);
+            });
+        }
+        
+        // Generate summary button
+        const generateBtn = document.getElementById('generate-summary');
+        if (generateBtn) {
+            generateBtn.addEventListener('click', () => this.generateSummary());
+        }
+        
+        // Cancel generation
+        const cancelBtn = document.getElementById('cancel-generation');
+        if (cancelBtn) {
+            cancelBtn.addEventListener('click', () => this.cancelGeneration());
+        }
+        
+        // Result actions
+        this.setupResultActions();
+        
+        // Feedback system
+        this.setupFeedbackSystem();
+    }
+    
+    setupDevelopmentControls() {
+        const apiKeyInput = document.getElementById('openai-api-key');
+        const testBtn = document.getElementById('test-api-key');
+        const modelSelect = document.getElementById('openai-model');
+        const maxTokensInput = document.getElementById('max-tokens');
+        
+        if (apiKeyInput) {
+            apiKeyInput.value = this.config.apiKey || '';
+            apiKeyInput.addEventListener('change', (e) => {
+                this.config.apiKey = e.target.value;
+                localStorage.setItem('openai_api_key', e.target.value);
+                this.checkApiStatus();
+            });
+        }
+        
+        if (testBtn) {
+            testBtn.addEventListener('click', () => this.testApiKey());
+        }
+        
+        if (modelSelect) {
+            modelSelect.value = this.config.model;
+            modelSelect.addEventListener('change', (e) => {
+                this.config.model = e.target.value;
+            });
+        }
+        
+        if (maxTokensInput) {
+            maxTokensInput.value = this.config.maxTokens;
+            maxTokensInput.addEventListener('change', (e) => {
+                this.config.maxTokens = parseInt(e.target.value);
+            });
+        }
+    }
+    
+    setupResultActions() {
+        const copyBtn = document.getElementById('copy-ai-summary');
+        const editBtn = document.getElementById('edit-summary');
+        const regenerateBtn = document.getElementById('regenerate-ai-summary');
+        const saveBtn = document.getElementById('save-summary');
+        
+        if (copyBtn) {
+            copyBtn.addEventListener('click', () => this.copySummary());
+        }
+        
+        if (editBtn) {
+            editBtn.addEventListener('click', () => this.editSummary());
+        }
+        
+        if (regenerateBtn) {
+            regenerateBtn.addEventListener('click', () => this.regenerateSummary());
+        }
+        
+        if (saveBtn) {
+            saveBtn.addEventListener('click', () => this.saveSummary());
+        }
+    }
+    
+    setupFeedbackSystem() {
+        const feedbackButtons = document.querySelectorAll('#openai-feedback .feedback-btn');
+        const submitFeedbackBtn = document.getElementById('submit-openai-feedback');
+        
+        feedbackButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                feedbackButtons.forEach(b => b.classList.remove('selected'));
+                e.target.classList.add('selected');
+            });
+        });
+        
+        if (submitFeedbackBtn) {
+            submitFeedbackBtn.addEventListener('click', () => this.submitFeedback());
+        }
+    }
+    
+    initializeUI() {
+        // Set initial prompt template
+        this.updatePromptTemplate('general');
+        
+        // Update model selection if needed
+        const modelSelect = document.getElementById('openai-model');
+        if (modelSelect) {
+            modelSelect.value = this.config.model;
+        }
+    }
+    
+    updatePromptTemplate(templateKey) {
+        const customPrompt = document.getElementById('custom-prompt');
+        if (customPrompt && this.promptTemplates[templateKey]) {
+            customPrompt.value = this.promptTemplates[templateKey];
+        }
+    }
+    
+    async testApiKey() {
+        const testBtn = document.getElementById('test-api-key');
+        if (testBtn) {
+            testBtn.disabled = true;
+            testBtn.textContent = 'Testando...';
+        }
+        
+        try {
+            const response = await fetch(this.config.apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${this.config.apiKey}`
+                },
+                body: JSON.stringify({
+                    model: this.config.model,
+                    messages: [{ role: 'user', content: 'Test' }],
+                    max_tokens: 1
+                })
+            });
+            
+            if (response.ok) {
+                this.showNotification('API Key valida! ✅', 'success');
+                this.checkApiStatus();
+            } else {
+                throw new Error(`HTTP ${response.status}`);
+            }
+        } catch (error) {
+            this.showNotification(`Errore API: ${error.message}`, 'error');
+        } finally {
+            if (testBtn) {
+                testBtn.disabled = false;
+                testBtn.textContent = 'Test';
+            }
+        }
+    }
+    
+    async generateSummary() {
+        if (!this.config.apiKey) {
+            this.showNotification('Configura prima la API Key', 'error');
+            return;
+        }
+        
+        const articleContent = this.extractArticleContent();
+        if (!articleContent || articleContent.length < 100) {
+            this.showNotification('Contenuto insufficiente per il riassunto', 'error');
+            return;
+        }
+        
+        const prompt = this.buildPrompt(articleContent);
+        
+        // Show progress
+        this.showProgress();
+        this.generationStartTime = Date.now();
+        
+        try {
+            const summary = await this.callOpenAI(prompt);
+            this.lastSummary = summary;
+            
+            // Analyze quality
+            this.qualityMetrics = this.analyzeQuality(summary, articleContent);
+            
+            // Display results
+            this.displayResults(summary);
+            this.updateQualityMetrics();
+            
+        } catch (error) {
+            console.error('Summary generation failed:', error);
+            this.showNotification(`Errore: ${error.message}`, 'error');
+        } finally {
+            this.hideProgress();
+        }
+    }
+    
+    buildPrompt(content) {
+        const customPrompt = document.getElementById('custom-prompt')?.value;
+        const lengthOption = document.getElementById('summary-length')?.value;
+        const styleOption = document.getElementById('summary-style')?.value;
+        const includeKeywords = document.getElementById('include-keywords')?.checked;
+        const includeCallToAction = document.getElementById('include-calltoaction')?.checked;
+        
+        let prompt = customPrompt || this.promptTemplates.general;
+        
+        // Add length specification
+        const lengthSpecs = {
+            brief: '50-100 parole',
+            medium: '100-200 parole',
+            detailed: '200-300 parole'
+        };
+        
+        if (lengthSpecs[lengthOption]) {
+            prompt += `\n\nLunghezza del riassunto: ${lengthSpecs[lengthOption]}.`;
+        }
+        
+        // Add style specification
+        const styleSpecs = {
+            professional: 'Usa un tono professionale e formale.',
+            conversational: 'Usa un tono conversazionale e accessibile.',
+            academic: 'Usa un tono accademico con terminologia tecnica.',
+            simplified: 'Usa un linguaggio semplice e di facile comprensione.'
+        };
+        
+        if (styleSpecs[styleOption]) {
+            prompt += `\n${styleSpecs[styleOption]}`;
+        }
+        
+        // Add optional requirements
+        if (includeKeywords) {
+            prompt += '\nIncludi le parole chiave più importanti del settore bioarchitettura.';
+        }
+        
+        if (includeCallToAction) {
+            prompt += '\nTermina con una call-to-action che inviti alla lettura completa o all\'approfondimento.';
+        }
+        
+        prompt += `\n\nARTICOLO DA RIASSUMERE:\n${content}`;
+        
+        return prompt;
+    }
+    
+    async callOpenAI(prompt) {
+        const controller = new AbortController();
+        this.currentRequest = controller;
+        
+        const inputTokens = this.estimateTokens(prompt);
+        
+        const response = await fetch(this.config.apiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${this.config.apiKey}`
+            },
+            body: JSON.stringify({
+                model: this.config.model,
+                messages: [
+                    {
+                        role: 'system',
+                        content: 'Sei un esperto copywriter specializzato in bioarchitettura e sostenibilità. Crei riassunti chiari, coinvolgenti e informativi che catturano l\'essenza degli articoli tecnici rendendoli accessibili a tutti.'
+                    },
+                    {
+                        role: 'user',
+                        content: prompt
+                    }
+                ],
+                max_tokens: this.config.maxTokens,
+                temperature: this.config.temperature,
+                presence_penalty: 0.6,
+                frequency_penalty: 0.3,
+                stream: false
+            }),
+            signal: controller.signal
+        });
+        
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            throw new Error(errorData.error?.message || `HTTP ${response.status}`);
+        }
+        
+        const data = await response.json();
+        const summary = data.choices[0].message.content.trim();
+        
+        // Update cost tracking
+        const outputTokens = this.estimateTokens(summary);
+        this.updateCostTracking(inputTokens, outputTokens);
+        
+        return summary;
+    }
+    
+    extractArticleContent() {
+        // Extract clean text content from article
+        const articleEl = document.querySelector('article .post-content, article .content, .post-content, .content');
+        if (!articleEl) return '';
+        
+        const clone = articleEl.cloneNode(true);
+        
+        // Remove unwanted elements
+        const unwantedSelectors = [
+            'script', 'style', 'nav', 'aside', '.social-share',
+            '.author-bio', '.related-posts', '.comments', '.ad',
+            'iframe', 'video', 'audio', '.code-block', 'pre', 'code',
+            '.auto-summary', '.openai-summarization'
+        ];
+        
+        unwantedSelectors.forEach(selector => {
+            clone.querySelectorAll(selector).forEach(el => el.remove());
+        });
+        
+        let text = clone.textContent || clone.innerText || '';
+        text = text.replace(/\s+/g, ' ').trim();
+        
+        // Limit length to avoid API limits
+        if (text.length > 8000) {
+            text = text.substring(0, 8000) + '...';
+        }
+        
+        return text;
+    }
+    
+    showProgress() {
+        const progressEl = document.getElementById('generation-progress');
+        const resultsEl = document.getElementById('summary-results');
+        
+        if (progressEl) progressEl.style.display = 'block';
+        if (resultsEl) resultsEl.style.display = 'none';
+        
+        // Animate progress bar
+        this.animateProgress();
+    }
+    
+    animateProgress() {
+        const progressFill = document.getElementById('progress-fill');
+        const progressText = document.getElementById('progress-text');
+        
+        if (!progressFill || !progressText) return;
+        
+        const steps = [
+            { width: '20%', text: 'Preparando richiesta...' },
+            { width: '40%', text: 'Inviando a OpenAI...' },
+            { width: '60%', text: 'Elaborazione AI in corso...' },
+            { width: '80%', text: 'Finalizando riassunto...' },
+            { width: '100%', text: 'Completato!' }
+        ];
+        
+        let currentStep = 0;
+        const stepInterval = setInterval(() => {
+            if (currentStep < steps.length && this.currentRequest) {
+                const step = steps[currentStep];
+                progressFill.style.width = step.width;
+                progressText.textContent = step.text;
+                currentStep++;
+            } else {
+                clearInterval(stepInterval);
+            }
+        }, 800);
+    }
+    
+    hideProgress() {
+        const progressEl = document.getElementById('generation-progress');
+        if (progressEl) progressEl.style.display = 'none';
+    }
+    
+    displayResults(summary) {
+        const resultsEl = document.getElementById('summary-results');
+        const outputEl = document.getElementById('summary-output');
+        
+        if (outputEl) {
+            outputEl.innerHTML = `<div class="ai-summary-text">${this.formatSummary(summary)}</div>`;
+        }
+        
+        if (resultsEl) resultsEl.style.display = 'block';
+        
+        // Update generation time
+        if (this.generationStartTime) {
+            const generationTime = ((Date.now() - this.generationStartTime) / 1000).toFixed(1);
+            const timeEl = document.getElementById('generation-time');
+            if (timeEl) timeEl.textContent = `Tempo: ${generationTime}s`;
+        }
+    }
+    
+    formatSummary(summary) {
+        // Format the summary with proper styling
+        let formatted = summary;
+        
+        // Handle bullet points
+        formatted = formatted.replace(/^\s*[-•]\s*/gm, '<li>');
+        if (formatted.includes('<li>')) {
+            formatted = `<ul>${formatted}</ul>`;
+            formatted = formatted.replace(/<li>/g, '<li>').replace(/\n/g, '</li>\n');
+            formatted = formatted.replace(/(<\/li>\s*<\/ul>)/g, '</li></ul>');
+        }
+        
+        // Handle paragraphs
+        if (!formatted.includes('<li>')) {
+            const paragraphs = formatted.split('\n\n').filter(p => p.trim());
+            formatted = paragraphs.map(p => `<p>${p.trim()}</p>`).join('\n');
+        }
+        
+        // Highlight key terms
+        const highlightTerms = [
+            'bioarchitettura', 'sostenibile', 'ecologico', 'efficienza energetica',
+            'casa passiva', 'certificazione', 'LEED', 'materiali naturali',
+            'carbon neutral', 'zero emission'
+        ];
+        
+        highlightTerms.forEach(term => {
+            const regex = new RegExp(`\\b${term}\\b`, 'gi');
+            formatted = formatted.replace(regex, `<mark class="ai-highlight">$&</mark>`);
+        });
+        
+        return formatted;
+    }
+    
+    analyzeQuality(summary, originalContent) {
+        const summaryWords = summary.split(/\s+/).length;
+        const originalWords = originalContent.split(/\s+/).length;
+        
+        // Simple quality metrics
+        return {
+            coherence: this.calculateCoherence(summary),
+            completeness: this.calculateCompleteness(summary, originalContent),
+            readability: this.calculateReadability(summary),
+            compression: Math.round((1 - summaryWords / originalWords) * 100)
+        };
+    }
+    
+    calculateCoherence(text) {
+        // Simple coherence score based on sentence structure
+        const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 10);
+        let score = 0.7; // Base score
+        
+        // Check for transition words
+        const transitions = ['inoltre', 'tuttavia', 'pertanto', 'di conseguenza', 'infatti'];
+        transitions.forEach(word => {
+            if (text.toLowerCase().includes(word)) score += 0.05;
+        });
+        
+        // Penalty for very short or very long sentences
+        const avgSentenceLength = text.length / sentences.length;
+        if (avgSentenceLength > 20 && avgSentenceLength < 200) score += 0.1;
+        
+        return Math.min(1, score);
+    }
+    
+    calculateCompleteness(summary, original) {
+        // Check if key concepts from original are present in summary
+        const originalKeywords = this.extractKeywords(original.toLowerCase());
+        const summaryKeywords = this.extractKeywords(summary.toLowerCase());
+        
+        const commonKeywords = originalKeywords.filter(word => 
+            summaryKeywords.includes(word)
+        );
+        
+        return Math.min(1, commonKeywords.length / Math.max(1, originalKeywords.length));
+    }
+    
+    calculateReadability(text) {
+        // Simple readability score
+        const words = text.split(/\s+/).length;
+        const sentences = text.split(/[.!?]+/).filter(s => s.trim()).length;
+        const avgWordsPerSentence = words / sentences;
+        
+        // Optimal range: 10-20 words per sentence
+        let score = 1;
+        if (avgWordsPerSentence < 10 || avgWordsPerSentence > 20) {
+            score = Math.max(0.5, 1 - Math.abs(avgWordsPerSentence - 15) / 15);
+        }
+        
+        return score;
+    }
+    
+    extractKeywords(text) {
+        const words = text.match(/\b\w{4,}\b/g) || [];
+        const frequency = {};
+        
+        words.forEach(word => {
+            frequency[word] = (frequency[word] || 0) + 1;
+        });
+        
+        return Object.keys(frequency)
+            .filter(word => frequency[word] > 1)
+            .sort((a, b) => frequency[b] - frequency[a])
+            .slice(0, 10);
+    }
+    
+    updateQualityMetrics() {
+        if (!this.qualityMetrics) return;
+        
+        const coherenceEl = document.getElementById('coherence-score');
+        const completenessEl = document.getElementById('completeness-score');
+        const readabilityEl = document.getElementById('readability-score');
+        
+        if (coherenceEl) {
+            coherenceEl.style.width = `${this.qualityMetrics.coherence * 100}%`;
+        }
+        
+        if (completenessEl) {
+            completenessEl.style.width = `${this.qualityMetrics.completeness * 100}%`;
+        }
+        
+        if (readabilityEl) {
+            readabilityEl.style.width = `${this.qualityMetrics.readability * 100}%`;
+        }
+    }
+    
+    updateCostTracking(inputTokens, outputTokens) {
+        const costs = this.tokenCosts[this.config.model];
+        if (!costs) return;
+        
+        const inputCost = (inputTokens / 1000) * costs.input;
+        const outputCost = (outputTokens / 1000) * costs.output;
+        const totalCost = inputCost + outputCost;
+        
+        const tokensEl = document.getElementById('tokens-used');
+        const costEl = document.getElementById('cost-estimate');
+        
+        if (tokensEl) {
+            tokensEl.textContent = `Tokens: ${inputTokens + outputTokens}`;
+        }
+        
+        if (costEl) {
+            costEl.textContent = `Costo: ~$${totalCost.toFixed(4)}`;
+        }
+    }
+    
+    estimateTokens(text) {
+        // Rough estimation: ~4 characters per token
+        return Math.ceil(text.length / 4);
+    }
+    
+    cancelGeneration() {
+        if (this.currentRequest) {
+            this.currentRequest.abort();
+            this.currentRequest = null;
+        }
+        this.hideProgress();
+        this.showNotification('Generazione annullata', 'info');
+    }
+    
+    async copySummary() {
+        if (!this.lastSummary) return;
+        
+        try {
+            await navigator.clipboard.writeText(this.lastSummary);
+            this.showNotification('Riassunto AI copiato! 📋', 'success');
+        } catch (error) {
+            console.error('Failed to copy:', error);
+        }
+    }
+    
+    editSummary() {
+        const outputEl = document.getElementById('summary-output');
+        if (!outputEl || !this.lastSummary) return;
+        
+        const textarea = document.createElement('textarea');
+        textarea.value = this.lastSummary;
+        textarea.style.width = '100%';
+        textarea.style.minHeight = '150px';
+        textarea.className = 'edit-summary-textarea';
+        
+        const saveBtn = document.createElement('button');
+        saveBtn.textContent = 'Salva Modifiche';
+        saveBtn.className = 'btn btn-primary';
+        saveBtn.onclick = () => {
+            this.lastSummary = textarea.value;
+            this.displayResults(this.lastSummary);
+        };
+        
+        const cancelBtn = document.createElement('button');
+        cancelBtn.textContent = 'Annulla';
+        cancelBtn.className = 'btn btn-secondary';
+        cancelBtn.onclick = () => {
+            this.displayResults(this.lastSummary);
+        };
+        
+        outputEl.innerHTML = '';
+        outputEl.appendChild(textarea);
+        outputEl.appendChild(saveBtn);
+        outputEl.appendChild(cancelBtn);
+        
+        textarea.focus();
+    }
+    
+    regenerateSummary() {
+        this.generateSummary();
+    }
+    
+    saveSummary() {
+        if (!this.lastSummary) return;
+        
+        const summaryData = {
+            content: this.lastSummary,
+            method: 'openai',
+            model: this.config.model,
+            timestamp: Date.now(),
+            url: window.location.pathname,
+            qualityMetrics: this.qualityMetrics
+        };
+        
+        localStorage.setItem('saved_ai_summary', JSON.stringify(summaryData));
+        this.showNotification('Riassunto salvato! 💾', 'success');
+    }
+    
+    submitFeedback() {
+        const selectedRating = document.querySelector('#openai-feedback .feedback-btn.selected');
+        const comment = document.getElementById('feedback-comment')?.value;
+        
+        if (!selectedRating) {
+            this.showNotification('Seleziona una valutazione', 'error');
+            return;
+        }
+        
+        const feedbackData = {
+            rating: selectedRating.dataset.rating,
+            comment: comment || '',
+            summary: this.lastSummary,
+            model: this.config.model,
+            qualityMetrics: this.qualityMetrics,
+            timestamp: Date.now(),
+            url: window.location.pathname
+        };
+        
+        // Send to backend (if available)
+        fetch('/api/openai-feedback', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(feedbackData)
+        }).catch(console.warn);
+        
+        // Store locally
+        const feedbacks = JSON.parse(localStorage.getItem('openai_feedbacks') || '[]');
+        feedbacks.unshift(feedbackData);
+        localStorage.setItem('openai_feedbacks', JSON.stringify(feedbacks.slice(0, 50)));
+        
+        this.showNotification('Grazie per il feedback! 🙏', 'success');
+        
+        // Hide feedback section
+        const feedbackEl = document.getElementById('openai-feedback');
+        if (feedbackEl) feedbackEl.style.display = 'none';
+    }
+    
+    showNotification(message, type = 'info') {
+        if (window.NotificationManager) {
+            window.NotificationManager.show(message, type);
+        } else {
+            console.log(`${type.toUpperCase()}: ${message}`);
+        }
+    }
+}
+
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById('openai-summarization')) {
+        window.openaiSummarization = new OpenAISummarization();
+    }
+});
+</script>
