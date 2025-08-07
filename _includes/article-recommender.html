@@ -1,0 +1,369 @@
+<!-- Article Recommender Engine -->
+<div class="article-recommender" id="article-recommender">
+    <h3 class="recommender-title" data-translate="recommender.title">Articoli Consigliati</h3>
+    <div class="recommender-content">
+        <div class="recommender-loading" id="recommender-loading">
+            <div class="loading-spinner"></div>
+            <span data-translate="recommender.loading">Caricamento raccomandazioni...</span>
+        </div>
+        <div class="recommended-articles" id="recommended-articles">
+            <!-- Recommended articles will be populated by JavaScript -->
+        </div>
+    </div>
+    <div class="recommender-fallback" id="recommender-fallback" style="display: none;">
+        <h4 data-translate="recommender.recent_title">Articoli Recenti</h4>
+        <div class="recent-articles">
+            {% assign recent_posts = site.posts | limit: site.max_related_articles | default: 3 %}
+            {% for post in recent_posts %}
+            <article class="recommended-article fallback">
+                <div class="article-thumb">
+                    {% if post.image %}
+                    <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" loading="lazy">
+                    {% else %}
+                    <div class="article-placeholder">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14,2 14,8 20,8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                            <polyline points="10,9 9,9 8,9"></polyline>
+                        </svg>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="article-info">
+                    <h4 class="article-title">
+                        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+                    </h4>
+                    <div class="article-meta">
+                        <time datetime="{{ post.date | date_to_xmlschema }}">
+                            {{ post.date | date: "%d %B %Y" }}
+                        </time>
+                        {% if post.category %}
+                        <span class="article-category">{{ post.category }}</span>
+                        {% endif %}
+                    </div>
+                    {% if post.excerpt %}
+                    <p class="article-excerpt">{{ post.excerpt | strip_html | truncate: 120 }}</p>
+                    {% endif %}
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<script>
+// Article Recommender Engine
+class ArticleRecommender {
+    constructor(options = {}) {
+        this.maxRecommendations = options.maxRecommendations || {{ site.max_related_articles | default: 3 }};
+        this.categoryWeight = options.categoryWeight || 2;
+        this.tagWeight = options.tagWeight || 1;
+        this.fallbackEnabled = {{ site.recommendation_fallback | default: true }};
+        this.currentPostData = options.currentPost || {};
+        
+        this.init();
+    }
+    
+    init() {
+        this.loadRecommendations();
+    }
+    
+    async loadRecommendations() {
+        const loadingEl = document.getElementById('recommender-loading');
+        const articlesEl = document.getElementById('recommended-articles');
+        const fallbackEl = document.getElementById('recommender-fallback');
+        
+        try {
+            // Show loading state
+            if (loadingEl) loadingEl.style.display = 'flex';
+            
+            // Get all posts data
+            const postsData = await this.fetchPostsData();
+            
+            // Calculate recommendations
+            const recommendations = this.calculateRecommendations(postsData);
+            
+            if (recommendations.length > 0) {
+                // Hide loading and show recommendations
+                if (loadingEl) loadingEl.style.display = 'none';
+                this.renderRecommendations(recommendations, articlesEl);
+            } else {
+                // Show fallback if enabled
+                this.showFallback(loadingEl, fallbackEl);
+            }
+            
+        } catch (error) {
+            console.warn('Article recommender error:', error);
+            this.showFallback(loadingEl, fallbackEl);
+        }
+    }
+    
+    async fetchPostsData() {
+        // In a real implementation, this would fetch from an API
+        // For now, we'll use data embedded in the page
+        return window.postsData || [];
+    }
+    
+    calculateRecommendations(posts) {
+        if (!this.currentPostData.category && !this.currentPostData.tags) {
+            return [];
+        }
+        
+        const currentCategory = this.currentPostData.category?.toLowerCase();
+        const currentTags = (this.currentPostData.tags || []).map(tag => tag.toLowerCase());
+        const currentUrl = this.currentPostData.url;
+        
+        // Score each post
+        const scoredPosts = posts
+            .filter(post => post.url !== currentUrl) // Exclude current post
+            .map(post => {
+                let score = 0;
+                
+                // Category matching (weight: 2)
+                if (currentCategory && post.category?.toLowerCase() === currentCategory) {
+                    score += this.categoryWeight;
+                }
+                
+                // Tag matching (weight: 1 per matching tag)
+                if (currentTags.length > 0 && post.tags) {
+                    const postTags = post.tags.map(tag => tag.toLowerCase());
+                    const matchingTags = currentTags.filter(tag => postTags.includes(tag));
+                    score += matchingTags.length * this.tagWeight;
+                }
+                
+                return { ...post, score };
+            })
+            .filter(post => post.score > 0) // Only posts with some relevance
+            .sort((a, b) => b.score - a.score) // Sort by score descending
+            .slice(0, this.maxRecommendations);
+        
+        return scoredPosts;
+    }
+    
+    renderRecommendations(recommendations, container) {
+        if (!container) return;
+        
+        const html = recommendations.map(post => `
+            <article class="recommended-article">
+                <div class="article-thumb">
+                    ${post.image ? 
+                        `<img src="${post.image}" alt="${post.title}" loading="lazy">` :
+                        `<div class="article-placeholder">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14,2 14,8 20,8"></polyline>
+                                <line x1="16" y1="13" x2="8" y2="13"></line>
+                                <line x1="16" y1="17" x2="8" y2="17"></line>
+                                <polyline points="10,9 9,9 8,9"></polyline>
+                            </svg>
+                        </div>`
+                    }
+                </div>
+                <div class="article-info">
+                    <h4 class="article-title">
+                        <a href="${post.url}">${post.title}</a>
+                    </h4>
+                    <div class="article-meta">
+                        <time datetime="${post.date}">${this.formatDate(post.date)}</time>
+                        ${post.category ? `<span class="article-category">${post.category}</span>` : ''}
+                        <span class="relevance-score" title="Rilevanza: ${post.score}">
+                            ${'★'.repeat(Math.min(5, Math.ceil(post.score)))}
+                        </span>
+                    </div>
+                    ${post.excerpt ? `<p class="article-excerpt">${post.excerpt}</p>` : ''}
+                </div>
+            </article>
+        `).join('');
+        
+        container.innerHTML = html;
+        container.style.display = 'block';
+    }
+    
+    showFallback(loadingEl, fallbackEl) {
+        if (loadingEl) loadingEl.style.display = 'none';
+        if (fallbackEl && this.fallbackEnabled) {
+            fallbackEl.style.display = 'block';
+        }
+    }
+    
+    formatDate(dateString) {
+        try {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('it-IT', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
+        } catch (error) {
+            return dateString;
+        }
+    }
+}
+
+// Initialize recommender when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeRecommender);
+} else {
+    initializeRecommender();
+}
+
+function initializeRecommender() {
+    const recommenderElement = document.getElementById('article-recommender');
+    if (recommenderElement) {
+        // Get current post data from page
+        const currentPost = {
+            url: window.location.pathname,
+            category: document.querySelector('meta[property="article:section"]')?.content,
+            tags: Array.from(document.querySelectorAll('.post-tags .tag')).map(tag => tag.textContent.trim())
+        };
+        
+        new ArticleRecommender({ currentPost });
+    }
+}
+</script>
+
+<style>
+.article-recommender {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #28a745;
+}
+
+.recommender-title {
+    margin: 0 0 1rem 0;
+    color: #2c3e50;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.recommender-loading {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 2rem;
+    justify-content: center;
+    color: #6c757d;
+}
+
+.loading-spinner {
+    width: 24px;
+    height: 24px;
+    border: 2px solid #e9ecef;
+    border-left: 2px solid #28a745;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.recommended-articles,
+.recent-articles {
+    display: grid;
+    gap: 1rem;
+}
+
+.recommended-article {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    background: white;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.recommended-article:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.article-thumb {
+    flex-shrink: 0;
+    width: 80px;
+    height: 60px;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #e9ecef;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.article-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.article-placeholder {
+    color: #6c757d;
+}
+
+.article-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.article-title {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.9rem;
+    line-height: 1.3;
+}
+
+.article-title a {
+    color: #2c3e50;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.article-title a:hover {
+    color: #28a745;
+}
+
+.article-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.75rem;
+    color: #6c757d;
+}
+
+.article-category {
+    background: #28a745;
+    color: white;
+    padding: 0.125rem 0.5rem;
+    border-radius: 12px;
+    font-weight: 500;
+}
+
+.relevance-score {
+    color: #ffc107;
+    font-size: 0.8rem;
+}
+
+.article-excerpt {
+    margin: 0;
+    font-size: 0.8rem;
+    color: #495057;
+    line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+    .recommended-article {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .article-thumb {
+        width: 100%;
+        height: 120px;
+    }
+}
+</style>

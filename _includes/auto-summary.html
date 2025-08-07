@@ -1,0 +1,662 @@
+<!-- Auto-Summary Component (Extractive Algorithm Fallback) -->
+<div class="auto-summary" id="auto-summary">
+    <div class="summary-header">
+        <h3 class="summary-title" data-translate="auto_summary.title">Riassunto Automatico</h3>
+        <div class="summary-controls">
+            <button class="summary-expand" id="summary-expand" title="Espandi/Riduci" aria-label="Espandi o riduci riassunto">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+            </button>
+            <button class="summary-regenerate" id="summary-regenerate" title="Rigenera" aria-label="Rigenera riassunto">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="23 4 23 10 17 10"></polyline>
+                    <polyline points="1 20 1 14 7 14"></polyline>
+                    <path d="m3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+    
+    <div class="summary-content" id="summary-content">
+        <div class="summary-text" id="summary-text">
+            <!-- Generated summary will be inserted here -->
+        </div>
+        
+        <div class="summary-details" id="summary-details" style="display: none;">
+            <div class="summary-stats">
+                <div class="stat">
+                    <span class="stat-label" data-translate="auto_summary.original_length">Lunghezza originale:</span>
+                    <span class="stat-value" id="original-length">-</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label" data-translate="auto_summary.summary_length">Lunghezza riassunto:</span>
+                    <span class="stat-value" id="summary-length">-</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label" data-translate="auto_summary.compression_ratio">Rapporto compressione:</span>
+                    <span class="stat-value" id="compression-ratio">-</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label" data-translate="auto_summary.sentences_selected">Frasi selezionate:</span>
+                    <span class="stat-value" id="sentences-selected">-</span>
+                </div>
+            </div>
+            
+            <div class="summary-keywords">
+                <h4 data-translate="auto_summary.key_terms">Termini chiave identificati:</h4>
+                <div class="keywords-list" id="keywords-list">
+                    <!-- Keywords will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="summary-footer">
+        <div class="summary-info">
+            <span class="summary-method">
+                <span data-translate="auto_summary.method">Algoritmo estrattivo</span>
+                <span class="method-badge">Local</span>
+            </span>
+        </div>
+        <div class="summary-actions">
+            <button class="action-btn" id="copy-summary" title="Copia riassunto" aria-label="Copia riassunto">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="m5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+            </button>
+            <button class="action-btn" id="share-summary" title="Condividi riassunto" aria-label="Condividi riassunto">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="18" cy="5" r="3"></circle>
+                    <circle cx="6" cy="12" r="3"></circle>
+                    <circle cx="18" cy="19" r="3"></circle>
+                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                    <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                </svg>
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+// Auto-Summary Engine with Advanced Extractive Algorithm
+class AutoSummarizer {
+    constructor(options = {}) {
+        this.maxSentences = options.maxSentences || 3;
+        this.minSentenceLength = options.minSentenceLength || 50;
+        this.maxSentenceLength = options.maxSentenceLength || 200;
+        this.stopWords = this.getStopWords();
+        this.bioarchKeywords = this.getBioarchKeywords();
+        
+        this.articleContent = '';
+        this.articleTitle = '';
+        this.summary = '';
+        this.stats = {};
+        this.keywords = [];
+        
+        this.init();
+    }
+    
+    init() {
+        this.extractContent();
+        this.bindEvents();
+        this.generateSummary();
+    }
+    
+    extractContent() {
+        // Extract article content
+        const contentElement = document.querySelector('.post-content .content-body, .content-body, .post-content');
+        const titleElement = document.querySelector('.post-title, h1');
+        
+        this.articleContent = contentElement ? this.cleanText(contentElement.textContent || contentElement.innerText) : '';
+        this.articleTitle = titleElement ? this.cleanText(titleElement.textContent || titleElement.innerText) : '';
+    }
+    
+    bindEvents() {
+        const expandBtn = document.getElementById('summary-expand');
+        const regenerateBtn = document.getElementById('summary-regenerate');
+        const copyBtn = document.getElementById('copy-summary');
+        const shareBtn = document.getElementById('share-summary');
+        
+        if (expandBtn) {
+            expandBtn.addEventListener('click', () => this.toggleDetails());
+        }
+        
+        if (regenerateBtn) {
+            regenerateBtn.addEventListener('click', () => this.regenerateSummary());
+        }
+        
+        if (copyBtn) {
+            copyBtn.addEventListener('click', () => this.copySummary());
+        }
+        
+        if (shareBtn) {
+            shareBtn.addEventListener('click', () => this.shareSummary());
+        }
+    }
+    
+    generateSummary() {
+        if (!this.articleContent || this.articleContent.length < 200) {
+            this.hideSummary();
+            return;
+        }
+        
+        // Extract keywords first
+        this.keywords = this.extractKeywords(this.articleContent, this.articleTitle);
+        
+        // Split into sentences
+        const sentences = this.splitIntoSentences(this.articleContent);
+        
+        if (sentences.length <= this.maxSentences) {
+            this.summary = sentences.join(' ');
+        } else {
+            // Score and rank sentences
+            const scoredSentences = this.scoreSentences(sentences);
+            
+            // Select best sentences
+            const selectedSentences = this.selectBestSentences(scoredSentences);
+            
+            this.summary = selectedSentences.map(s => s.text).join(' ');
+        }
+        
+        // Calculate statistics
+        this.calculateStats(sentences);
+        
+        // Display results
+        this.displaySummary();
+        this.displayKeywords();
+        this.displayStats();
+    }
+    
+    cleanText(text) {
+        return text
+            .replace(/\s+/g, ' ')
+            .replace(/[^\w\s.,!?;:-]/g, '')
+            .trim();
+    }
+    
+    splitIntoSentences(text) {
+        // Advanced sentence splitting
+        const sentences = text
+            .split(/[.!?]+/)
+            .map(s => s.trim())
+            .filter(s => s.length >= this.minSentenceLength && s.length <= this.maxSentenceLength)
+            .map(s => s.endsWith('.') || s.endsWith('!') || s.endsWith('?') ? s : s + '.');
+        
+        return sentences;
+    }
+    
+    extractKeywords(content, title = '') {
+        // Combine title and content for keyword extraction
+        const allText = (title + ' ' + content).toLowerCase();
+        
+        // Tokenize
+        const words = allText
+            .split(/\W+/)
+            .filter(word => word.length >= 3)
+            .filter(word => !this.stopWords.has(word));
+        
+        // Count frequencies
+        const wordFreq = {};
+        words.forEach(word => {
+            wordFreq[word] = (wordFreq[word] || 0) + 1;
+        });
+        
+        // Score words (frequency + bioarch relevance)
+        const scoredWords = Object.entries(wordFreq).map(([word, freq]) => {
+            let score = freq;
+            
+            // Boost bioarchitecture-related terms
+            if (this.bioarchKeywords.has(word)) {
+                score *= 2;
+            }
+            
+            // Boost title words
+            if (title.toLowerCase().includes(word)) {
+                score *= 1.5;
+            }
+            
+            return { word, score, frequency: freq };
+        });
+        
+        // Return top keywords
+        return scoredWords
+            .sort((a, b) => b.score - a.score)
+            .slice(0, 8)
+            .map(item => item.word);
+    }
+    
+    scoreSentences(sentences) {
+        return sentences.map((sentence, index) => {
+            let score = 0;
+            const sentenceLower = sentence.toLowerCase();
+            const words = sentenceLower.split(/\W+/).filter(w => w.length >= 3);
+            
+            // Position scoring (first and last sentences get higher scores)
+            if (index === 0) score += 0.8;
+            else if (index === sentences.length - 1) score += 0.3;
+            else if (index <= 2) score += 0.5;
+            
+            // Length scoring (prefer medium-length sentences)
+            const idealLength = 120;
+            const lengthScore = 1 - Math.abs(sentence.length - idealLength) / idealLength;
+            score += Math.max(0, lengthScore) * 0.3;
+            
+            // Keyword density scoring
+            let keywordMatches = 0;
+            this.keywords.forEach(keyword => {
+                if (sentenceLower.includes(keyword)) {
+                    keywordMatches++;
+                }
+            });
+            score += (keywordMatches / this.keywords.length) * 1.5;
+            
+            // Bioarchitecture relevance scoring
+            let bioarchMatches = 0;
+            this.bioarchKeywords.forEach(keyword => {
+                if (sentenceLower.includes(keyword)) {
+                    bioarchMatches++;
+                }
+            });
+            score += (bioarchMatches / words.length) * 2;
+            
+            // Title similarity scoring
+            if (this.articleTitle) {
+                const titleWords = this.articleTitle.toLowerCase().split(/\W+/);
+                const titleMatches = titleWords.filter(word => 
+                    word.length >= 3 && sentenceLower.includes(word)
+                ).length;
+                score += (titleMatches / titleWords.length) * 0.7;
+            }
+            
+            // Penalize sentences with too many numbers or very short/long sentences
+            const numberCount = (sentence.match(/\d+/g) || []).length;
+            const shortWordCount = words.filter(w => w.length <= 3).length;
+            
+            score -= (numberCount / words.length) * 0.2;
+            score -= (shortWordCount / words.length) * 0.1;
+            
+            // Penalize sentences that are too technical (too many technical terms)
+            const technicalTerms = ['λ', 'kg/m³', '°c', 'w/mk', 'rei', 'uni', 'en'];
+            const technicalCount = technicalTerms.filter(term => sentenceLower.includes(term)).length;
+            score -= technicalCount * 0.3;
+            
+            return {
+                text: sentence,
+                score: Math.max(0, score),
+                index,
+                length: sentence.length,
+                keywordMatches
+            };
+        });
+    }
+    
+    selectBestSentences(scoredSentences) {
+        // Sort by score and select top sentences
+        const topSentences = scoredSentences
+            .sort((a, b) => b.score - a.score)
+            .slice(0, this.maxSentences);
+        
+        // Re-sort by original order to maintain flow
+        return topSentences.sort((a, b) => a.index - b.index);
+    }
+    
+    calculateStats(originalSentences) {
+        const originalLength = this.articleContent.length;
+        const summaryLength = this.summary.length;
+        const compressionRatio = ((1 - summaryLength / originalLength) * 100).toFixed(1);
+        
+        this.stats = {
+            originalLength,
+            summaryLength,
+            compressionRatio,
+            originalSentences: originalSentences.length,
+            selectedSentences: this.summary.split(/[.!?]+/).length - 1
+        };
+    }
+    
+    displaySummary() {
+        const summaryEl = document.getElementById('summary-text');
+        if (summaryEl) {
+            summaryEl.innerHTML = `<p>${this.summary}</p>`;
+        }
+    }
+    
+    displayKeywords() {
+        const keywordsEl = document.getElementById('keywords-list');
+        if (keywordsEl) {
+            keywordsEl.innerHTML = this.keywords
+                .map(keyword => `<span class="keyword-tag">${keyword}</span>`)
+                .join('');
+        }
+    }
+    
+    displayStats() {
+        const elements = {
+            'original-length': `${this.stats.originalLength} caratteri`,
+            'summary-length': `${this.stats.summaryLength} caratteri`,
+            'compression-ratio': `${this.stats.compressionRatio}%`,
+            'sentences-selected': `${this.stats.selectedSentences} di ${this.stats.originalSentences}`
+        };
+        
+        Object.entries(elements).forEach(([id, value]) => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = value;
+        });
+    }
+    
+    toggleDetails() {
+        const detailsEl = document.getElementById('summary-details');
+        const expandBtn = document.getElementById('summary-expand');
+        
+        if (detailsEl && expandBtn) {
+            const isVisible = detailsEl.style.display !== 'none';
+            detailsEl.style.display = isVisible ? 'none' : 'block';
+            
+            // Rotate expand icon
+            expandBtn.style.transform = isVisible ? 'rotate(0deg)' : 'rotate(180deg)';
+        }
+    }
+    
+    regenerateSummary() {
+        // Slightly vary the algorithm parameters for different results
+        this.maxSentences = Math.max(2, Math.min(5, this.maxSentences + (Math.random() > 0.5 ? 1 : -1)));
+        this.generateSummary();
+        
+        // Visual feedback
+        const regenerateBtn = document.getElementById('summary-regenerate');
+        if (regenerateBtn) {
+            regenerateBtn.style.transform = 'rotate(360deg)';
+            setTimeout(() => {
+                regenerateBtn.style.transform = 'rotate(0deg)';
+            }, 500);
+        }
+    }
+    
+    async copySummary() {
+        try {
+            await navigator.clipboard.writeText(this.summary);
+            this.showFeedback('copy-summary', '✓', '#28a745');
+        } catch (error) {
+            console.error('Failed to copy:', error);
+            this.showFeedback('copy-summary', '✗', '#dc3545');
+        }
+    }
+    
+    shareSummary() {
+        if (navigator.share) {
+            navigator.share({
+                title: this.articleTitle,
+                text: this.summary,
+                url: window.location.href
+            });
+        } else {
+            // Fallback: copy to clipboard
+            this.copySummary();
+        }
+    }
+    
+    showFeedback(buttonId, icon, color) {
+        const btn = document.getElementById(buttonId);
+        if (btn) {
+            const originalContent = btn.innerHTML;
+            btn.innerHTML = icon;
+            btn.style.color = color;
+            
+            setTimeout(() => {
+                btn.innerHTML = originalContent;
+                btn.style.color = '';
+            }, 2000);
+        }
+    }
+    
+    hideSummary() {
+        const summaryEl = document.getElementById('auto-summary');
+        if (summaryEl) {
+            summaryEl.style.display = 'none';
+        }
+    }
+    
+    getStopWords() {
+        return new Set([
+            'a', 'e', 'i', 'o', 'u', 'il', 'la', 'lo', 'le', 'gli', 'un', 'una', 'uno',
+            'di', 'da', 'in', 'con', 'su', 'per', 'tra', 'fra', 'come', 'anche',
+            'che', 'chi', 'cui', 'dove', 'quando', 'quanto', 'quale', 'come',
+            'se', 'ma', 'però', 'quindi', 'allora', 'così', 'mentre', 'prima',
+            'dopo', 'durante', 'senza', 'sopra', 'sotto', 'dentro', 'fuori',
+            'essere', 'avere', 'fare', 'dire', 'andare', 'venire', 'sapere',
+            'dare', 'stare', 'vedere', 'dovere', 'potere', 'volere',
+            'questo', 'quello', 'stesso', 'altro', 'tutto', 'molto', 'poco',
+            'più', 'meno', 'tanto', 'sempre', 'mai', 'già', 'ancora', 'poi'
+        ]);
+    }
+    
+    getBioarchKeywords() {
+        return new Set([
+            'bioarchitettura', 'sostenibile', 'sostenibilità', 'ecologico', 'ecologia',
+            'naturale', 'biologico', 'bio', 'verde', 'ambiente', 'ambientale',
+            'efficienza', 'energetica', 'energia', 'rinnovabile', 'passiva', 'passivo',
+            'materiali', 'legno', 'paglia', 'terra', 'canapa', 'sughero',
+            'isolamento', 'isolante', 'termico', 'acustico', 'traspirante',
+            'costruzione', 'edificio', 'casa', 'abitazione', 'architettura',
+            'progettazione', 'progetto', 'design', 'innovativo', 'tecnologia',
+            'benessere', 'salute', 'comfort', 'qualità', 'aria', 'indoor',
+            'climatizzazione', 'ventilazione', 'illuminazione', 'naturale',
+            'riscaldamento', 'raffrescamento', 'solare', 'fotovoltaico',
+            'geotermico', 'biomassa', 'certificazione', 'leed', 'breeam',
+            'casaclima', 'minergie', 'passivhaus', 'nzeb', 'lca'
+        ]);
+    }
+}
+
+// Auto-initialize
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => new AutoSummarizer());
+} else {
+    new AutoSummarizer();
+}
+</script>
+
+<style>
+.auto-summary {
+    margin: 1.5rem 0;
+    padding: 1.25rem;
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    border-left: 4px solid #17a2b8;
+}
+
+.summary-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.summary-title {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 1.1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.summary-title::before {
+    content: '📄';
+    font-size: 1.25rem;
+}
+
+.summary-controls {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.summary-expand,
+.summary-regenerate {
+    background: #e9ecef;
+    border: 1px solid #ced4da;
+    color: #495057;
+    padding: 0.375rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.summary-expand:hover,
+.summary-regenerate:hover {
+    background: #dee2e6;
+    transform: translateY(-1px);
+}
+
+.summary-regenerate {
+    transition: all 0.2s ease, transform 0.5s ease;
+}
+
+.summary-text {
+    margin-bottom: 1rem;
+    line-height: 1.6;
+    color: #495057;
+}
+
+.summary-text p {
+    margin: 0;
+}
+
+.summary-details {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e9ecef;
+}
+
+.summary-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.stat {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem;
+    background: white;
+    border-radius: 4px;
+    border: 1px solid #e9ecef;
+}
+
+.stat-label {
+    font-weight: 500;
+    color: #6c757d;
+}
+
+.stat-value {
+    color: #495057;
+    font-weight: 600;
+}
+
+.summary-keywords h4 {
+    margin: 0 0 0.75rem 0;
+    color: #495057;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.keywords-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.keyword-tag {
+    background: #17a2b8;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.summary-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid #e9ecef;
+}
+
+.summary-method {
+    font-size: 0.85rem;
+    color: #6c757d;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.method-badge {
+    background: #6f42c1;
+    color: white;
+    padding: 0.125rem 0.5rem;
+    border-radius: 10px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.summary-actions {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.action-btn {
+    background: #e9ecef;
+    border: 1px solid #ced4da;
+    color: #495057;
+    padding: 0.375rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.action-btn:hover {
+    background: #dee2e6;
+    transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+    .summary-header {
+        flex-direction: column;
+        gap: 0.75rem;
+        align-items: stretch;
+    }
+    
+    .summary-controls {
+        justify-content: center;
+    }
+    
+    .summary-footer {
+        flex-direction: column;
+        gap: 0.75rem;
+        align-items: center;
+    }
+    
+    .summary-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .stat {
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+}
+</style>
