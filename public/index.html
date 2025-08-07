@@ -173,6 +173,335 @@
             text-align: center;
             font-size: 1.2em;
         }
+        
+        /* Slideshow Styles */
+        .slideshow-section {
+            background: linear-gradient(135deg, rgba(44, 85, 48, 0.05) 0%, rgba(74, 124, 89, 0.05) 100%);
+            padding: 60px 20px;
+            margin: 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .slideshow-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(44, 85, 48, 0.15);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 249, 250, 0.9) 100%);
+            backdrop-filter: blur(10px);
+        }
+        
+        .slides-wrapper {
+            position: relative;
+            width: 100%;
+            height: 450px;
+            overflow: hidden;
+        }
+        
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transform: translateX(20px);
+            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            padding: 40px;
+            box-sizing: border-box;
+        }
+        
+        .slide.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .slide-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .slide-svg {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .slide-svg svg {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            border-radius: 15px;
+            filter: drop-shadow(0 8px 20px rgba(44, 85, 48, 0.1));
+            transition: transform 0.3s ease;
+        }
+        
+        .slide:hover .slide-svg svg {
+            transform: scale(1.02);
+        }
+        
+        .slide-text {
+            padding: 20px;
+            text-align: left;
+        }
+        
+        .slide-text h3 {
+            color: #2c5530;
+            font-size: 2.2em;
+            margin-bottom: 20px;
+            font-weight: 700;
+            line-height: 1.2;
+            text-shadow: 0 2px 4px rgba(44, 85, 48, 0.1);
+        }
+        
+        .slide-text p {
+            color: #4a7c59;
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin: 0;
+            font-weight: 400;
+        }
+        
+        /* Navigation Arrows */
+        .slide-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(44, 85, 48, 0.8);
+            border: none;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(44, 85, 48, 0.3);
+        }
+        
+        .slide-arrow:hover {
+            background: rgba(44, 85, 48, 1);
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 6px 20px rgba(44, 85, 48, 0.4);
+        }
+        
+        .slide-arrow:focus {
+            outline: 3px solid rgba(74, 124, 89, 0.5);
+            outline-offset: 2px;
+        }
+        
+        .slide-arrow svg {
+            width: 24px;
+            height: 24px;
+        }
+        
+        .slide-arrow-left {
+            left: 20px;
+        }
+        
+        .slide-arrow-right {
+            right: 20px;
+        }
+        
+        /* Dot Indicators */
+        .slide-dots {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 12px;
+            z-index: 10;
+        }
+        
+        .slide-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 2px solid rgba(44, 85, 48, 0.6);
+            background: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .slide-dot:hover {
+            background: rgba(74, 124, 89, 0.8);
+            border-color: #4a7c59;
+            transform: scale(1.2);
+        }
+        
+        .slide-dot:focus {
+            outline: 2px solid rgba(74, 124, 89, 0.8);
+            outline-offset: 3px;
+        }
+        
+        .slide-dot.active {
+            background: #2c5530;
+            border-color: #2c5530;
+            transform: scale(1.3);
+            box-shadow: 0 0 10px rgba(44, 85, 48, 0.5);
+        }
+        
+        .slide-dot.active::after {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            right: -4px;
+            bottom: -4px;
+            border: 2px solid rgba(44, 85, 48, 0.3);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1.4);
+                opacity: 0;
+            }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .slideshow-section {
+                padding: 40px 15px;
+            }
+            
+            .slides-wrapper {
+                height: 500px;
+            }
+            
+            .slide {
+                padding: 20px;
+            }
+            
+            .slide-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                text-align: center;
+            }
+            
+            .slide-text h3 {
+                font-size: 1.8em;
+                margin-bottom: 15px;
+            }
+            
+            .slide-text p {
+                font-size: 1em;
+            }
+            
+            .slide-arrow {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .slide-arrow svg {
+                width: 20px;
+                height: 20px;
+            }
+            
+            .slide-arrow-left {
+                left: 10px;
+            }
+            
+            .slide-arrow-right {
+                right: 10px;
+            }
+            
+            .slide-dots {
+                bottom: 15px;
+                gap: 8px;
+            }
+            
+            .slide-dot {
+                width: 12px;
+                height: 12px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .slides-wrapper {
+                height: 550px;
+            }
+            
+            .slide-text h3 {
+                font-size: 1.5em;
+            }
+            
+            .slide-text p {
+                font-size: 0.9em;
+            }
+            
+            .slide-svg svg {
+                max-width: 300px;
+            }
+        }
+        
+        /* High contrast mode support */
+        @media (prefers-contrast: high) {
+            .slide-arrow {
+                background: #000;
+                border: 2px solid #fff;
+            }
+            
+            .slide-dot {
+                border-color: #000;
+                background: #fff;
+            }
+            
+            .slide-dot.active {
+                background: #000;
+                border-color: #000;
+            }
+        }
+        
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+            .slide {
+                transition: opacity 0.3s ease;
+                transform: none;
+            }
+            
+            .slide.active {
+                transform: none;
+            }
+            
+            .slide-arrow:hover {
+                transform: translateY(-50%);
+            }
+            
+            .slide-dot:hover,
+            .slide-dot.active {
+                transform: none;
+            }
+            
+            .slide-dot.active::after {
+                animation: none;
+            }
+            
+            .slide:hover .slide-svg svg {
+                transform: none;
+            }
+        }
     </style>
 </head>
 <body>
@@ -212,6 +541,275 @@
         <p>Scopri le soluzioni innovative e sostenibili per una vita sana ed ecologica, in sintonia con la Terra e diventa socio della Fondazione Italiana per la Bioarchitettura® e l'Antropizzazione Sostenibile dell'Ambiente.</p>
         <a href="#" class="cta-button">Scopri di più</a>
     </div>
+
+    <!-- Bioarchitettura Slideshow -->
+    <section class="slideshow-section" id="slideshow" aria-label="Presentazione Bioarchitettura">
+        <div class="slideshow-container">
+            <div class="slides-wrapper">
+                <!-- Slide 1: Rivista Bioarchitettura -->
+                <div class="slide active" role="img" aria-label="Rivista Bioarchitettura - La prima rivista italiana dedicata all'architettura ecologica">
+                    <div class="slide-content">
+                        <div class="slide-svg">
+                            <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Background gradient -->
+                                <defs>
+                                    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#2c5530;stop-opacity:0.1" />
+                                        <stop offset="100%" style="stop-color:#4a7c59;stop-opacity:0.3" />
+                                    </linearGradient>
+                                    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                                        <feDropShadow dx="3" dy="3" stdDeviation="3" flood-color="#2c5530" flood-opacity="0.3"/>
+                                    </filter>
+                                </defs>
+                                <rect width="400" height="300" fill="url(#grad1)" rx="15"/>
+                                
+                                <!-- Magazine/Book shape -->
+                                <rect x="80" y="60" width="120" height="160" fill="#2c5530" rx="8" filter="url(#shadow)"/>
+                                <rect x="85" y="65" width="110" height="150" fill="#4a7c59" rx="6"/>
+                                <rect x="90" y="75" width="100" height="8" fill="#ffffff" opacity="0.9" rx="2"/>
+                                <rect x="90" y="90" width="80" height="4" fill="#ffffff" opacity="0.7" rx="1"/>
+                                <rect x="90" y="100" width="90" height="4" fill="#ffffff" opacity="0.7" rx="1"/>
+                                
+                                <!-- Leaf elements -->
+                                <path d="M220 100 Q240 80 260 100 Q240 120 220 100" fill="#2c5530" opacity="0.8"/>
+                                <path d="M230 110 Q250 90 270 110 Q250 130 230 110" fill="#4a7c59" opacity="0.9"/>
+                                <path d="M240 85 Q245 75 255 85 Q245 95 240 85" fill="#2c5530" opacity="0.6"/>
+                                
+                                <!-- Text -->
+                                <text x="200" y="250" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#2c5530" text-anchor="middle">RIVISTA</text>
+                                <text x="200" y="270" font-family="Arial, sans-serif" font-size="16" fill="#4a7c59" text-anchor="middle">BIOARCHITETTURA</text>
+                            </svg>
+                        </div>
+                        <div class="slide-text">
+                            <h3>Rivista Bioarchitettura</h3>
+                            <p>La prima rivista italiana dedicata all'architettura ecologica, offrendo ispirazione e informazioni per un abitare consapevole e sostenibile.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 2: Architettura Sostenibile -->
+                <div class="slide" role="img" aria-label="Architettura Sostenibile - Soluzioni innovative per un futuro ecologico">
+                    <div class="slide-content">
+                        <div class="slide-svg">
+                            <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#4a7c59;stop-opacity:0.1" />
+                                        <stop offset="100%" style="stop-color:#2c5530;stop-opacity:0.3" />
+                                    </linearGradient>
+                                </defs>
+                                <rect width="400" height="300" fill="url(#grad2)" rx="15"/>
+                                
+                                <!-- Sustainable house -->
+                                <polygon points="120,180 200,120 280,180" fill="#2c5530" filter="url(#shadow)"/>
+                                <rect x="140" y="180" width="120" height="80" fill="#4a7c59"/>
+                                <rect x="160" y="200" width="25" height="35" fill="#2c5530"/>
+                                <rect x="200" y="195" width="20" height="20" fill="#ffffff" opacity="0.8" rx="2"/>
+                                <rect x="230" y="195" width="20" height="20" fill="#ffffff" opacity="0.8" rx="2"/>
+                                
+                                <!-- Solar panels -->
+                                <rect x="150" y="140" width="100" height="20" fill="#2c5530" opacity="0.8" rx="3"/>
+                                <rect x="155" y="143" width="90" height="14" fill="#4a7c59" rx="2"/>
+                                
+                                <!-- Trees/vegetation -->
+                                <circle cx="320" cy="200" r="25" fill="#2c5530" opacity="0.7"/>
+                                <rect x="315" y="220" width="10" height="20" fill="#4a7c59"/>
+                                <circle cx="80" cy="210" r="20" fill="#4a7c59" opacity="0.8"/>
+                                <rect x="76" y="225" width="8" height="15" fill="#2c5530"/>
+                                
+                                <!-- Sun -->
+                                <circle cx="320" cy="80" r="15" fill="#4a7c59" opacity="0.6"/>
+                                <path d="M320 50 L320 60 M340 80 L330 80 M300 80 L310 80 M320 100 L320 110 M335 65 L328 72 M305 65 L312 72 M335 95 L328 88 M305 95 L312 88" stroke="#4a7c59" stroke-width="2" opacity="0.6"/>
+                                
+                                <text x="200" y="280" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#2c5530" text-anchor="middle">ARCHITETTURA SOSTENIBILE</text>
+                            </svg>
+                        </div>
+                        <div class="slide-text">
+                            <h3>Architettura Sostenibile</h3>
+                            <p>Soluzioni innovative e tecnologie avanzate per costruire in armonia con l'ambiente, riducendo l'impatto ecologico.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 3: Biocompatibilità -->
+                <div class="slide" role="img" aria-label="Biocompatibilità - Materiali naturali e salutari per gli ambienti di vita">
+                    <div class="slide-content">
+                        <div class="slide-svg">
+                            <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#2c5530;stop-opacity:0.2" />
+                                        <stop offset="100%" style="stop-color:#4a7c59;stop-opacity:0.2" />
+                                    </linearGradient>
+                                </defs>
+                                <rect width="400" height="300" fill="url(#grad3)" rx="15"/>
+                                
+                                <!-- DNA helix representing biocompatibility -->
+                                <path d="M120 80 Q140 100 160 80 Q180 60 200 80 Q220 100 240 80 Q260 60 280 80" stroke="#2c5530" stroke-width="4" fill="none" opacity="0.8"/>
+                                <path d="M120 100 Q140 80 160 100 Q180 120 200 100 Q220 80 240 100 Q260 120 280 100" stroke="#4a7c59" stroke-width="4" fill="none" opacity="0.8"/>
+                                
+                                <!-- Connecting lines -->
+                                <line x1="130" y1="90" x2="130" y2="90" stroke="#2c5530" stroke-width="2" opacity="0.6"/>
+                                <line x1="150" y1="90" x2="150" y2="90" stroke="#4a7c59" stroke-width="2" opacity="0.6"/>
+                                <line x1="170" y1="90" x2="170" y2="90" stroke="#2c5530" stroke-width="2" opacity="0.6"/>
+                                <line x1="190" y1="90" x2="190" y2="90" stroke="#4a7c59" stroke-width="2" opacity="0.6"/>
+                                <line x1="210" y1="90" x2="210" y2="90" stroke="#2c5530" stroke-width="2" opacity="0.6"/>
+                                <line x1="230" y1="90" x2="230" y2="90" stroke="#4a7c59" stroke-width="2" opacity="0.6"/>
+                                <line x1="250" y1="90" x2="250" y2="90" stroke="#2c5530" stroke-width="2" opacity="0.6"/>
+                                <line x1="270" y1="90" x2="270" y2="90" stroke="#4a7c59" stroke-width="2" opacity="0.6"/>
+                                
+                                <!-- Natural elements -->
+                                <circle cx="150" cy="160" r="12" fill="#2c5530" opacity="0.7"/>
+                                <path d="M150 150 L145 140 L155 140 Z" fill="#4a7c59" opacity="0.8"/>
+                                
+                                <circle cx="200" cy="170" r="10" fill="#4a7c59" opacity="0.7"/>
+                                <path d="M200 162 L196 155 L204 155 Z" fill="#2c5530" opacity="0.8"/>
+                                
+                                <circle cx="250" cy="160" r="11" fill="#2c5530" opacity="0.6"/>
+                                <path d="M250 151 L246 144 L254 144 Z" fill="#4a7c59" opacity="0.7"/>
+                                
+                                <!-- Molecular structure -->
+                                <circle cx="100" cy="200" r="8" fill="#2c5530" opacity="0.8"/>
+                                <circle cx="120" cy="220" r="6" fill="#4a7c59" opacity="0.8"/>
+                                <circle cx="80" cy="220" r="6" fill="#4a7c59" opacity="0.8"/>
+                                <line x1="100" y1="200" x2="120" y2="220" stroke="#2c5530" stroke-width="2" opacity="0.6"/>
+                                <line x1="100" y1="200" x2="80" y2="220" stroke="#2c5530" stroke-width="2" opacity="0.6"/>
+                                
+                                <text x="200" y="250" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#2c5530" text-anchor="middle">BIOCOMPATIBILITÀ</text>
+                                <text x="200" y="270" font-family="Arial, sans-serif" font-size="14" fill="#4a7c59" text-anchor="middle">Materiali naturali e salutari</text>
+                            </svg>
+                        </div>
+                        <div class="slide-text">
+                            <h3>Biocompatibilità</h3>
+                            <p>Materiali naturali e salutari che rispettano la vita umana e l'ambiente, creando spazi che promuovono il benessere.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 4: Master CasaClima -->
+                <div class="slide" role="img" aria-label="Master CasaClima - Formazione specialistica per professionisti dell'efficienza energetica">
+                    <div class="slide-content">
+                        <div class="slide-svg">
+                            <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <linearGradient id="grad4" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#4a7c59;stop-opacity:0.15" />
+                                        <stop offset="100%" style="stop-color:#2c5530;stop-opacity:0.25" />
+                                    </linearGradient>
+                                </defs>
+                                <rect width="400" height="300" fill="url(#grad4)" rx="15"/>
+                                
+                                <!-- Graduation cap -->
+                                <polygon points="160,120 240,120 200,90" fill="#2c5530" filter="url(#shadow)"/>
+                                <rect x="150" y="120" width="100" height="8" fill="#4a7c59"/>
+                                <circle cx="250" cy="124" r="4" fill="#2c5530"/>
+                                <line x1="250" y1="124" x2="265" y2="135" stroke="#2c5530" stroke-width="2"/>
+                                
+                                <!-- Certificate/diploma -->
+                                <rect x="120" y="160" width="160" height="100" fill="#ffffff" stroke="#2c5530" stroke-width="2" rx="5" filter="url(#shadow)"/>
+                                <rect x="130" y="170" width="140" height="4" fill="#4a7c59" opacity="0.8"/>
+                                <rect x="130" y="180" width="120" height="3" fill="#2c5530" opacity="0.6"/>
+                                <rect x="130" y="190" width="130" height="3" fill="#2c5530" opacity="0.6"/>
+                                <rect x="130" y="200" width="110" height="3" fill="#2c5530" opacity="0.6"/>
+                                
+                                <!-- Seal -->
+                                <circle cx="240" cy="230" r="15" fill="#2c5530" opacity="0.8"/>
+                                <circle cx="240" cy="230" r="10" fill="#4a7c59" opacity="0.9"/>
+                                <path d="M240 220 L245 230 L240 240 L235 230 Z" fill="#ffffff" opacity="0.8"/>
+                                
+                                <!-- Energy efficiency symbols -->
+                                <rect x="80" y="180" width="25" height="40" fill="#2c5530" opacity="0.7" rx="3"/>
+                                <text x="92" y="205" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#ffffff">A</text>
+                                
+                                <rect x="320" y="180" width="25" height="40" fill="#4a7c59" opacity="0.7" rx="3"/>
+                                <text x="332" y="205" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#ffffff">+</text>
+                                
+                                <text x="200" y="285" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#2c5530" text-anchor="middle">MASTER CASACLIMA</text>
+                            </svg>
+                        </div>
+                        <div class="slide-text">
+                            <h3>Master CasaClima</h3>
+                            <p>Percorso di alta formazione per esperti in progettazione sostenibile, certificazioni e consulenze energetico-ambientali.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 5: Fondazione Italiana -->
+                <div class="slide" role="img" aria-label="Fondazione Italiana - L'ente di riferimento per la bioarchitettura in Italia">
+                    <div class="slide-content">
+                        <div class="slide-svg">
+                            <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <linearGradient id="grad5" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#2c5530;stop-opacity:0.1" />
+                                        <stop offset="100%" style="stop-color:#4a7c59;stop-opacity:0.4" />
+                                    </linearGradient>
+                                </defs>
+                                <rect width="400" height="300" fill="url(#grad5)" rx="15"/>
+                                
+                                <!-- Italian flag inspired element -->
+                                <rect x="120" y="80" width="160" height="80" fill="#ffffff" stroke="#2c5530" stroke-width="2" rx="8" filter="url(#shadow)"/>
+                                <rect x="125" y="85" width="50" height="70" fill="#2c5530" opacity="0.3"/>
+                                <rect x="175" y="85" width="50" height="70" fill="#ffffff"/>
+                                <rect x="225" y="85" width="50" height="70" fill="#4a7c59" opacity="0.7"/>
+                                
+                                <!-- Foundation building/structure -->
+                                <rect x="140" y="180" width="120" height="60" fill="#2c5530" opacity="0.8" rx="5"/>
+                                <rect x="150" y="170" width="100" height="10" fill="#4a7c59"/>
+                                
+                                <!-- Columns -->
+                                <rect x="160" y="190" width="8" height="40" fill="#4a7c59" opacity="0.9"/>
+                                <rect x="175" y="190" width="8" height="40" fill="#4a7c59" opacity="0.9"/>
+                                <rect x="190" y="190" width="8" height="40" fill="#4a7c59" opacity="0.9"/>
+                                <rect x="205" y="190" width="8" height="40" fill="#4a7c59" opacity="0.9"/>
+                                <rect x="220" y="190" width="8" height="40" fill="#4a7c59" opacity="0.9"/>
+                                <rect x="235" y="190" width="8" height="40" fill="#4a7c59" opacity="0.9"/>
+                                
+                                <!-- Foundation text -->
+                                <rect x="165" y="200" width="70" height="20" fill="#ffffff" opacity="0.9" rx="2"/>
+                                <text x="200" y="212" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#2c5530" text-anchor="middle">FONDAZIONE</text>
+                                
+                                <!-- Decorative elements -->
+                                <circle cx="320" cy="120" r="20" fill="#2c5530" opacity="0.4"/>
+                                <path d="M320 100 Q330 110 320 120 Q310 110 320 100" fill="#4a7c59" opacity="0.6"/>
+                                
+                                <circle cx="80" cy="140" r="15" fill="#4a7c59" opacity="0.5"/>
+                                <path d="M80 125 Q87 132 80 140 Q73 132 80 125" fill="#2c5530" opacity="0.7"/>
+                                
+                                <text x="200" y="270" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#2c5530" text-anchor="middle">FONDAZIONE ITALIANA</text>
+                                <text x="200" y="285" font-family="Arial, sans-serif" font-size="12" fill="#4a7c59" text-anchor="middle">per la Bioarchitettura</text>
+                            </svg>
+                        </div>
+                        <div class="slide-text">
+                            <h3>Fondazione Italiana</h3>
+                            <p>L'Ente italiano di riferimento nell'ambito del costruire sano ed ecologico, dal 1999 al servizio della bioarchitettura.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation arrows -->
+            <button class="slide-arrow slide-arrow-left" aria-label="Slide precedente" title="Slide precedente">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+            <button class="slide-arrow slide-arrow-right" aria-label="Slide successiva" title="Slide successiva">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+
+            <!-- Dot indicators -->
+            <div class="slide-dots" role="tablist" aria-label="Navigazione slideshow">
+                <button class="slide-dot active" role="tab" aria-selected="true" aria-label="Vai al slide 1" data-slide="0" title="Rivista Bioarchitettura"></button>
+                <button class="slide-dot" role="tab" aria-selected="false" aria-label="Vai al slide 2" data-slide="1" title="Architettura Sostenibile"></button>
+                <button class="slide-dot" role="tab" aria-selected="false" aria-label="Vai al slide 3" data-slide="2" title="Biocompatibilità"></button>
+                <button class="slide-dot" role="tab" aria-selected="false" aria-label="Vai al slide 4" data-slide="3" title="Master CasaClima"></button>
+                <button class="slide-dot" role="tab" aria-selected="false" aria-label="Vai al slide 5" data-slide="4" title="Fondazione Italiana"></button>
+            </div>
+        </div>
+    </section>
 
     <section class="about-section" id="chi-siamo">
         <h2>La Nostra Storia</h2>
@@ -292,6 +890,226 @@
                     }
                 });
             });
+            
+            // Slideshow functionality
+            const slides = document.querySelectorAll('.slide');
+            const dots = document.querySelectorAll('.slide-dot');
+            const leftArrow = document.querySelector('.slide-arrow-left');
+            const rightArrow = document.querySelector('.slide-arrow-right');
+            const slideshowContainer = document.querySelector('.slideshow-container');
+            
+            let currentSlide = 0;
+            let isAutoPlaying = true;
+            let autoPlayInterval;
+            let touchStartX = 0;
+            let touchEndX = 0;
+            
+            // Initialize slideshow
+            function initSlideshow() {
+                showSlide(0);
+                startAutoPlay();
+                addEventListeners();
+            }
+            
+            // Show specific slide
+            function showSlide(index) {
+                // Hide all slides
+                slides.forEach((slide, i) => {
+                    slide.classList.remove('active');
+                    slide.setAttribute('aria-hidden', 'true');
+                });
+                
+                // Deactivate all dots
+                dots.forEach((dot, i) => {
+                    dot.classList.remove('active');
+                    dot.setAttribute('aria-selected', 'false');
+                });
+                
+                // Show current slide
+                slides[index].classList.add('active');
+                slides[index].setAttribute('aria-hidden', 'false');
+                
+                // Activate current dot
+                dots[index].classList.add('active');
+                dots[index].setAttribute('aria-selected', 'true');
+                
+                currentSlide = index;
+            }
+            
+            // Next slide
+            function nextSlide() {
+                const next = (currentSlide + 1) % slides.length;
+                showSlide(next);
+            }
+            
+            // Previous slide
+            function prevSlide() {
+                const prev = (currentSlide - 1 + slides.length) % slides.length;
+                showSlide(prev);
+            }
+            
+            // Auto-play functionality
+            function startAutoPlay() {
+                if (isAutoPlaying) {
+                    autoPlayInterval = setInterval(nextSlide, 5000);
+                }
+            }
+            
+            function stopAutoPlay() {
+                clearInterval(autoPlayInterval);
+            }
+            
+            function pauseAutoPlay() {
+                isAutoPlaying = false;
+                stopAutoPlay();
+            }
+            
+            function resumeAutoPlay() {
+                isAutoPlaying = true;
+                startAutoPlay();
+            }
+            
+            // Touch/swipe functionality
+            function handleTouchStart(e) {
+                touchStartX = e.touches[0].clientX;
+            }
+            
+            function handleTouchMove(e) {
+                e.preventDefault(); // Prevent scrolling
+            }
+            
+            function handleTouchEnd(e) {
+                touchEndX = e.changedTouches[0].clientX;
+                handleSwipe();
+            }
+            
+            function handleSwipe() {
+                const swipeThreshold = 50;
+                const diff = touchStartX - touchEndX;
+                
+                if (Math.abs(diff) > swipeThreshold) {
+                    if (diff > 0) {
+                        nextSlide();
+                    } else {
+                        prevSlide();
+                    }
+                    pauseAutoPlay();
+                    setTimeout(resumeAutoPlay, 10000); // Resume after 10 seconds
+                }
+            }
+            
+            // Add all event listeners
+            function addEventListeners() {
+                // Arrow navigation
+                if (leftArrow) {
+                    leftArrow.addEventListener('click', () => {
+                        prevSlide();
+                        pauseAutoPlay();
+                        setTimeout(resumeAutoPlay, 10000);
+                    });
+                }
+                
+                if (rightArrow) {
+                    rightArrow.addEventListener('click', () => {
+                        nextSlide();
+                        pauseAutoPlay();
+                        setTimeout(resumeAutoPlay, 10000);
+                    });
+                }
+                
+                // Dot navigation
+                dots.forEach((dot, index) => {
+                    dot.addEventListener('click', () => {
+                        showSlide(index);
+                        pauseAutoPlay();
+                        setTimeout(resumeAutoPlay, 10000);
+                    });
+                });
+                
+                // Keyboard navigation
+                document.addEventListener('keydown', (e) => {
+                    // Only handle keyboard if slideshow is in view
+                    if (isElementInViewport(slideshowContainer)) {
+                        switch(e.key) {
+                            case 'ArrowLeft':
+                                e.preventDefault();
+                                prevSlide();
+                                pauseAutoPlay();
+                                setTimeout(resumeAutoPlay, 10000);
+                                break;
+                            case 'ArrowRight':
+                                e.preventDefault();
+                                nextSlide();
+                                pauseAutoPlay();
+                                setTimeout(resumeAutoPlay, 10000);
+                                break;
+                            case '1':
+                            case '2':
+                            case '3':
+                            case '4':
+                            case '5':
+                                e.preventDefault();
+                                const slideIndex = parseInt(e.key) - 1;
+                                if (slideIndex < slides.length) {
+                                    showSlide(slideIndex);
+                                    pauseAutoPlay();
+                                    setTimeout(resumeAutoPlay, 10000);
+                                }
+                                break;
+                        }
+                    }
+                });
+                
+                // Pause on hover, resume on leave
+                if (slideshowContainer) {
+                    slideshowContainer.addEventListener('mouseenter', () => {
+                        pauseAutoPlay();
+                    });
+                    
+                    slideshowContainer.addEventListener('mouseleave', () => {
+                        resumeAutoPlay();
+                    });
+                    
+                    // Touch events for mobile
+                    slideshowContainer.addEventListener('touchstart', handleTouchStart, { passive: false });
+                    slideshowContainer.addEventListener('touchmove', handleTouchMove, { passive: false });
+                    slideshowContainer.addEventListener('touchend', handleTouchEnd, { passive: false });
+                }
+                
+                // Pause when page is not visible
+                document.addEventListener('visibilitychange', () => {
+                    if (document.hidden) {
+                        stopAutoPlay();
+                    } else if (isAutoPlaying) {
+                        startAutoPlay();
+                    }
+                });
+                
+                // Handle window focus/blur
+                window.addEventListener('blur', stopAutoPlay);
+                window.addEventListener('focus', () => {
+                    if (isAutoPlaying) {
+                        startAutoPlay();
+                    }
+                });
+            }
+            
+            // Utility function to check if element is in viewport
+            function isElementInViewport(el) {
+                if (!el) return false;
+                const rect = el.getBoundingClientRect();
+                return (
+                    rect.top >= 0 &&
+                    rect.left >= 0 &&
+                    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+                );
+            }
+            
+            // Initialize slideshow if elements exist
+            if (slides.length > 0 && dots.length > 0) {
+                initSlideshow();
+            }
         });
     </script>
 </body>
