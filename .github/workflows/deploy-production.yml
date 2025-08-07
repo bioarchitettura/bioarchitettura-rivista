@@ -207,7 +207,46 @@ jobs:
           echo "Build completed successfully!"
           cat _site/build-report.txt
           
-      - name: Upload artifact
+      - name: Check for blocked.jsonl file
+        id: check-blocked-jsonl
+        run: |
+          if [ -f "/home/runner/work/_temp/runtime-logs/blocked.jsonl" ]; then
+            echo "blocked_jsonl_exists=true" >> $GITHUB_OUTPUT
+            echo "✅ Found blocked.jsonl file"
+          else
+            echo "blocked_jsonl_exists=false" >> $GITHUB_OUTPUT
+            echo "ℹ️ blocked.jsonl file not found"
+          fi
+
+      - name: Check for blocked.* files
+        id: check-blocked-files
+        run: |
+          if ls /home/runner/work/_temp/runtime-logs/blocked.* 1> /dev/null 2>&1; then
+            echo "blocked_files_exist=true" >> $GITHUB_OUTPUT
+            echo "✅ Found blocked.* files:"
+            ls -la /home/runner/work/_temp/runtime-logs/blocked.* 2>/dev/null || true
+          else
+            echo "blocked_files_exist=false" >> $GITHUB_OUTPUT
+            echo "ℹ️ No blocked.* files found"
+          fi
+
+      - name: Upload blocked.jsonl artifact
+        if: steps.check-blocked-jsonl.outputs.blocked_jsonl_exists == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: blocked-jsonl-logs
+          path: /home/runner/work/_temp/runtime-logs/blocked.jsonl
+          retention-days: 30
+
+      - name: Upload blocked.* artifacts
+        if: steps.check-blocked-files.outputs.blocked_files_exist == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: blocked-files-logs
+          path: /home/runner/work/_temp/runtime-logs/blocked.*
+          retention-days: 30
+
+      - name: Upload pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: _site/
