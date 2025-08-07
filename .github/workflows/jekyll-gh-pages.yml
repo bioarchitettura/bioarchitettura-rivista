@@ -1,20 +1,6 @@
 # Sample workflow for building and deploying a Jekyll site to GitHub Pages
 name: Deploy Jekyll with GitHub Pages dependencies preinstalled
-- name: Check if blocked.jsonl or blocked.md exists
-  id: check_files
-  run: |
-    if ls /home/runner/work/_temp/runtime-logs/blocked.* 1> /dev/null 2>&1; then
-      echo "found=true" >> $GITHUB_OUTPUT
-    else
-      echo "found=false" >> $GITHUB_OUTPUT
-    fi
 
-- name: Upload blocked artifacts if present
-  if: steps.check_files.outputs.found == 'true'
-  uses: actions/upload-artifact@v4
-  with:
-    name: blocked
-    path: /home/runner/work/_temp/runtime-logs/blocked.*
 on:
   # Runs on pushes targeting the default branch
   push:
@@ -38,7 +24,6 @@ permissions:
   repository-projects: write
   security-events: write
   statuses: write
- 
 
 # Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
 # However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
@@ -62,6 +47,52 @@ jobs:
           destination: ./_site
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
+      - name: Check if blocked.jsonl or blocked.md exists
+        id: check_files
+        run: |
+          if ls /home/runner/work/_temp/runtime-logs/blocked.* 1> /dev/null 2>&1; then
+            echo "found=true" >> $GITHUB_OUTPUT
+          else
+            echo "found=false" >> $GITHUB_OUTPUT
+          fi
+      - name: Upload blocked artifacts if present
+        if: steps.check_files.outputs.found == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: blocked
+          path: /home/runner/work/_temp/runtime-logs/blocked.*
+
+  # Repeated Build job (Job 58 equivalent)
+  build-repeat:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Build with Jekyll
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          name: github-pages-repeat
+      - name: Check if blocked.jsonl or blocked.md exists
+        id: check_files_repeat
+        run: |
+          if ls /home/runner/work/_temp/runtime-logs/blocked.* 1> /dev/null 2>&1; then
+            echo "found=true" >> $GITHUB_OUTPUT
+          else
+            echo "found=false" >> $GITHUB_OUTPUT
+          fi
+      - name: Upload blocked artifacts if present
+        if: steps.check_files_repeat.outputs.found == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: blocked-repeat
+          path: /home/runner/work/_temp/runtime-logs/blocked.*
 
   # Deployment job
   deploy:
@@ -69,7 +100,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    needs: build
+    needs: [build, build-repeat]
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
