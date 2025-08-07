@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Test - Bioarchitettura Rivista Shop Integration</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/rivista-shop.css">
+    
+    <style>
+        /* Minimal additional styling for test */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+        .test-header { background: var(--primary-color, #2c5530); color: white; padding: 2rem 0; text-align: center; margin-bottom: 2rem; }
+        .text-center { text-align: center; }
+        
+        /* Define CONFIG if not available */
+        :root {
+            --cart-storage-key: 'bioarch_cart';
+            --debounce-delay: 300;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="test-header">
+        <div class="container">
+            <h1>Test - Bioarchitettura Rivista Shop Integration</h1>
+            <p>Verifica dell'integrazione prodotti rivista</p>
+        </div>
+    </div>
+
+    <!-- Navigation (simplified) -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="#" class="nav-logo">
+                    <h1>Bioarchitettura</h1>
+                </a>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <button class="cart-btn" id="cart-btn" title="Carrello">
+                        🛒 Carrello
+                        <span class="cart-count" id="cart-count">0</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <section class="shop-header">
+            <div class="container">
+                <h1>Bioarchitettura Shop</h1>
+                <p>Scopri la nostra selezione di prodotti per la bioarchitettura: ebooks, corsi, webinar e riviste.</p>
+            </div>
+        </section>
+
+        <section class="shop-filters">
+            <div class="container">
+                <div class="filter-container">
+                    <!-- Filters will be populated by JavaScript -->
+                </div>
+                <div class="search-container">
+                    <input type="search" id="product-search" placeholder="Cerca prodotti..." aria-label="Cerca prodotti">
+                    <button type="button" id="rivista-filter-toggle" class="rivista-filter-btn" 
+                            aria-label="Filtra solo prodotti rivista">
+                        📚 Solo Rivista
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section class="shop-content">
+            <div class="container">
+                <div class="shop-grid">
+                    <!-- Products will be populated by JavaScript -->
+                    <div class="loading-products">
+                        <div class="loading-spinner"></div>
+                        <p>Caricamento prodotti...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Shopping Cart Modal -->
+    <div id="cart-modal" class="cart-modal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2>Carrello</h2>
+                <button class="cart-close" id="cart-close">&times;</button>
+            </div>
+            <div class="cart-body" id="cart-items">
+                <p class="empty-cart">Il carrello è vuoto</p>
+            </div>
+            <div class="cart-footer">
+                <div class="cart-total">
+                    <strong>Totale: </strong>
+                    <span id="cart-total">€0.00</span>
+                </div>
+                <div class="cart-actions">
+                    <button class="btn btn-secondary" id="clear-cart">Svuota</button>
+                    <button class="btn btn-primary" id="checkout-btn">Checkout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div id="notification-container" class="notification-container"></div>
+
+    <!-- JavaScript -->
+    <script>
+        // Define CONFIG and other necessary globals for the test
+        const CONFIG = {
+            CART_STORAGE_KEY: 'bioarch_cart',
+            DEBOUNCE_DELAY: 300
+        };
+
+        // Simple notification manager for testing
+        window.bioarchitetturaApp = {
+            notificationManager: {
+                show: function(message, type = 'info', title = '', duration = 3000) {
+                    console.log(`${type.toUpperCase()}: ${title} ${message}`);
+                    // Simple alert for testing
+                    if (type === 'error') {
+                        alert(`Errore: ${message}`);
+                    } else if (type === 'success') {
+                        alert(`Successo: ${message}`);
+                    }
+                }
+            }
+        };
+
+        // Currency formatter
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('it-IT', {
+                style: 'currency',
+                currency: 'EUR'
+            }).format(amount);
+        }
+
+        // Debounce function
+        function debounce(func, delay) {
+            let timeoutId;
+            return function (...args) {
+                clearTimeout(timeoutId);
+                timeoutId = setTimeout(() => func.apply(this, args), delay);
+            };
+        }
+    </script>
+    <script src="assets/js/rivista-integration.js"></script>
+    <script src="assets/js/shop.js"></script>
+
+    <script>
+        // Initialize test
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Test page loaded');
+            console.log('Available products:', window.productManager ? window.productManager.products.length : 'ProductManager not available');
+            console.log('Rivista products:', window.productManager ? window.productManager.getRivistaProducts().length : 'No rivista products');
+        });
+    </script>
+
+    <style>
+        /* Additional CSS for test page */
+        .cart-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .cart-modal.active {
+            display: block;
+        }
+
+        .cart-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+        }
+
+        .cart-close {
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            background: none;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color, #2c5530);
+            color: white;
+        }
+
+        .btn-secondary {
+            background-color: var(--gray-500, #6b7280);
+            color: white;
+        }
+
+        .cart-btn {
+            background: var(--primary-color, #2c5530);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .cart-count {
+            background: red;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 12px;
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            display: none;
+        }
+
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-menu {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</body>
+</html>
