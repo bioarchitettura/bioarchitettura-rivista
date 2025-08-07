@@ -1,5 +1,6 @@
 # Advanced GitHub Actions workflow for Bioarchitettura Magazine
 # Production-ready deployment with asset optimization and multi-environment support
+# Updated to re-trigger slideshow deployment workflow
 
 name: Deploy Bioarchitettura Magazine
 
