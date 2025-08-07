@@ -1,33 +1,246 @@
-# Bioarchitettura Magazine - Deployment Guide
+# Deployment Guide - Fondazione Bioarchitettura Website
 
-## 🚀 Overview
+## 🚀 Production Deployment
 
-This deployment guide covers the complete setup and deployment process for the Bioarchitettura Magazine website, a comprehensive Jekyll-based platform featuring editorial content, e-commerce functionality, AI integrations, and multilingual support.
+### Netlify Deployment (Recommended)
 
-## 📋 System Requirements
+#### Quick Setup
+1. **Connect to Netlify:**
+   - Go to [Netlify](https://netlify.com)
+   - Click "New site from Git"
+   - Connect your GitHub account
+   - Select `bioarchitettura/bioarchitettura-rivista` repository
 
-### Development Environment
-- **Ruby**: >= 3.0
-- **Node.js**: >= 16.x
-- **Bundler**: >= 2.0
-- **Jekyll**: >= 4.0
-- **Git**: >= 2.20
+2. **Build Settings:**
+   - **Build command**: `jekyll build`
+   - **Publish directory**: `_site`
+   - **Environment**: `JEKYLL_ENV=production`
 
-### Production Environment
-- **GitHub Pages** (recommended) or any Jekyll-compatible hosting
-- **PayPal Account** for e-commerce functionality
-- **OpenAI API Key** (optional, for AI features)
-- **Google Translate API Key** (optional, for enhanced translations)
+3. **Domain Setup:**
+   - Configure custom domain: `bioarchitettura.org`
+   - SSL certificate will be automatically provisioned
+   - Set up redirects if needed
 
-## 🔧 Installation
+#### Environment Variables
+Set these in Netlify dashboard:
 
-### 1. Clone Repository
 ```bash
-git clone https://github.com/bioarchitettura/bioarchitettura-rivista.git
-cd bioarchitettura-rivista
+JEKYLL_ENV=production
+PAYPAL_CLIENT_ID=your_production_paypal_client_id
+GOOGLE_ANALYTICS_ID=GA-XXXXXXXXX
 ```
 
-### 2. Install Dependencies
+### GitHub Pages Alternative
+
+If using GitHub Pages instead of Netlify:
+
+1. **Enable GitHub Pages:**
+   - Repository Settings > Pages
+   - Source: GitHub Actions
+
+2. **Workflow:**
+   The repository includes `.github/workflows/jekyll-gh-pages.yml` for automatic deployment
+
+### Manual Server Deployment
+
+For traditional web hosting:
+
+```bash
+# Build locally
+JEKYLL_ENV=production jekyll build
+
+# Upload _site/ directory to your web server
+rsync -avz _site/ user@server:/var/www/html/
+```
+
+## ⚙️ Configuration for Production
+
+### 1. Update _config.yml
+
+```yaml
+# Production URL
+url: "https://bioarchitettura.org"
+baseurl: ""
+
+# Enable plugins for production
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+  - jekyll-paginate
+
+# PayPal Production Settings
+paypal:
+  client_id: "your-production-paypal-client-id"
+  environment: "production"
+  merchant_email: "hannes.mitterer@gmail.com"
+
+# Analytics
+analytics:
+  google_analytics_id: "GA-XXXXXXXXX"
+```
+
+### 2. PayPal Integration Setup
+
+#### Get PayPal Client ID:
+1. Go to [PayPal Developer](https://developer.paypal.com/)
+2. Create a new app
+3. Copy the Client ID for production
+4. Add it to your environment variables
+
+#### Test PayPal Integration:
+1. Use sandbox mode first: `environment: "sandbox"`
+2. Test with PayPal sandbox accounts
+3. Switch to production when ready
+
+### 3. Analytics Setup
+
+#### Google Analytics:
+1. Create Google Analytics account
+2. Set up property for bioarchitettura.org
+3. Get tracking ID (GA-XXXXXXXXX)
+4. Add to _config.yml
+
+## 🔒 Security Considerations
+
+### 1. Environment Variables
+Never commit sensitive data to the repository:
+- PayPal Client IDs
+- Google Analytics IDs
+- API keys
+
+### 2. Content Security Policy
+The site includes CSP headers for security:
+
+```yaml
+security:
+  content_security_policy: "default-src 'self'; script-src 'self' 'unsafe-inline' *.paypal.com *.paypalobjects.com; style-src 'self' 'unsafe-inline' fonts.googleapis.com; font-src 'self' fonts.gstatic.com; img-src 'self' data: *; connect-src 'self' api.openai.com translate.googleapis.com;"
+```
+
+### 3. SSL Certificate
+- Netlify provides automatic SSL
+- For manual hosting, ensure SSL is configured
+
+## 📊 Performance Optimization
+
+### 1. Image Optimization
+- Use WebP format when possible
+- Implement lazy loading (already included)
+- Optimize image sizes for different screen sizes
+
+### 2. Caching Strategy
+- Static assets cached for 1 year
+- HTML cached for 1 hour
+- API responses cached appropriately
+
+### 3. CDN Setup
+- Netlify includes global CDN
+- For manual hosting, consider CloudFlare
+
+## 🧪 Pre-deployment Testing
+
+### Local Testing Checklist:
+```bash
+# 1. Build the site
+JEKYLL_ENV=production jekyll build
+
+# 2. Serve locally to test
+jekyll serve --host 0.0.0.0
+
+# 3. Test key functionality:
+# - Homepage loads correctly
+# - Shop functionality works
+# - Language switching works
+# - Cart operations function
+# - Contact forms work
+# - Mobile responsive design
+# - PayPal integration (sandbox)
+```
+
+### Browser Testing:
+- Chrome (latest)
+- Firefox (latest)  
+- Safari (latest)
+- Edge (latest)
+- Mobile browsers (iOS Safari, Chrome Mobile)
+
+## 🔄 Continuous Deployment
+
+### Netlify Auto-deploy:
+- Automatic deployment on git push to main branch
+- Preview deployments for pull requests
+- Build notifications via email/Slack
+
+### Manual Deployment Process:
+1. Test locally with production build
+2. Commit changes to repository
+3. Push to main branch
+4. Verify deployment in staging
+5. Test all critical functionality
+6. Announce maintenance window if needed
+7. Deploy to production
+
+## 📈 Post-deployment Monitoring
+
+### 1. Analytics Setup:
+- Monitor page views and user behavior
+- Track e-commerce conversions
+- Monitor site performance
+
+### 2. Error Monitoring:
+- Set up uptime monitoring
+- Monitor JavaScript errors
+- Track 404 errors
+
+### 3. Regular Maintenance:
+- Update Jekyll and dependencies monthly
+- Review and update product catalog
+- Check and update contact information
+- Monitor SSL certificate expiration
+
+## 🆘 Troubleshooting
+
+### Common Issues:
+
+#### Build Fails:
+```bash
+# Check Jekyll version
+jekyll --version
+
+# Rebuild with verbose output
+jekyll build --verbose
+
+# Clear cache and rebuild
+jekyll clean && jekyll build
+```
+
+#### PayPal Not Working:
+- Verify Client ID is correct
+- Check environment setting (sandbox vs production)
+- Ensure merchant email is correct
+- Test with PayPal sandbox first
+
+#### Language Switching Issues:
+- Check translation.js is loaded
+- Verify language files are present
+- Check browser console for JavaScript errors
+
+#### Mobile Issues:
+- Test viewport meta tag is present
+- Verify CSS media queries
+- Check touch events work properly
+
+## 📞 Support Contacts
+
+- **Technical Issues**: bioa@bioarchitettura.org
+- **PayPal Support**: merchant.technical.support@paypal.com
+- **Domain Issues**: Contact domain registrar
+- **Hosting Issues**: Contact Netlify support
+
+---
+
+**Last Updated**: January 2025  
+**Deployment Version**: 2.0.0
 ```bash
 # Install Ruby dependencies
 bundle install
