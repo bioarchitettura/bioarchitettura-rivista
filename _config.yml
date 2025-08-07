@@ -8,17 +8,17 @@ url: "https://bioarchitettura.github.io/web"
 # Build settings
 markdown: kramdown
 highlighter: rouge
-theme: minima
+# theme: minima
 kramdown:
   input: GFM
   syntax_highlighter: rouge
 
 # Plugin settings
-plugins:
-  - jekyll-feed
-  - jekyll-sitemap
-  - jekyll-seo-tag
-  - jekyll-paginate
+# plugins:
+#   - jekyll-feed
+#   - jekyll-sitemap
+#   - jekyll-seo-tag
+#   - jekyll-paginate
 
 # Pagination
 paginate: 6
