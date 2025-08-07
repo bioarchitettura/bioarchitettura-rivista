@@ -1,6 +1,20 @@
 # Sample workflow for building and deploying a Jekyll site to GitHub Pages
 name: Deploy Jekyll with GitHub Pages dependencies preinstalled
+- name: Check if blocked.jsonl or blocked.md exists
+  id: check_files
+  run: |
+    if ls /home/runner/work/_temp/runtime-logs/blocked.* 1> /dev/null 2>&1; then
+      echo "found=true" >> $GITHUB_OUTPUT
+    else
+      echo "found=false" >> $GITHUB_OUTPUT
+    fi
 
+- name: Upload blocked artifacts if present
+  if: steps.check_files.outputs.found == 'true'
+  uses: actions/upload-artifact@v4
+  with:
+    name: blocked
+    path: /home/runner/work/_temp/runtime-logs/blocked.*
 on:
   # Runs on pushes targeting the default branch
   push:
