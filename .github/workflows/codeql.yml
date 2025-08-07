@@ -29,21 +29,10 @@ jobs:
     # Consider using larger runners or machines with greater resources for possible analysis time improvements.
     runs-on: ${{ (matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest' }}
     permissions:
-      # Comprehensive permissions for maximum compatibility
-      actions: write
-      checks: write
-      contents: write
-      deployments: write
-      id-token: write
-      issues: write
-      discussions: write
-      packages: write
-      pages: write
-      pull-requests: write
-      repository-projects: write
+      # Required permissions for CodeQL
+      actions: read
+      contents: read
       security-events: write
-      statuses: write
-      metadata: read
 
     strategy:
       fail-fast: false
