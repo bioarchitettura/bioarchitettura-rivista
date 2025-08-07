@@ -1,0 +1,520 @@
+---
+layout: default
+title: "Webinar di Bioarchitettura"
+description: "Webinar live e on-demand con esperti di bioarchitettura e costruzione sostenibile"
+permalink: /shop/webinar/
+---
+
+<div class="page-header">
+    <div class="container">
+        <div class="header-content">
+            <h1>Webinar di Bioarchitettura</h1>
+            <p>Eventi formativi online con i massimi esperti del settore</p>
+        </div>
+    </div>
+</div>
+
+<div class="main-content">
+    <div class="container">
+        <!-- Upcoming Webinars -->
+        <section class="upcoming-webinars">
+            <h2>Prossimi Webinar Live</h2>
+            <div class="webinars-grid">
+                <div class="webinar-card live">
+                    <div class="webinar-image">
+                        <img src="/53n160.jpg" alt="Isolamento Naturale" loading="lazy">
+                        <div class="live-badge">🔴 LIVE</div>
+                    </div>
+                    <div class="webinar-info">
+                        <h3>Isolamento Termico con Materiali Naturali</h3>
+                        <p class="speaker">Relatore: Ing. Maria Sostenibili</p>
+                        <p class="description">
+                            Scopri le migliori tecniche per l'isolamento termico utilizzando 
+                            materiali naturali come lana di pecora, sughero e fibre di legno.
+                        </p>
+                        <div class="webinar-details">
+                            <span>📅 15 Febbraio 2024</span>
+                            <span>⏰ 18:00 - 19:30</span>
+                            <span>⏱️ 90 minuti</span>
+                        </div>
+                        <div class="webinar-footer">
+                            <div class="price">€29</div>
+                            <button class="btn btn-primary" onclick="registerWebinar('isolamento-live')">
+                                Iscriviti
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="webinar-card upcoming">
+                    <div class="webinar-image">
+                        <img src="/36p042f01.jpg" alt="Ventilazione Naturale" loading="lazy">
+                        <div class="upcoming-badge">Prossimamente</div>
+                    </div>
+                    <div class="webinar-info">
+                        <h3>Ventilazione Naturale negli Edifici</h3>
+                        <p class="speaker">Relatore: Arch. Luca Ventilatore</p>
+                        <p class="description">
+                            Strategie per una ventilazione naturale efficace che riduce 
+                            il consumo energetico e migliora il comfort abitativo.
+                        </p>
+                        <div class="webinar-details">
+                            <span>📅 22 Febbraio 2024</span>
+                            <span>⏰ 18:00 - 19:30</span>
+                            <span>⏱️ 90 minuti</span>
+                        </div>
+                        <div class="webinar-footer">
+                            <div class="price">€29</div>
+                            <button class="btn btn-primary" onclick="registerWebinar('ventilazione')">
+                                Prenota
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- On-Demand Webinars -->
+        <section class="ondemand-webinars">
+            <h2>Webinar On-Demand</h2>
+            <div class="filter-tabs">
+                <button class="tab-btn active" data-category="all">Tutti</button>
+                <button class="tab-btn" data-category="materials">Materiali</button>
+                <button class="tab-btn" data-category="energy">Energia</button>
+                <button class="tab-btn" data-category="design">Progettazione</button>
+                <button class="tab-btn" data-category="regulations">Normative</button>
+            </div>
+
+            <div class="webinars-grid" id="ondemand-grid">
+                <div class="webinar-card ondemand" data-category="materials">
+                    <div class="webinar-image">
+                        <img src="/bio_47_n055.jpg" alt="Terra Cruda" loading="lazy">
+                        <div class="duration-badge">2h 15m</div>
+                    </div>
+                    <div class="webinar-info">
+                        <h3>Costruire con la Terra Cruda: Tecniche Moderne</h3>
+                        <p class="speaker">Relatore: Arch. Pietro Terracotta</p>
+                        <p class="description">
+                            Webinar completo sulle tecniche moderne per costruire con terra cruda, 
+                            dalle fondazioni alle finiture.
+                        </p>
+                        <div class="webinar-stats">
+                            <span>⭐ 4.8/5</span>
+                            <span>👥 234 partecipanti</span>
+                            <span>📄 Materiali inclusi</span>
+                        </div>
+                        <div class="webinar-footer">
+                            <div class="price">€39</div>
+                            <button class="btn btn-primary" onclick="purchaseWebinar('terra-cruda')">
+                                Acquista
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="webinar-card ondemand" data-category="energy">
+                    <div class="webinar-image">
+                        <img src="/35p022f02.jpg" alt="Fonti Rinnovabili" loading="lazy">
+                        <div class="duration-badge">1h 45m</div>
+                    </div>
+                    <div class="webinar-info">
+                        <h3>Integrazione di Fonti Rinnovabili</h3>
+                        <p class="speaker">Relatore: Ing. Sofia Solare</p>
+                        <p class="description">
+                            Come integrare efficacemente pannelli solari, pompe di calore 
+                            e sistemi di accumulo negli edifici sostenibili.
+                        </p>
+                        <div class="webinar-stats">
+                            <span>⭐ 4.9/5</span>
+                            <span>👥 189 partecipanti</span>
+                            <span>📄 Materiali inclusi</span>
+                        </div>
+                        <div class="webinar-footer">
+                            <div class="price">€35</div>
+                            <button class="btn btn-primary" onclick="purchaseWebinar('rinnovabili')">
+                                Acquista
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="webinar-card ondemand" data-category="design">
+                    <div class="webinar-image">
+                        <img src="/37p05f04.jpg" alt="Progettazione Bioclimatica" loading="lazy">
+                        <div class="duration-badge">2h 30m</div>
+                    </div>
+                    <div class="webinar-info">
+                        <h3>Progettazione Bioclimatica Avanzata</h3>
+                        <p class="speaker">Relatore: Arch. Marco Clima</p>
+                        <p class="description">
+                            Masterclass sulla progettazione bioclimatica: orientamento, 
+                            ombreggiatura e sfruttamento delle risorse naturali.
+                        </p>
+                        <div class="webinar-stats">
+                            <span>⭐ 4.7/5</span>
+                            <span>👥 156 partecipanti</span>
+                            <span>📄 Materiali inclusi</span>
+                        </div>
+                        <div class="webinar-footer">
+                            <div class="price">€45</div>
+                            <button class="btn btn-primary" onclick="purchaseWebinar('bioclimatica')">
+                                Acquista
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="webinar-card ondemand" data-category="regulations">
+                    <div class="webinar-image">
+                        <img src="/53n043.jpg" alt="Normative" loading="lazy">
+                        <div class="duration-badge">1h 30m</div>
+                    </div>
+                    <div class="webinar-info">
+                        <h3>Aggiornamenti Normativi 2024</h3>
+                        <p class="speaker">Relatore: Avv. Laura Norma</p>
+                        <p class="description">
+                            Panoramica completa sui nuovi regolamenti e incentivi 
+                            per l'edilizia sostenibile in vigore dal 2024.
+                        </p>
+                        <div class="webinar-stats">
+                            <span>⭐ 4.6/5</span>
+                            <span>👥 298 partecipanti</span>
+                            <span>📄 Materiali inclusi</span>
+                        </div>
+                        <div class="webinar-footer">
+                            <div class="price">€25</div>
+                            <button class="btn btn-primary" onclick="purchaseWebinar('normative')">
+                                Acquista
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Webinar Packages -->
+        <section class="webinar-packages">
+            <h2>Pacchetti Webinar</h2>
+            <div class="packages-grid">
+                <div class="package-card">
+                    <h3>🏗️ Pacchetto Materiali</h3>
+                    <p>5 webinar sui materiali naturali</p>
+                    <ul>
+                        <li>Terra cruda e tecniche tradizionali</li>
+                        <li>Legno: scelta e lavorazione</li>
+                        <li>Isolanti naturali</li>
+                        <li>Pietra locale</li>
+                        <li>Fibre vegetali</li>
+                    </ul>
+                    <div class="package-price">
+                        <span class="original">€175</span>
+                        <span class="discounted">€129</span>
+                    </div>
+                    <button class="btn btn-primary">Acquista Pacchetto</button>
+                </div>
+
+                <div class="package-card featured">
+                    <div class="package-badge">Più Venduto</div>
+                    <h3>⚡ Pacchetto Completo</h3>
+                    <p>Accesso a tutti i webinar presenti e futuri</p>
+                    <ul>
+                        <li>Tutti i webinar on-demand</li>
+                        <li>Accesso a nuovi webinar per 1 anno</li>
+                        <li>Materiali scaricabili</li>
+                        <li>Certificati di partecipazione</li>
+                        <li>Gruppo privato Telegram</li>
+                    </ul>
+                    <div class="package-price">
+                        <span class="original">€399</span>
+                        <span class="discounted">€249</span>
+                    </div>
+                    <button class="btn btn-primary">Acquista Pacchetto</button>
+                </div>
+
+                <div class="package-card">
+                    <h3>🎯 Pacchetto Professionale</h3>
+                    <p>Per professionisti del settore</p>
+                    <ul>
+                        <li>Pacchetto completo</li>
+                        <li>Consulenza 1-to-1 (2 ore)</li>
+                        <li>Accesso prioritario ai live</li>
+                        <li>Sconti su corsi e eventi</li>
+                        <li>Badge professionale LinkedIn</li>
+                    </ul>
+                    <div class="package-price">
+                        <span class="original">€599</span>
+                        <span class="discounted">€399</span>
+                    </div>
+                    <button class="btn btn-primary">Acquista Pacchetto</button>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<style>
+.page-header {
+    background: linear-gradient(135deg, #2c5530 0%, #4a7c59 100%);
+    color: white;
+    padding: 60px 0;
+    text-align: center;
+}
+
+.webinars-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.webinar-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transition: transform 0.3s;
+}
+
+.webinar-card:hover {
+    transform: translateY(-4px);
+}
+
+.webinar-card.live {
+    border: 2px solid #e74c3c;
+}
+
+.webinar-image {
+    position: relative;
+    height: 200px;
+}
+
+.webinar-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.live-badge, .upcoming-badge, .duration-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: white;
+}
+
+.live-badge {
+    background: #e74c3c;
+    animation: pulse 1s infinite;
+}
+
+.upcoming-badge {
+    background: #f39c12;
+}
+
+.duration-badge {
+    background: rgba(44, 85, 48, 0.9);
+}
+
+.webinar-info {
+    padding: 1.5rem;
+}
+
+.speaker {
+    color: #4a7c59;
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+
+.webinar-details, .webinar-stats {
+    display: flex;
+    gap: 1rem;
+    margin: 1rem 0;
+    font-size: 0.9rem;
+    color: #666;
+    flex-wrap: wrap;
+}
+
+.webinar-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.5rem;
+}
+
+.price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #4a7c59;
+}
+
+.filter-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 2rem 0;
+    flex-wrap: wrap;
+}
+
+.tab-btn {
+    padding: 0.5rem 1rem;
+    border: 1px solid #ddd;
+    background: white;
+    color: #666;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.tab-btn.active,
+.tab-btn:hover {
+    background: #4a7c59;
+    color: white;
+    border-color: #4a7c59;
+}
+
+.packages-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.package-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    text-align: center;
+    position: relative;
+}
+
+.package-card.featured {
+    border: 3px solid #4a7c59;
+    transform: scale(1.05);
+}
+
+.package-badge {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #4a7c59;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+}
+
+.package-card ul {
+    text-align: left;
+    margin: 1rem 0;
+}
+
+.package-price {
+    margin: 1.5rem 0;
+}
+
+.package-price .original {
+    text-decoration: line-through;
+    color: #999;
+    margin-right: 0.5rem;
+}
+
+.package-price .discounted {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #e74c3c;
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background: #4a7c59;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #2c5530;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+@media (max-width: 768px) {
+    .webinars-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .package-card.featured {
+        transform: none;
+    }
+    
+    .webinar-footer {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const webinarCards = document.querySelectorAll('#ondemand-grid .webinar-card');
+
+    tabButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const category = this.dataset.category;
+            
+            // Update active tab
+            tabButtons.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Filter webinars
+            webinarCards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    });
+});
+
+function registerWebinar(webinarId) {
+    if (window.bioarchitetturaApp && window.bioarchitetturaApp.notificationManager) {
+        window.bioarchitetturaApp.notificationManager.show(
+            'Iscrizione al webinar completata! Riceverai il link via email.',
+            'success'
+        );
+    } else {
+        alert('Iscrizione al webinar completata!');
+    }
+}
+
+function purchaseWebinar(webinarId) {
+    if (window.bioarchitetturaApp && window.bioarchitetturaApp.notificationManager) {
+        window.bioarchitetturaApp.notificationManager.show(
+            'Webinar acquistato! Puoi accedere immediatamente.',
+            'success'
+        );
+    } else {
+        alert('Webinar acquistato!');
+    }
+}
+</script>

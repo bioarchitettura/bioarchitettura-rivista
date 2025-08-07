@@ -1,0 +1,375 @@
+---
+layout: default
+title: "Corsi di Bioarchitettura"
+description: "Corsi online e formazione professionale sulla bioarchitettura e costruzione sostenibile"
+permalink: /shop/corsi/
+---
+
+<div class="page-header">
+    <div class="container">
+        <div class="header-content">
+            <h1>Corsi di Bioarchitettura</h1>
+            <p>Formazione professionale per architetti, ingegneri e costruttori</p>
+        </div>
+    </div>
+</div>
+
+<div class="main-content">
+    <div class="container">
+        <!-- Course Categories -->
+        <div class="course-categories">
+            <button class="category-btn active" data-category="all">Tutti i Corsi</button>
+            <button class="category-btn" data-category="fundamentals">Fondamenti</button>
+            <button class="category-btn" data-category="materials">Materiali</button>
+            <button class="category-btn" data-category="energy">Energia</button>
+            <button class="category-btn" data-category="certification">Certificazioni</button>
+        </div>
+
+        <!-- Courses Grid -->
+        <div class="courses-grid" id="courses-grid">
+            <!-- Course 1 -->
+            <div class="course-card" data-category="fundamentals">
+                <div class="course-image">
+                    <img src="/37p04f03.jpg" alt="Fondamenti di Bioarchitettura" loading="lazy">
+                    <div class="course-level">Principiante</div>
+                </div>
+                <div class="course-info">
+                    <h3>Fondamenti di Bioarchitettura</h3>
+                    <p class="course-instructor">Prof. Marco Verdini</p>
+                    <p class="course-description">
+                        Corso introduttivo ai principi della bioarchitettura e dell'architettura sostenibile.
+                    </p>
+                    <div class="course-details">
+                        <span>⏱️ 8 ore</span>
+                        <span>📚 12 moduli</span>
+                        <span>🏆 Certificato</span>
+                    </div>
+                    <div class="course-footer">
+                        <div class="price">€149</div>
+                        <button class="btn btn-primary" onclick="enrollCourse('fondamenti')">Iscriviti</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course 2 -->
+            <div class="course-card" data-category="materials">
+                <div class="course-image">
+                    <img src="/bio_47_n031.jpg" alt="Materiali Naturali" loading="lazy">
+                    <div class="course-level">Intermedio</div>
+                </div>
+                <div class="course-info">
+                    <h3>Materiali Naturali nella Costruzione</h3>
+                    <p class="course-instructor">Arch. Elena Rossi</p>
+                    <p class="course-description">
+                        Approfondimento sui materiali naturali: legno, pietra, terra cruda, fibre vegetali.
+                    </p>
+                    <div class="course-details">
+                        <span>⏱️ 12 ore</span>
+                        <span>📚 18 moduli</span>
+                        <span>🏆 Certificato</span>
+                    </div>
+                    <div class="course-footer">
+                        <div class="price">€249</div>
+                        <button class="btn btn-primary" onclick="enrollCourse('materiali')">Iscriviti</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course 3 -->
+            <div class="course-card" data-category="energy">
+                <div class="course-image">
+                    <img src="/35p025f01.jpg" alt="Efficienza Energetica" loading="lazy">
+                    <div class="course-level">Avanzato</div>
+                </div>
+                <div class="course-info">
+                    <h3>Efficienza Energetica e Casa Passiva</h3>
+                    <p class="course-instructor">Ing. Giuseppe Bianchi</p>
+                    <p class="course-description">
+                        Progettazione di edifici ad alta efficienza energetica secondo standard Passivhaus.
+                    </p>
+                    <div class="course-details">
+                        <span>⏱️ 16 ore</span>
+                        <span>📚 24 moduli</span>
+                        <span>🏆 Certificato</span>
+                    </div>
+                    <div class="course-footer">
+                        <div class="price">€399</div>
+                        <button class="btn btn-primary" onclick="enrollCourse('energia')">Iscriviti</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course 4 -->
+            <div class="course-card" data-category="certification">
+                <div class="course-image">
+                    <img src="/53n041.jpg" alt="Certificazioni" loading="lazy">
+                    <div class="course-level">Professionale</div>
+                </div>
+                <div class="course-info">
+                    <h3>Certificazioni Ambientali</h3>
+                    <p class="course-instructor">Arch. Laura Verdi</p>
+                    <p class="course-description">
+                        Preparazione per le certificazioni LEED, BREEAM e Passivhaus.
+                    </p>
+                    <div class="course-details">
+                        <span>⏱️ 20 ore</span>
+                        <span>📚 30 moduli</span>
+                        <span>🏆 Certificato</span>
+                    </div>
+                    <div class="course-footer">
+                        <div class="price">€599</div>
+                        <button class="btn btn-primary" onclick="enrollCourse('certificazioni')">Iscriviti</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Learning Path Section -->
+        <section class="learning-paths">
+            <h2>Percorsi di Apprendimento</h2>
+            <div class="paths-grid">
+                <div class="path-card">
+                    <h3>🏁 Principiante</h3>
+                    <p>Percorso completo per chi inizia</p>
+                    <ul>
+                        <li>Fondamenti di Bioarchitettura</li>
+                        <li>Materiali Naturali</li>
+                        <li>Progettazione Sostenibile</li>
+                    </ul>
+                    <div class="path-price">
+                        <span class="original">€597</span>
+                        <span class="discounted">€399</span>
+                    </div>
+                    <button class="btn btn-primary">Scegli Percorso</button>
+                </div>
+                <div class="path-card">
+                    <h3>🎯 Professionale</h3>
+                    <p>Formazione avanzata per professionisti</p>
+                    <ul>
+                        <li>Tutti i corsi fondamentali</li>
+                        <li>Certificazioni</li>
+                        <li>Workshop pratici</li>
+                    </ul>
+                    <div class="path-price">
+                        <span class="original">€1196</span>
+                        <span class="discounted">€799</span>
+                    </div>
+                    <button class="btn btn-primary">Scegli Percorso</button>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<style>
+.page-header {
+    background: linear-gradient(135deg, #2c5530 0%, #4a7c59 100%);
+    color: white;
+    padding: 60px 0;
+    text-align: center;
+}
+
+.course-categories {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 2rem 0;
+    flex-wrap: wrap;
+}
+
+.category-btn {
+    padding: 0.75rem 1.5rem;
+    border: 2px solid #4a7c59;
+    background: white;
+    color: #4a7c59;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.category-btn.active,
+.category-btn:hover {
+    background: #4a7c59;
+    color: white;
+}
+
+.courses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.course-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transition: transform 0.3s;
+}
+
+.course-card:hover {
+    transform: translateY(-4px);
+}
+
+.course-image {
+    position: relative;
+    height: 200px;
+}
+
+.course-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.course-level {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 0.25rem 0.75rem;
+    background: rgba(44, 85, 48, 0.9);
+    color: white;
+    border-radius: 12px;
+    font-size: 0.8rem;
+}
+
+.course-info {
+    padding: 1.5rem;
+}
+
+.course-instructor {
+    color: #4a7c59;
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+
+.course-details {
+    display: flex;
+    gap: 1rem;
+    margin: 1rem 0;
+    font-size: 0.9rem;
+    color: #666;
+    flex-wrap: wrap;
+}
+
+.course-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.5rem;
+}
+
+.price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #4a7c59;
+}
+
+.learning-paths {
+    margin: 4rem 0;
+}
+
+.paths-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.path-card {
+    background: #f8f9fa;
+    padding: 2rem;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.path-card ul {
+    text-align: left;
+    margin: 1rem 0;
+}
+
+.path-price {
+    margin: 1rem 0;
+}
+
+.path-price .original {
+    text-decoration: line-through;
+    color: #999;
+    margin-right: 0.5rem;
+}
+
+.path-price .discounted {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #e74c3c;
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background: #4a7c59;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #2c5530;
+}
+
+@media (max-width: 768px) {
+    .courses-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .course-footer {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const categoryButtons = document.querySelectorAll('.category-btn');
+    const courseCards = document.querySelectorAll('.course-card');
+
+    categoryButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const category = this.dataset.category;
+            
+            // Update active button
+            categoryButtons.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Filter courses
+            courseCards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    });
+});
+
+function enrollCourse(courseId) {
+    if (window.bioarchitetturaApp && window.bioarchitetturaApp.notificationManager) {
+        window.bioarchitetturaApp.notificationManager.show(
+            'Iscrizione al corso completata!',
+            'success'
+        );
+    } else {
+        alert('Iscrizione al corso completata!');
+    }
+}
+</script>
